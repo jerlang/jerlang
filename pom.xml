@@ -17,6 +17,7 @@
   <properties>
     <jdk.version>1.8</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.asciidoclet>1.5.2</version.asciidoclet>
     <version.cobertura-maven-plugin>2.7</version.cobertura-maven-plugin>
     <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>2.3.1</version.findbugs-maven-plugin>
@@ -125,6 +126,14 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
               <version>${version.maven-javadoc-plugin}</version>
+              <configuration>
+                <doclet>org.asciidoctor.Asciidoclet</doclet>
+                <docletArtifact>
+                  <groupId>org.asciidoctor</groupId>
+                  <artifactId>asciidoclet</artifactId>
+                  <version>${version.asciidoclet}</version>
+                </docletArtifact>
+              </configuration>
             </plugin>
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -242,6 +251,12 @@
         <version>${version.maven-javadoc-plugin}</version>
         <configuration>
           <show>public</show>
+          <doclet>org.asciidoctor.Asciidoclet</doclet>
+          <docletArtifact>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoclet</artifactId>
+            <version>${version.asciidoclet}</version>
+          </docletArtifact>
         </configuration>
       </plugin>
       <plugin>
