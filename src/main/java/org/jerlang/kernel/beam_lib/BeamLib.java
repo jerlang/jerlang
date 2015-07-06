@@ -1,4 +1,4 @@
-package org.jerlang.beam;
+package org.jerlang.kernel.beam_lib;
 
 import org.jerlang.type.Term;
 
