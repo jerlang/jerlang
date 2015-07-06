@@ -1,6 +1,13 @@
 package org.jerlang.kernel.beam_lib;
 
+import static org.jerlang.kernel.file.File.enoent;
+import static org.jerlang.kernel.file.File.eperm;
+
+import java.io.File;
+
+import org.jerlang.type.Atom;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * = beam_lib
@@ -153,6 +160,10 @@ import org.jerlang.type.Term;
 
 public class BeamLib {
 
+    public static final Atom beam_lib = new Atom("beam_lib");
+    public static final Atom error = new Atom("error");
+    public static final Atom file_error = new Atom("file_error");
+
     private BeamLib() {
     }
 
@@ -193,11 +204,19 @@ public class BeamLib {
      * {chunks, [{ChunkId, Pos, Size}]}
      * ----
      * For each chunk, the identifier (string) and the position and size of the chunk data, in bytes.
-     * 
-     * @param filename
      */
     public static Term info(String filename) {
+        File file = new File(filename);
+        Term filename_term = Term.of(filename);
+
+        if (!file.exists()) {
+            return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, enoent));
+        }
+
+        if (!file.canRead()) {
+            return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, eperm));
+        }
+
         return null;
     }
-
 }

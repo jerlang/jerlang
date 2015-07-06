@@ -18,4 +18,12 @@ public class Tuple extends Term {
         elements.set(index, term);
     }
 
+    public static Tuple of(Term... terms) {
+        Tuple tuple = new Tuple(terms.length);
+        for (int index = 0; index < terms.length; index++) {
+            tuple.set(index, terms[index]);
+        }
+        return tuple;
+    }
+
 }

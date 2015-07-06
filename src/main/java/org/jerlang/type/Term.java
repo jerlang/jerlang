@@ -7,4 +7,8 @@ package org.jerlang.type;
  */
 public class Term {
 
+    public static Term of(String string) {
+        return null;
+    }
+
 }
