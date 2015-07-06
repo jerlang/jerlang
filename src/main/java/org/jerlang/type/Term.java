@@ -8,7 +8,15 @@ package org.jerlang.type;
 public class Term {
 
     public static Term of(String string) {
-        return null;
+        if (string == null) {
+            return List.nil;
+        }
+
+        if (string.isEmpty()) {
+            return List.nil;
+        }
+
+        return new Str(string);
     }
 
 }
