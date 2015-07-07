@@ -6,6 +6,7 @@ import static org.jerlang.kernel.file.File.eperm;
 import java.io.File;
 
 import org.jerlang.type.Atom;
+import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -160,9 +161,10 @@ import org.jerlang.type.Tuple;
 
 public class BeamLib {
 
-    public static final Atom beam_lib = new Atom("beam_lib");
-    public static final Atom error = new Atom("error");
-    public static final Atom file_error = new Atom("file_error");
+    public static final Atom beam_lib = Atom.of("beam_lib");
+    public static final Atom error = Atom.of("error");
+    public static final Atom file = Atom.of("file");
+    public static final Atom file_error = Atom.of("file_error");
 
     private BeamLib() {
     }
@@ -208,6 +210,7 @@ public class BeamLib {
     public static Term info(String filename) {
         File file = new File(filename);
         Term filename_term = Term.of(filename);
+        List result = new List();
 
         if (!file.exists()) {
             return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, enoent));
@@ -217,6 +220,9 @@ public class BeamLib {
             return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, eperm));
         }
 
-        return null;
+        result = new List(Tuple.of(Atom.of("file"), filename_term), result);
+
+        return result;
     }
+
 }

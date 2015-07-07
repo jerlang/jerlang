@@ -14,7 +14,7 @@ public class Atom extends Term {
 
     private String name;
 
-    public Atom(String name) {
+    private Atom(String name) {
         this.name = name;
     }
 
@@ -35,6 +35,10 @@ public class Atom extends Term {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static Atom of(String string) {
+        return new Atom(string);
     }
 
 }

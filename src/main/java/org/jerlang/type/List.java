@@ -7,6 +7,10 @@ public class List extends Term {
     private Term head;
     private List tail;
 
+    public List() {
+        this(nil);
+    }
+
     public List(Term head) {
         this.head = head;
         this.tail = nil;

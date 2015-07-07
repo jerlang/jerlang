@@ -78,10 +78,10 @@ import org.jerlang.type.Atom;
 public class File {
 
     /** No such file or directory (POSIX.1) */
-    public static final Atom enoent = new Atom("enoent");
+    public static final Atom enoent = Atom.of("enoent");
 
     /** Operation not permitted (POSIX.1) */
-    public static final Atom eperm = new Atom("eperm");
+    public static final Atom eperm = Atom.of("eperm");
 
     private File() {
     }

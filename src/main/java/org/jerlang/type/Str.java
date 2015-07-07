@@ -24,4 +24,18 @@ public class Str extends List {
         }
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Str) {
+            Str other = (Str) object;
+            return string.equals(other.string);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return string;
+    }
+
 }
