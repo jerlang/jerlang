@@ -50,4 +50,8 @@ public class Integer extends Number {
         return value.toString();
     }
 
+    public static Integer of(int value) {
+        return new Integer(value);
+    }
+
 }
