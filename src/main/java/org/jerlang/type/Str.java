@@ -16,10 +16,11 @@ public class Str extends List {
 
     @Override
     public List tail() {
-        if (string.isEmpty()) {
+        String tailString = string.substring(1);
+        if (tailString.isEmpty()) {
             return nil;
         } else {
-            return new Str(string.substring(1));
+            return new Str(tailString);
         }
     }
 

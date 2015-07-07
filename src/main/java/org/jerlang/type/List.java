@@ -25,4 +25,23 @@ public class List extends Term {
         return tail;
     }
 
+    @Override
+    public String toString() {
+        if (head() == null) {
+            return "[]";
+        }
+        StringBuilder stringBuilder = new StringBuilder("[");
+        List list = this;
+        do {
+            stringBuilder.append(list.head());
+            if (list.tail() == nil) {
+                break;
+            }
+            stringBuilder.append(", ");
+            list = list.tail();
+        } while (true);
+        stringBuilder.append(']');
+        return stringBuilder.toString();
+    }
+
 }
