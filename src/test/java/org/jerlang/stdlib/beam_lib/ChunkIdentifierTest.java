@@ -8,74 +8,74 @@ public class ChunkIdentifierTest {
 
     @Test
     public void testAbst() {
-        assertEquals("Abst", ChunkIdentifier.ABST.toString());
-        assertEquals(0x41627374, ChunkIdentifier.ABST.toInt());
+        assertEquals("Abst", ChunkId.ABST.toString());
+        assertEquals(0x41627374, ChunkId.ABST.toInt());
     }
 
     @Test
     public void testAtom() {
-        assertEquals("Atom", ChunkIdentifier.ATOM.toString());
-        assertEquals(0x41746f6d, ChunkIdentifier.ATOM.toInt());
+        assertEquals("Atom", ChunkId.ATOM.toString());
+        assertEquals(0x41746f6d, ChunkId.ATOM.toInt());
     }
 
     @Test
     public void testAttr() {
-        assertEquals("Attr", ChunkIdentifier.ATTR.toString());
-        assertEquals(0x41747472, ChunkIdentifier.ATTR.toInt());
+        assertEquals("Attr", ChunkId.ATTR.toString());
+        assertEquals(0x41747472, ChunkId.ATTR.toInt());
     }
 
     @Test
     public void testCInf() {
-        assertEquals("CInf", ChunkIdentifier.CINF.toString());
-        assertEquals(0x43496e66, ChunkIdentifier.CINF.toInt());
+        assertEquals("CInf", ChunkId.CINF.toString());
+        assertEquals(0x43496e66, ChunkId.CINF.toInt());
     }
 
     @Test
     public void testCode() {
-        assertEquals("Code", ChunkIdentifier.CODE.toString());
-        assertEquals(0x436f6465, ChunkIdentifier.CODE.toInt());
+        assertEquals("Code", ChunkId.CODE.toString());
+        assertEquals(0x436f6465, ChunkId.CODE.toInt());
     }
 
     @Test
     public void testExpT() {
-        assertEquals("ExpT", ChunkIdentifier.EXPT.toString());
-        assertEquals(0x45787054, ChunkIdentifier.EXPT.toInt());
+        assertEquals("ExpT", ChunkId.EXPT.toString());
+        assertEquals(0x45787054, ChunkId.EXPT.toInt());
     }
 
     @Test
     public void testFunT() {
-        assertEquals("FunT", ChunkIdentifier.FUNT.toString());
-        assertEquals(0x46756e54, ChunkIdentifier.FUNT.toInt());
+        assertEquals("FunT", ChunkId.FUNT.toString());
+        assertEquals(0x46756e54, ChunkId.FUNT.toInt());
     }
 
     @Test
     public void testImpT() {
-        assertEquals("ImpT", ChunkIdentifier.IMPT.toString());
-        assertEquals(0x496d7054, ChunkIdentifier.IMPT.toInt());
+        assertEquals("ImpT", ChunkId.IMPT.toString());
+        assertEquals(0x496d7054, ChunkId.IMPT.toInt());
     }
 
     @Test
     public void testLine() {
-        assertEquals("Line", ChunkIdentifier.LINE.toString());
-        assertEquals(0x4c696e65, ChunkIdentifier.LINE.toInt());
+        assertEquals("Line", ChunkId.LINE.toString());
+        assertEquals(0x4c696e65, ChunkId.LINE.toInt());
     }
 
     @Test
     public void testLitT() {
-        assertEquals("LitT", ChunkIdentifier.LITT.toString());
-        assertEquals(0x4c697454, ChunkIdentifier.LITT.toInt());
+        assertEquals("LitT", ChunkId.LITT.toString());
+        assertEquals(0x4c697454, ChunkId.LITT.toInt());
     }
 
     @Test
     public void testLocT() {
-        assertEquals("LocT", ChunkIdentifier.LOCT.toString());
-        assertEquals(0x4c6f6354, ChunkIdentifier.LOCT.toInt());
+        assertEquals("LocT", ChunkId.LOCT.toString());
+        assertEquals(0x4c6f6354, ChunkId.LOCT.toInt());
     }
 
     @Test
     public void testStrT() {
-        assertEquals("StrT", ChunkIdentifier.STRT.toString());
-        assertEquals(0x53747254, ChunkIdentifier.STRT.toInt());
+        assertEquals("StrT", ChunkId.STRT.toString());
+        assertEquals(0x53747254, ChunkId.STRT.toInt());
     }
 
 }

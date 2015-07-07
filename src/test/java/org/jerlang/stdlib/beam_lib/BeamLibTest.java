@@ -42,6 +42,45 @@ public class BeamLibTest {
         List resultList = (List) result;
         Tuple filenameTuple = Tuple.of(Atom.of("file"), Term.of(filename));
         assertEquals(filenameTuple, resultList.head());
+        resultList = resultList.tail();
+        assertTrue(resultList.head() instanceof Tuple);
+        Tuple chunksTuple = (Tuple) resultList.head();
+        assertEquals(2, chunksTuple.arity());
+        assertEquals(Atom.of("chunks"), chunksTuple.element(0));
+        assertTrue(chunksTuple.element(1) instanceof List);
+        List chunkList = (List) chunksTuple.element(1);
+
+        assertChunk(chunkList.head(), "Atom", 20, 75);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "Code", 104, 116);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "StrT", 228, 0);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "ImpT", 236, 52);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "ExpT", 296, 40);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "LitT", 344, 33);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "LocT", 388, 4);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "Attr", 400, 40);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "CInf", 448, 115);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "Abst", 572, 0);
+        chunkList = chunkList.tail();
+        assertChunk(chunkList.head(), "Line", 580, 23);
+        chunkList = chunkList.tail();
+
+        assertEquals(List.nil, chunkList);
+    }
+
+    private void assertChunk(Term term, String id, int offset, int length) {
+        assertTrue(term instanceof Tuple);
+        assertEquals(Term.of(id), ((Tuple) term).element(0));
+        assertEquals(Integer.of(offset), ((Tuple) term).element(1));
+        assertEquals(Integer.of(length), ((Tuple) term).element(2));
     }
 
 }

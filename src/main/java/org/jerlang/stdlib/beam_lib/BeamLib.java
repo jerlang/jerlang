@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.jerlang.stdlib.lists.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -247,14 +248,23 @@ public class BeamLib {
     }
 
     private static Term do_info(Term filename, InputStream inputStream) throws IOException {
-        DataInputStream dataInputStream = new DataInputStream(inputStream);
-        if (dataInputStream.readInt() != 0x464f5231) { // "FOR1"
+        List chunks = List.nil;
+        DataInputStream dis = new DataInputStream(inputStream);
+        if (dis.readInt() != 0x464f5231) { // "FOR1"
             return Tuple.of(not_a_beam_file, filename);
         }
-        int length = dataInputStream.readInt();
-        if (dataInputStream.readInt() != 0x4245414d) { // "BEAM"
+        int length = dis.readInt();
+        if (dis.readInt() != 0x4245414d) { // "BEAM"
             return Tuple.of(not_a_beam_file, filename);
         }
-        return new List();
+        int offset = 20;
+        while (offset < length) {
+            Chunk chunk = new Chunk(ChunkId.of(dis.readInt()), offset, dis.readInt());
+            chunks = new List(chunk.asTuple(), chunks);
+            offset += 8 + ((chunk.length() + 3) & ~3);
+            dis.skipBytes((chunk.length() + 3) & ~3);
+        }
+        return new List(Tuple.of(Atom.of("chunks"), Lists.reverse(chunks)));
     }
+
 }

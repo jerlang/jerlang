@@ -1,6 +1,8 @@
 package org.jerlang.stdlib.beam_lib;
 
-public enum ChunkIdentifier {
+import org.jerlang.type.Str;
+
+public enum ChunkId {
 
     ABST("Abst"),
     ATOM("Atom"),
@@ -18,7 +20,7 @@ public enum ChunkIdentifier {
     private final String string;
     private final int value;
 
-    private ChunkIdentifier(String string) {
+    private ChunkId(String string) {
         char a = string.charAt(0);
         char b = string.charAt(1);
         char c = string.charAt(2);
@@ -31,9 +33,23 @@ public enum ChunkIdentifier {
         return value;
     }
 
+    public Str toStr() {
+        return new Str(string);
+    }
+
     @Override
     public String toString() {
         return string;
+    }
+
+    public static ChunkId of(int bytes) {
+        for (ChunkId chunkIdentifier : values()) {
+            if (chunkIdentifier.value == bytes) {
+                return chunkIdentifier;
+            }
+        }
+        System.err.println("Invalid chunk ID: " + String.format("%x", bytes));
+        return null;
     }
 
 }
