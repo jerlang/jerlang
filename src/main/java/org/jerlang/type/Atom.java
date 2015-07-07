@@ -20,7 +20,11 @@ public class Atom extends Term {
 
     @Override
     public boolean equals(Object object) {
-        return name.equals(object);
+        if (object instanceof Atom) {
+            Atom other = (Atom) object;
+            return name.equals(other.name);
+        }
+        return false;
     }
 
     @Override

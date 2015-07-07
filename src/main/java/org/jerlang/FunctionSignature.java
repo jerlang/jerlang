@@ -19,6 +19,17 @@ public class FunctionSignature {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof FunctionSignature) {
+            FunctionSignature other = (FunctionSignature) object;
+            return module.equals(other.module)
+                && function.equals(other.function)
+                && arity.equals(other.arity);
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return new StringBuilder()
             .append(module)

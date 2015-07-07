@@ -9,6 +9,16 @@ import org.junit.Test;
 public class FunctionSignatureTest {
 
     @Test
+    public void testEquals() {
+        Atom mod = new Atom("mod");
+        Atom fun = new Atom("fun");
+        Integer arity = new Integer(0);
+        FunctionSignature functionSignature1 = new FunctionSignature(mod, fun, arity);
+        FunctionSignature functionSignature2 = new FunctionSignature(mod, fun, arity);
+        assertEquals(functionSignature1, functionSignature2);
+    }
+
+    @Test
     public void testToString() {
         Atom mod = new Atom("mod");
         Atom fun = new Atom("fun");

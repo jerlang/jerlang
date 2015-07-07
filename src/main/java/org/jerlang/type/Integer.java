@@ -37,6 +37,15 @@ public class Integer extends Number {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof Integer) {
+            Integer other = (Integer) object;
+            return value.equals(other.value);
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         return value.toString();
     }
