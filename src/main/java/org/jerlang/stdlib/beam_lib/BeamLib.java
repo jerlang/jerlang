@@ -1,4 +1,4 @@
-package org.jerlang.kernel.beam_lib;
+package org.jerlang.stdlib.beam_lib;
 
 import static org.jerlang.kernel.file.File.enoent;
 import static org.jerlang.kernel.file.File.eperm;
