@@ -51,11 +51,25 @@ public class List extends Term {
             if (list.tail() == nil) {
                 break;
             }
-            stringBuilder.append(", ");
+            stringBuilder.append(",");
             list = list.tail();
         } while (true);
         stringBuilder.append(']');
         return stringBuilder.toString();
+    }
+
+    /**
+     * Convenience function to create a list of terms.
+     */
+    public static List of(Term... terms) {
+        if (terms.length == 0) {
+            return nil;
+        }
+        List list = nil;
+        for (int index = terms.length - 1; index >= 0; index--) {
+            list = new List(terms[index], list);
+        }
+        return list;
     }
 
 }

@@ -267,4 +267,8 @@ public class BeamLib {
         return new List(Tuple.of(Atom.of("chunks"), Lists.reverse(chunks)));
     }
 
+    public static Term md5(String filename) {
+        return MD5.md5(filename);
+    }
+
 }

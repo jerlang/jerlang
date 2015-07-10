@@ -35,7 +35,7 @@ public class Str extends List {
 
     @Override
     public String toString() {
-        return string;
+        return "\"" + string + "\"";
     }
 
 }

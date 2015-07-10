@@ -13,7 +13,7 @@ public class StrTest {
 
     @Test
     public void testToString2() {
-        assertEquals("ABC", Term.of("ABC").toString());
+        assertEquals("\"ABC\"", Term.of("ABC").toString());
     }
 
 }
