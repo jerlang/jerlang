@@ -4,6 +4,7 @@ import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
+import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -21,6 +22,8 @@ public class Erlang {
             .export("display", 1)
             .export("function_exported", 3)
             .export("halt", 1)
+            .export("integer_to_binary", 1)
+            .export("integer_to_binary", 2)
             .export("integer_to_list", 1)
             .export("integer_to_list", 2)
             .export("length", 1);
@@ -92,6 +95,22 @@ public class Erlang {
      */
     public static void halt(int status) {
         // TODO
+    }
+
+    /**
+     * Returns a binary which corresponds to the text representation of Integer.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-1
+     */
+    public static Binary integer_to_binary(Integer integer) {
+        return new Binary(integer.toString().getBytes());
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-2
+     */
+    public static Binary integer_to_binary(Integer integer, Integer base) {
+        return new Binary(integer.toBigInteger().toString(base.toInt()).getBytes());
     }
 
     /**
