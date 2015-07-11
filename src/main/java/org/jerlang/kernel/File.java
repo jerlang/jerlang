@@ -1,5 +1,6 @@
 package org.jerlang.kernel;
 
+import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 
 /**
@@ -76,6 +77,10 @@ import org.jerlang.type.Atom;
  */
 
 public class File {
+
+    static {
+        ModuleRegistry.register("file");
+    }
 
     /** No such file or directory (POSIX.1) */
     public static final Atom enoent = Atom.of("enoent");

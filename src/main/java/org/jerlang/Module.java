@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jerlang.type.Atom;
+import org.jerlang.type.Integer;
 
 /**
  * = Modules
@@ -36,12 +37,20 @@ public class Module {
         this.exported_functions = new HashMap<>();
     }
 
-    public Atom name() {
-        return name;
+    public Module export(String function, int arity) {
+        FunctionSignature s = new FunctionSignature(
+            name,
+            Atom.of(function), Integer.of(arity));
+        exported_functions.put(s, null);
+        return this;
     }
 
     public boolean hasFunction(FunctionSignature functionSignature) {
         return exported_functions.containsKey(functionSignature);
+    }
+
+    public Atom name() {
+        return name;
     }
 
 }

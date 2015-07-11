@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.jerlang.ModuleRegistry;
 import org.jerlang.stdlib.beam_lib.Chunk;
 import org.jerlang.stdlib.beam_lib.ChunkId;
 import org.jerlang.stdlib.beam_lib.MD5;
@@ -170,6 +171,12 @@ import org.jerlang.type.Tuple;
  */
 
 public class BeamLib {
+
+    static {
+        ModuleRegistry.register("beam_lib")
+            .export("info", 1)
+            .export("md5", 1);
+    }
 
     public static final Atom beam_lib = Atom.of("beam_lib");
     public static final Atom error = Atom.of("error");

@@ -1,9 +1,16 @@
 package org.jerlang.erts;
 
+import org.jerlang.ModuleRegistry;
+
 /**
  * http://www.erlang.org/doc/man/init.html
  */
 public class Init {
+
+    static {
+        ModuleRegistry.register("init")
+            .export("boot", 1);
+    }
 
     /**
      * boot(BootArgs) -> no_return()

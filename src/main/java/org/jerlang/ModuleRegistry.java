@@ -29,4 +29,13 @@ public class ModuleRegistry {
         return instance;
     }
 
+    public static Module register(String module) {
+        return register(Atom.of(module));
+    }
+
+    public static Module register(Atom module) {
+        instance.modules.put(module, new Module(module));
+        return instance.modules.get(module);
+    }
+
 }

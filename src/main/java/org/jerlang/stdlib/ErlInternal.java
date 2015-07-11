@@ -1,5 +1,6 @@
 package org.jerlang.stdlib;
 
+import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 
@@ -18,6 +19,19 @@ import org.jerlang.type.Integer;
  */
 public class ErlInternal {
 
+    static {
+        ModuleRegistry.register("erl_internal")
+            .export("arith_op", 2)
+            .export("bif", 2)
+            .export("bool_op", 2)
+            .export("comp_op", 2)
+            .export("guard_bif", 2)
+            .export("list_op", 2)
+            .export("op_type", 2)
+            .export("send_op", 2)
+            .export("type_test", 2);
+    }
+
     private static final Atom arith = Atom.of("arith");
     private static final Atom bool = Atom.of("bool");
     private static final Atom comp = Atom.of("comp");
@@ -25,6 +39,31 @@ public class ErlInternal {
     private static final Atom send = Atom.of("send");
 
     private ErlInternal() {
+    }
+
+    /**
+     * Returns `true` if `opName/arity` is an arithmetic operator, otherwise `false`.
+     */
+    public static boolean arith_op(Atom opName, Integer arity) {
+        switch (opName.toString() + "/" + arity) {
+        case "+/1":
+        case "-/1":
+        case "*/2":
+        case "//2":
+        case "+/2":
+        case "-/2":
+        case "bnot/1":
+        case "div/2":
+        case "rem/2":
+        case "band/2":
+        case "bor/2":
+        case "bxor/2":
+        case "bsl/2":
+        case "bsr/2":
+            return true;
+        default:
+            return false;
+        }
     }
 
     /**
@@ -275,31 +314,6 @@ public class ErlInternal {
         case "record/2":
         case "function/1":
             // Erlang old-style type tests
-            return true;
-        default:
-            return false;
-        }
-    }
-
-    /**
-     * Returns `true` if `opName/arity` is an arithmetic operator, otherwise `false`.
-     */
-    public static boolean arith_op(Atom opName, Integer arity) {
-        switch (opName.toString() + "/" + arity) {
-        case "+/1":
-        case "-/1":
-        case "*/2":
-        case "//2":
-        case "+/2":
-        case "-/2":
-        case "bnot/1":
-        case "div/2":
-        case "rem/2":
-        case "band/2":
-        case "bor/2":
-        case "bxor/2":
-        case "bsl/2":
-        case "bsr/2":
             return true;
         default:
             return false;

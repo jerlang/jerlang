@@ -13,6 +13,16 @@ import org.jerlang.type.Term;
  */
 public class Erlang {
 
+    static {
+        ModuleRegistry.register("erlang")
+            .export("abs", 1)
+            .export("apply", 3)
+            .export("display", 1)
+            .export("function_exported", 3)
+            .export("halt", 1)
+            .export("length", 1);
+    }
+
     /**
      * abs(Float) -> float()
      * abs(Int) -> integer() >= 0

@@ -1,5 +1,6 @@
 package org.jerlang.erts;
 
+import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.Str;
@@ -12,6 +13,11 @@ import org.jerlang.type.Tuple;
  * https://github.com/erlang/otp/blob/master/erts/preloaded/src/otp_ring0.erl
  */
 public class OtpRing0 {
+
+    static {
+        ModuleRegistry.register("otp_ring0")
+            .export("start", 2);
+    }
 
     public static Term start(Term _env, Term argv) {
         return run(Atom.of("init"), Atom.of("boot"), argv);
