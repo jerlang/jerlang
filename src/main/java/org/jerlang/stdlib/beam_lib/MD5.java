@@ -1,12 +1,12 @@
 package org.jerlang.stdlib.beam_lib;
 
-import static org.jerlang.kernel.file.File.enoent;
-import static org.jerlang.kernel.file.File.eperm;
-import static org.jerlang.stdlib.beam_lib.BeamLib.beam_lib;
-import static org.jerlang.stdlib.beam_lib.BeamLib.error;
-import static org.jerlang.stdlib.beam_lib.BeamLib.file_error;
-import static org.jerlang.stdlib.beam_lib.BeamLib.invalid_beam_file;
-import static org.jerlang.stdlib.beam_lib.BeamLib.not_a_beam_file;
+import static org.jerlang.kernel.File.enoent;
+import static org.jerlang.kernel.File.eperm;
+import static org.jerlang.stdlib.BeamLib.beam_lib;
+import static org.jerlang.stdlib.BeamLib.error;
+import static org.jerlang.stdlib.BeamLib.file_error;
+import static org.jerlang.stdlib.BeamLib.invalid_beam_file;
+import static org.jerlang.stdlib.BeamLib.not_a_beam_file;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -19,7 +19,7 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.jerlang.stdlib.lists.Lists;
+import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;

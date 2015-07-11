@@ -2,6 +2,7 @@ package org.jerlang.stdlib.beam_lib;
 
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.stdlib.BeamLib;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Term;

@@ -1,7 +1,7 @@
-package org.jerlang.stdlib.beam_lib;
+package org.jerlang.stdlib;
 
-import static org.jerlang.kernel.file.File.enoent;
-import static org.jerlang.kernel.file.File.eperm;
+import static org.jerlang.kernel.File.enoent;
+import static org.jerlang.kernel.File.eperm;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jerlang.stdlib.lists.Lists;
+import org.jerlang.stdlib.beam_lib.Chunk;
+import org.jerlang.stdlib.beam_lib.ChunkId;
+import org.jerlang.stdlib.beam_lib.MD5;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;

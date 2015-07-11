@@ -1,4 +1,4 @@
-package org.jerlang.stdlib.erl_internal;
+package org.jerlang.stdlib;
 
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;

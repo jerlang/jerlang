@@ -1,4 +1,4 @@
-package org.jerlang.stdlib.lists;
+package org.jerlang.stdlib;
 
 import org.jerlang.type.List;
 

@@ -2,6 +2,7 @@ package org.jerlang.stdlib.lists;
 
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.junit.Test;

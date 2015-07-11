@@ -1,4 +1,4 @@
-package org.jerlang.kernel.file;
+package org.jerlang.kernel;
 
 import org.jerlang.type.Atom;
 
