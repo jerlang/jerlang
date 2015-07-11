@@ -1,5 +1,8 @@
 package org.jerlang;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jerlang.type.Atom;
 
 /**
@@ -26,13 +29,19 @@ import org.jerlang.type.Atom;
 public class Module {
 
     private final Atom name;
+    private final Map<FunctionSignature, Object> exported_functions;
 
     public Module(Atom name) {
         this.name = name;
+        this.exported_functions = new HashMap<>();
     }
 
     public Atom name() {
         return name;
+    }
+
+    public boolean hasFunction(FunctionSignature functionSignature) {
+        return exported_functions.containsKey(functionSignature);
     }
 
 }

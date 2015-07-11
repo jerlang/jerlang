@@ -2,6 +2,7 @@ package org.jerlang.erts.erlang;
 
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.erts.Erlang;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.junit.Test;
