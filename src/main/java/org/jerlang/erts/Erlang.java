@@ -6,6 +6,7 @@ import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 
 /**
@@ -20,6 +21,8 @@ public class Erlang {
             .export("display", 1)
             .export("function_exported", 3)
             .export("halt", 1)
+            .export("integer_to_list", 1)
+            .export("integer_to_list", 2)
             .export("length", 1);
     }
 
@@ -89,6 +92,25 @@ public class Erlang {
      */
     public static void halt(int status) {
         // TODO
+    }
+
+    /**
+     * Returns a string which corresponds to the text representation of Integer.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#integer_to_list-1
+     */
+    public static List integer_to_list(Integer integer) {
+        return new Str(integer.toString());
+    }
+
+    /**
+     * Returns a string which corresponds to the text representation of Integer
+     * in base Base.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#integer_to_list-2
+     */
+    public static List integer_to_list(Integer integer, Integer base) {
+        return new Str(integer.toBigInteger().toString(base.toInt()));
     }
 
     /**
