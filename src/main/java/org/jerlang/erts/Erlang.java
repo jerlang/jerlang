@@ -3,10 +3,13 @@ package org.jerlang.erts;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
+import org.jerlang.ProcessRegistry;
+import org.jerlang.erts.init.ProcessFlag;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.PID;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 
@@ -147,6 +150,42 @@ public class Erlang {
             length++;
         }
         return new Integer(length);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#process_flag-2
+     */
+    public static boolean process_flag(Atom flag, boolean value) {
+        return ProcessFlag.process_flag(flag, value);
+    }
+
+    /**
+     * Associates the name RegName with a pid or a port identifier.
+     * RegName, which must be an atom, can be used instead of the
+     * pid / port identifier in the send operator (RegName ! Message).
+     *
+     * http://www.erlang.org/doc/man/erlang.html#register-2
+     */
+    public static boolean register(Atom regName, PID pid) {
+        ProcessRegistry.register(regName, pid);
+        return true;
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#self-0
+     */
+    public static PID self() {
+        return new PID(0); // TODO
+    }
+
+    /**
+     * Returns the pid of a new process started by the application of
+     * Fun to the empty list []. Otherwise works like spawn/3.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#spawn-1
+     */
+    public static PID spawn(Object fun) {
+        return new PID(0); // TODO
     }
 
 }
