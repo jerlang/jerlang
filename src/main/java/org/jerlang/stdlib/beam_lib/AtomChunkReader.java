@@ -1,9 +1,9 @@
 package org.jerlang.stdlib.beam_lib;
 
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-
 import java.io.DataInputStream;
 import java.io.IOException;
+
+import org.jerlang.type.Atom;
 
 public class AtomChunkReader extends AbstractChunkReader<AtomChunk> {
 
@@ -16,15 +16,17 @@ public class AtomChunkReader extends AbstractChunkReader<AtomChunk> {
     }
 
     public AtomChunk read() throws IOException {
-        int atoms = inputStream.readInt();
-        for (int index = 0; index < atoms; index++) {
+        AtomChunk atomChunk = new AtomChunk(chunk.offset(), chunk.length());
+        int numberOfAtoms = inputStream.readInt();
+        atomChunk.init(numberOfAtoms);
+        for (int index = 0; index < numberOfAtoms; index++) {
             int size = inputStream.read();
             byte[] bytes = new byte[size];
             inputStream.read(bytes);
-            System.out.println("Atom: " + new String(bytes, ISO_8859_1));
+            atomChunk.set(index, Atom.of(bytes));
         }
         inputStream.read(); // null byte
-        return null;
+        return atomChunk;
     }
 
 }
