@@ -14,7 +14,7 @@ public class Binary extends Term {
     }
 
     public Binary(int[] bytes) {
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     @Override

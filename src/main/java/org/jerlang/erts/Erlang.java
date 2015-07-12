@@ -1,5 +1,7 @@
 package org.jerlang.erts;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
@@ -106,14 +108,14 @@ public class Erlang {
      * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-1
      */
     public static Binary integer_to_binary(Integer integer) {
-        return new Binary(integer.toString().getBytes());
+        return new Binary(integer.toString().getBytes(ISO_8859_1));
     }
 
     /**
      * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-2
      */
     public static Binary integer_to_binary(Integer integer, Integer base) {
-        return new Binary(integer.toBigInteger().toString(base.toInt()).getBytes());
+        return new Binary(integer.toBigInteger().toString(base.toInt()).getBytes(ISO_8859_1));
     }
 
     /**

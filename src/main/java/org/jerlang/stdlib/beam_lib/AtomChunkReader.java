@@ -1,5 +1,7 @@
 package org.jerlang.stdlib.beam_lib;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 
@@ -19,7 +21,7 @@ public class AtomChunkReader extends AbstractChunkReader<AtomChunk> {
             int size = inputStream.read();
             byte[] bytes = new byte[size];
             inputStream.read(bytes);
-            System.out.println("Atom: " + new String(bytes));
+            System.out.println("Atom: " + new String(bytes, ISO_8859_1));
         }
         inputStream.read(); // null byte
         return null;
