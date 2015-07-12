@@ -46,7 +46,7 @@ public class Init {
      * The remaining flags ("user flags") and plain arguments are passed to the
      * init loop and can be retrieved by calling get_arguments/0 and
      * get_plain_arguments/0, respectively.
-     * 
+     *
      * http://www.erlang.org/doc/man/init.html#boot-1
      */
     public static void boot(String[] bootArgs) {

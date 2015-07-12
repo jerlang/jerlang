@@ -40,7 +40,7 @@ public class ProcessDictionary {
 
     /**
      * Returns the process dictionary as a list of {Key, Val} tuples.
-     * 
+     *
      * http://www.erlang.org/doc/man/erlang.html#get-0
      */
     public List get() {
@@ -82,7 +82,7 @@ public class ProcessDictionary {
 
     /**
      * Returns the process dictionary and deletes it.
-     * 
+     *
      * http://www.erlang.org/doc/man/erlang.html#erase-0
      */
     public Term erase() {

@@ -5,13 +5,13 @@ import org.jerlang.type.Atom;
 
 /**
  * = file
- * 
+ *
  * == MODULE
- * 
+ *
  * http://www.erlang.org/doc/man/file.html[file]
- * 
+ *
  * == DESCRIPTION
- * 
+ *
  * The module file provides an interface to the file system.
  *
  * On operating systems with thread support, it is possible to let file operations be performed in threads of their own, allowing other Erlang processes to continue executing in parallel with the file operations. See the command line flag +A in erl(1).

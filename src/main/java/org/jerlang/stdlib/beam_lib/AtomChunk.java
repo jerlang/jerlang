@@ -31,7 +31,7 @@ package org.jerlang.stdlib.beam_lib;
  * |===
  *
  * === Restriction
- * 
+ *
  * * Atoms are limited to 255 characters or less.
  * * Characters must be valid characters in ISO 8859-1.
  *

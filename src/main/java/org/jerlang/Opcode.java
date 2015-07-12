@@ -513,7 +513,7 @@ public enum Opcode {
     // ========================================================================
     // R11B-5
 
-    /** 
+    /**
      * Test the type of Arg1 and jump to Lbl if it is not a bit string.
      */
     is_bitstr(129),

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * TODO: Work in progress.
- * 
+ *
  * See also:
  * https://stackoverflow.com/a/262179
  */

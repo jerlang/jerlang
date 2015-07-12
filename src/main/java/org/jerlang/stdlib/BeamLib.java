@@ -101,7 +101,7 @@ import org.jerlang.type.Tuple;
  * abst_code() = {AbstVersion :: atom(), forms()}
  *             | no_abstract_code
  * ----
- * 
+ *
  * It is not checked that the forms conform to the abstract format indicated by
  * AbstVersion. no_abstract_code means that the "Abst" chunk is present, but empty.
  *
@@ -128,7 +128,7 @@ import org.jerlang.type.Tuple;
  * ----
  * label() = integer()
  * ----
- * 
+ *
  * ----
  * chunkref() = chunkname() | chunkid()
  * ----
@@ -194,7 +194,7 @@ public class BeamLib {
      * ----
      *
      * Types:
-     * 
+     *
      * ----
      * Beam = beam()
      * ----
@@ -225,7 +225,7 @@ public class BeamLib {
      * {chunks, [{ChunkId, Pos, Size}]}
      * ----
      * For each chunk, the identifier (string) and the position and size of the chunk data, in bytes.
-     * @throws IOException 
+     * @throws IOException
      */
     public static Term info(String filename) {
         File file = new File(filename);

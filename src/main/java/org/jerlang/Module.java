@@ -8,7 +8,7 @@ import org.jerlang.type.Integer;
 
 /**
  * = Modules
- * 
+ *
  * Erlang code is divided into modules.
  * A module consists of a sequence of attributes and function declarations,
  * each terminated by period (.).

@@ -16,7 +16,7 @@ public class Boot {
     private static final Atom ON_LOAD_HANDLER = init__boot__on_load_handler;
 
     /**
-     * 
+     *
      */
     public static void boot3(Object start, Object flags, Object args) {
         /*
@@ -58,7 +58,7 @@ public class Boot {
                  []   -> [B];
                  FF   -> [B,FF]
              end,
-            parse_boot_args(Rest, Ss,  
+            parse_boot_args(Rest, Ss,
                     [list_to_tuple(Fl)|Fs], As);
         arg ->
             parse_boot_args(Bs, Ss, Fs, [B|As]);

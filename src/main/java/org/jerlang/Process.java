@@ -10,7 +10,7 @@ import org.jerlang.type.Term;
  * Erlang processes are lightweight (grow and shrink dynamically)
  * with small memory footprint, fast to create and terminate,
  * and the scheduling overhead is low.
- * 
+ *
  * Source:
  * http://www.erlang.org/doc/reference_manual/processes.html
  */
