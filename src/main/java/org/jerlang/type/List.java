@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.util.Objects;
+
 public class List extends Term {
 
     public static final Nil nil = new Nil();
@@ -37,6 +39,11 @@ public class List extends Term {
                 || (head.equals(other.head) && tail.equals(other.tail));
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(head, tail);
     }
 
     @Override

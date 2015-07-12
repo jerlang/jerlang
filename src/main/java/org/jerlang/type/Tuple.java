@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.util.Objects;
+
 public class Tuple extends Term {
 
     private final Term[] elements;
@@ -35,6 +37,11 @@ public class Tuple extends Term {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(elements);
     }
 
     @Override

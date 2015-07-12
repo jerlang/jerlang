@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.util.Objects;
+
 /**
  * TODO: Work in progress.
  * 
@@ -21,6 +23,11 @@ public class PID extends Term {
             return processId == other.processId;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(processId);
     }
 
     @Override

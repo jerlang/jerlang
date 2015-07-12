@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.util.Objects;
+
 public class Binary extends Term {
 
     private final int[] bytes;
@@ -30,6 +32,11 @@ public class Binary extends Term {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bytes);
     }
 
     @Override

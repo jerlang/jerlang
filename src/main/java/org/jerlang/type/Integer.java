@@ -1,6 +1,7 @@
 package org.jerlang.type;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class Integer extends Number {
 
@@ -43,6 +44,11 @@ public class Integer extends Number {
             return value.equals(other.value);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

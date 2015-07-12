@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.util.Objects;
+
 public class Str extends List {
 
     private String string;
@@ -31,6 +33,11 @@ public class Str extends List {
             return string.equals(other.string);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(string);
     }
 
     @Override

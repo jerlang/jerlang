@@ -1,5 +1,7 @@
 package org.jerlang;
 
+import java.util.Objects;
+
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 
@@ -27,6 +29,11 @@ public class FunctionSignature {
                 && arity.equals(other.arity);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(module, function, arity);
     }
 
     @Override
