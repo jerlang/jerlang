@@ -1,5 +1,12 @@
 package org.jerlang.stdlib.beam_lib;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.jerlang.Opcode;
+import org.jerlang.erts.emulator.Instruction;
+
 /**
  * = The Code Chunk
  *
@@ -79,30 +86,35 @@ package org.jerlang.stdlib.beam_lib;
 */
 public class CodeChunk extends Chunk {
 
-    private int maxOpcode;
     private int labels;
     private int functions;
+    private ArrayList<Instruction> instructions;
 
     public CodeChunk(int offset, int length) {
         super(ChunkId.CODE, offset, length);
+        instructions = new ArrayList<>();
     }
 
-    public void setInfo(int maxOpcode, int labels, int functions) {
-        this.maxOpcode = maxOpcode;
-        this.labels = labels;
-        this.functions = functions;
+    public boolean add(Instruction instruction) {
+        instructions.add(instruction);
+        return instruction.opcode() != Opcode.int_code_end;
     }
 
-    public int maxOpcode() {
-        return maxOpcode;
+    public List<Instruction> instructions() {
+        return Collections.unmodifiableList(instructions);
+    }
+
+    public int functions() {
+        return functions;
     }
 
     public int labels() {
         return labels;
     }
 
-    public int functions() {
-        return functions;
+    public void setInfo(int labels, int functions) {
+        this.labels = labels;
+        this.functions = functions;
     }
 
 }

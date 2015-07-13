@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.junit.Test;
 public class AtomChunkReaderTest {
 
     @Test
-    public void testAtomChunkReader() throws IOException {
+    public void testAtomChunkReader() throws Throwable {
         File file = new File("src/test/resources/pid.beam");
         byte[] bytes = Files.readAllBytes(file.toPath());
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));

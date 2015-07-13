@@ -1,7 +1,6 @@
 package org.jerlang.stdlib.beam_lib;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 
 import org.jerlang.type.Atom;
 
@@ -15,7 +14,7 @@ public class AtomChunkReader extends AbstractChunkReader<AtomChunk> {
         this.inputStream = inputStream;
     }
 
-    public AtomChunk read() throws IOException {
+    public AtomChunk read() throws Throwable {
         AtomChunk atomChunk = new AtomChunk(chunk.offset(), chunk.length());
         int numberOfAtoms = inputStream.readInt();
         atomChunk.init(numberOfAtoms);

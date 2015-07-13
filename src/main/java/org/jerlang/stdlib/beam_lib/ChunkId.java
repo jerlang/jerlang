@@ -4,18 +4,18 @@ import org.jerlang.type.Str;
 
 public enum ChunkId {
 
-    ABST("Abst"),
-    ATOM("Atom"),
-    ATTR("Attr"),
-    CINF("CInf"),
-    CODE("Code"),
-    EXPT("ExpT"),
-    FUNT("FunT"),
-    IMPT("ImpT"),
-    LINE("Line"),
-    LITT("LitT"),
-    LOCT("LocT"),
-    STRT("StrT");
+    ABST("AbsT"), // Abstract Code
+    ATOM("Atom"), // Atoms
+    ATTR("Attr"), // Attributes
+    CINF("CInf"), // Compile Information
+    CODE("Code"), // Code
+    EXPT("ExpT"), // Export Table
+    FUNT("FunT"), // Function Table
+    IMPT("ImpT"), // Import Table
+    LINE("Line"), // Line Table
+    LITT("LitT"), // Literal Table
+    LOCT("LocT"), // Local Table
+    STRT("StrT"); // String Table
 
     private final String string;
     private final int value;
@@ -43,9 +43,9 @@ public enum ChunkId {
     }
 
     public static ChunkId of(int bytes) {
-        for (ChunkId chunkIdentifier : values()) {
-            if (chunkIdentifier.value == bytes) {
-                return chunkIdentifier;
+        for (ChunkId chunkId : values()) {
+            if (chunkId.value == bytes) {
+                return chunkId;
             }
         }
         System.err.println("Invalid chunk ID: " + String.format("%x", bytes));
