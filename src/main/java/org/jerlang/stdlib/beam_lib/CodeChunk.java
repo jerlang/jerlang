@@ -30,7 +30,6 @@ package org.jerlang.stdlib.beam_lib;
  * |info-size
  * |Length of the information fields before code.
  *  This is for future expansion.
- *  It must be set to zero when the instruction set identifier is 0.
  *
  * |4 bytes
  * |version
@@ -75,13 +74,35 @@ package org.jerlang.stdlib.beam_lib;
  * * It does not understand the instruction set version of the BEAM file
  * * The opcode-max is higher than the greatest opcode that the loader comprehends
  *
- * Source:
+ * Based on:
  * https://synrc.com/publications/cat/Functional%20Languages/Erlang/BEAM.pdf
 */
 public class CodeChunk extends Chunk {
 
+    private int maxOpcode;
+    private int labels;
+    private int functions;
+
     public CodeChunk(int offset, int length) {
         super(ChunkId.CODE, offset, length);
+    }
+
+    public void setInfo(int maxOpcode, int labels, int functions) {
+        this.maxOpcode = maxOpcode;
+        this.labels = labels;
+        this.functions = functions;
+    }
+
+    public int maxOpcode() {
+        return maxOpcode;
+    }
+
+    public int labels() {
+        return labels;
+    }
+
+    public int functions() {
+        return functions;
     }
 
 }

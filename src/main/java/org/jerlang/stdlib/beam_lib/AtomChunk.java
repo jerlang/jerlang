@@ -17,7 +17,7 @@ import org.jerlang.type.Atom;
  * |===
  * |Length |Value |Description
  *
- * |4 bytes|"Atom"|Magic number indicating the Atom Chunk.
+ * |4 bytes|`Atom`|Magic number indicating the Atom Chunk.
  * |4 bytes|size  |Atom Chunk length in bytes
  * |4 bytes|count |Number of atoms in the Atom Chunk
  * |===
