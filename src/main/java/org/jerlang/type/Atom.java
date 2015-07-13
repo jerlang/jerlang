@@ -2,6 +2,8 @@ package org.jerlang.type;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
+import org.jerlang.AtomRegistry;
+
 /**
  * An atom is a literal, a constant with name.
  *
@@ -40,11 +42,16 @@ public class Atom extends Term {
     }
 
     public static Atom of(byte[] bytes) {
-        return new Atom(new String(bytes, ISO_8859_1));
+        return of(new String(bytes, ISO_8859_1));
     }
 
     public static Atom of(String string) {
-        return new Atom(string);
+        Atom atom = AtomRegistry.instance().get(string);
+        if (atom == null) {
+            atom = new Atom(string);
+            AtomRegistry.register(atom);
+        }
+        return atom;
     }
 
 }
