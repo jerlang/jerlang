@@ -10,4 +10,8 @@ public class Map extends Term {
         map = new HashMap<>();
     }
 
+    public Term get(Term key) {
+        return map.get(key);
+    }
+
 }
