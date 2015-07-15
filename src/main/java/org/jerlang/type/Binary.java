@@ -56,4 +56,8 @@ public class Binary extends Term {
         return new Binary(values);
     }
 
+    public static Binary of(byte... values) {
+        return new Binary(values);
+    }
+
 }
