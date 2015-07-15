@@ -1,8 +1,11 @@
 package org.jerlang.stdlib;
 
+import org.jerlang.type.Atom;
+import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Map;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * = maps
@@ -20,6 +23,25 @@ import org.jerlang.type.Term;
  */
 public class Maps {
 
+    private static final Atom error = Atom.of("ok");
+    private static final Atom ok = Atom.of("error");
+
+    /**
+     * Returns a tuple `{ok, Value}` where `value` is the value associated
+     * with `key`, or `error` if no value is associated with `key` in `map`.
+     *
+     * The call will fail with a `{badmap,Map}` exception if `map` is not a map.
+     *
+     * http://www.erlang.org/doc/man/maps.html#find-2
+     */
+    public Term find(Term key, Map map) {
+        if (is_key(key, map)) {
+            return Tuple.of(ok, get(key, map));
+        } else {
+            return error;
+        }
+    }
+
     /**
      * http://www.erlang.org/doc/man/maps.html#get-2
      */
@@ -30,10 +52,27 @@ public class Maps {
     }
 
     /**
+     * Returns `true` if map `map` contains `key` and
+     * returns `false` if it does not contain the `key`.
+     *
+     * The call will fail with a `{badmap,Map}` exception if `map` is not a map.
+     *
+     * http://www.erlang.org/doc/man/maps.html#is_key-2
+     */
+    public static boolean is_key(Term key, Map map) {
+        return map.is_key(key);
+    }
+
+    /**
+     * Returns a complete list of keys, in arbitrary order,
+     * which resides within `map`.
+     *
+     * The call will fail with a `{badmap,Map}` exception if `map` is not a map.
+     *
      * http://www.erlang.org/doc/man/maps.html#keys-1
      */
     public static List keys(Map map) {
-        return List.nil;
+        return map.keys();
     }
 
     /**
@@ -50,6 +89,13 @@ public class Maps {
      */
     public static Map _new() {
         return new Map();
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/maps.html#size-1
+     */
+    public Integer size(Map map) {
+        return map.size();
     }
 
 }

@@ -1,5 +1,6 @@
 package org.jerlang.type;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class List extends Term {
@@ -75,6 +76,14 @@ public class List extends Term {
         List list = nil;
         for (int index = terms.length - 1; index >= 0; index--) {
             list = new List(terms[index], list);
+        }
+        return list;
+    }
+
+    public static List of(Collection<Term> collection) {
+        List list = nil;
+        for (Term term : collection) {
+            list = new List(term, list);
         }
         return list;
     }

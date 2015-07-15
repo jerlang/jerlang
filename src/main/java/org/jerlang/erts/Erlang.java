@@ -69,7 +69,6 @@ public class Erlang {
 
     /**
      * Prints a text representation of Term on the standard output.
-     * On OSE the term is printed to the ramlog.
      *
      * http://www.erlang.org/doc/man/erlang.html#display-1
      */

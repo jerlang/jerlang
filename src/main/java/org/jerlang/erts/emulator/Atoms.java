@@ -4,7 +4,7 @@ import org.jerlang.type.Atom;
 
 /**
  * Common atoms.
- * 
+ *
  * Based on:
  * https://github.com/erlang/otp/erts/emulator/beam/atom.names
  */

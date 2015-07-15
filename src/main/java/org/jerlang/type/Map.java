@@ -10,8 +10,20 @@ public class Map extends Term {
         map = new HashMap<>();
     }
 
+    public boolean is_key(Term key) {
+        return map.containsKey(key);
+    }
+
     public Term get(Term key) {
         return map.get(key);
+    }
+
+    public List keys() {
+        return List.of(map.keySet());
+    }
+
+    public Integer size() {
+        return Integer.of(map.size());
     }
 
 }
