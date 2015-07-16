@@ -39,6 +39,10 @@ public class Binary extends Term {
         return Objects.hash(bytes);
     }
 
+    public int length() {
+        return bytes.length;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("<<");
