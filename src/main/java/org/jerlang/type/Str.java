@@ -45,4 +45,8 @@ public class Str extends List {
         return "\"" + string + "\"";
     }
 
+    public static Str of(String string) {
+        return new Str(string);
+    }
+
 }
