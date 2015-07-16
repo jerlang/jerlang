@@ -16,15 +16,20 @@ public class FunctionSignature extends Tuple {
         set(2, arity);
     }
 
-    @Override
-    public String toString() {
-        return new StringBuilder()
-            .append(element(0))
-            .append(':')
-            .append(element(1))
-            .append('/')
-            .append(element(2))
-            .toString();
+    public FunctionSignature(Atom module, Atom function, Integer arity, Integer label) {
+        super(4);
+        set(0, module);
+        set(1, function);
+        set(2, arity);
+        set(3, label);
     }
 
+    @Override
+    public String toString() {
+        String string = "" + element(0) + ":" + element(1) + "/" + element(2);
+        if (arity() == 4) {
+            string += " (label " + element(3) + ")";
+        }
+        return string;
+    }
 }
