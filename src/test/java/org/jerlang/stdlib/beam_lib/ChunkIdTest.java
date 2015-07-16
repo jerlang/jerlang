@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ChunkIdentifierTest {
+public class ChunkIdTest {
 
     @Test
     public void testAbst() {

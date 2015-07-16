@@ -4,7 +4,7 @@ import org.jerlang.type.Str;
 
 public enum ChunkId {
 
-    ABST("AbsT"), // Abstract Code
+    ABST("Abst"), // Abstract Code
     ATOM("Atom"), // Atoms
     ATTR("Attr"), // Attributes
     CINF("CInf"), // Compile Information
