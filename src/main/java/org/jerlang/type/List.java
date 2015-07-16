@@ -80,7 +80,7 @@ public class List extends Term {
         return list;
     }
 
-    public static List of(Collection<Term> collection) {
+    public static List of(Collection<? extends Term> collection) {
         List list = nil;
         for (Term term : collection) {
             list = new List(term, list);
