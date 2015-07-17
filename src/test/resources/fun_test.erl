@@ -1,3 +1,6 @@
+%% Example taken from:
+%% http://www.erlang.org/doc/programming_examples/funs.html
+
 -module(fun_test).
 -export([t1/0, t2/0]).
 -import(lists, [map/2]).

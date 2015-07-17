@@ -9,7 +9,7 @@ import org.jerlang.type.List;
  *
  * The Function Table Chunk is an option chunk that stores the lambdas
  * (i.e. anonymous functions) of the module.
- * 
+ *
  * The Function Table Chunk is composed of a header followed by one or
  * more function definitions.
  *
@@ -36,13 +36,13 @@ import org.jerlang.type.List;
  * == Function record format
  *
  * Each anonymous function is defined by 6 32-bit values:
- * 
+ *
  * [cols="1,1,6", options="header"]
  * |===
  * |Length
  * |Value
  * |Description
- * 
+ *
  * | 4 bytes
  * | function atom id
  * | The index in Atom Chunk of the atom defining the function name
@@ -67,7 +67,7 @@ import org.jerlang.type.List;
  * | old-unique
  * | TODO
  * |===
- * 
+ *
  * See also `beam_disasm_lambdas/2` in:
  * https://github.com/erlang/otp/blob/master/lib/compiler/src/beam_disasm.erl
 */

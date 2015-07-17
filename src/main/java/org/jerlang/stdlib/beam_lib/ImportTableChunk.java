@@ -7,7 +7,7 @@ import org.jerlang.type.List;
 
 /**
  * = Import Table Chunk
- * 
+ *
  * The Import Table Chunk is used to define methods in other modules that are
  * called from the current module.
  *
