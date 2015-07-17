@@ -351,4 +351,13 @@ public enum ExternalTermFormatTag {
         return tag;
     }
 
+    public static ExternalTermFormatTag of(int value) {
+        for (ExternalTermFormatTag tag : values()) {
+            if (tag.tag == value) {
+                return tag;
+            }
+        }
+        return null;
+    }
+
 }
