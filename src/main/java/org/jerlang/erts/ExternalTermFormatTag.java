@@ -357,6 +357,7 @@ public enum ExternalTermFormatTag {
                 return tag;
             }
         }
+        System.out.println("Unknown value: " + value);
         return null;
     }
 

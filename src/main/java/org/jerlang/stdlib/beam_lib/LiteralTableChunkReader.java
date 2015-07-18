@@ -30,7 +30,8 @@ public class LiteralTableChunkReader extends AbstractChunkReader<LiteralTableChu
 
         int literals = read4Bytes();
         while (literals-- > 0) {
-            literalTableChunk.add(nextLiteral());
+            read4Bytes(); // length of literal
+            literalTableChunk.add(readTerm());
         }
 
         return literalTableChunk;

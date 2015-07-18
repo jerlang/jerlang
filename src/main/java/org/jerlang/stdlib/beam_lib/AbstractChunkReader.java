@@ -2,10 +2,17 @@ package org.jerlang.stdlib.beam_lib;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.jerlang.erts.ExternalTermFormatTag;
+import org.jerlang.type.Atom;
+import org.jerlang.type.Integer;
+import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * A chunk reader is invoked after the chunk identifier and the length have been read.
@@ -42,41 +49,82 @@ public abstract class AbstractChunkReader<T extends Chunk> {
         return inputStream.readInt();
     }
 
+    private Atom readAtom() throws IOException {
+        byte[] bytes = new byte[read2Bytes()];
+        readBytes(bytes);
+        return Atom.of(bytes);
+    }
+
     protected int readBytes(byte[] bytes) throws IOException {
         return inputStream.read(bytes);
     }
 
-    protected void setInputStream(DataInputStream inputStream) {
-        this.inputStream = inputStream;
+    private List readList() throws Throwable {
+        int length = read4Bytes();
+        List list = new List();
+        while (length-- > 0) {
+            list = new List(readTerm(), list);
+        }
+        return list;
     }
 
-    protected Term nextLiteral() throws Throwable {
-        inputStream.readInt(); // length of literal record
-        int version = inputStream.read();
-        if (version != 131) {
-            // When messages are passed between connected nodes and a
-            // distribution header is used, the first byte containing
-            // the version number (131) is omitted from the terms that
-            // follow the distribution header. This since the version
-            // number is implied by the version number in the dist. header.
-            throw new Error("Version 131 not found");
-        }
-        ExternalTermFormatTag tag = ExternalTermFormatTag.of(inputStream.read());
-        switch (tag) {
-        case STRING_EXT:
-            return nextString();
-        default:
-            // TODO: we could also skip by (length - 2) bytes
-            throw new Error("Tag " + tag + " not supported yet");
-        }
+    private Term readSmallBig() throws IOException {
+        int n = read1Byte();
+        int sign = read1Byte();
+        byte[] d = new byte[n];
+        readBytes(d);
+        Collections.reverse(Arrays.asList(d));
+        return new Integer(new BigInteger(d));
     }
 
-    private Str nextString() throws IOException {
+    private Term readSmallTuple() throws Throwable {
+        int arity = read1Byte();
+        Term[] terms = new Term[arity];
+        for (int index = 0; index < arity; index++) {
+            terms[index] = readTerm();
+        }
+        return Tuple.of(terms);
+    }
+
+    private Str readString() throws IOException {
         int len = inputStream.readUnsignedShort();
         byte[] bytes = new byte[len];
         inputStream.read(bytes);
         Str s = Str.of(new String(bytes));
         return s;
+    }
+
+    protected Term readTerm() throws Throwable {
+        int versionOrTag = read1Byte();
+        int tagId;
+        if (versionOrTag == 131) {
+            tagId = read1Byte();
+        } else {
+            tagId = versionOrTag;
+        }
+        ExternalTermFormatTag tag = ExternalTermFormatTag.of(tagId);
+        switch (tag) {
+        case ATOM_EXT:
+            return readAtom();
+        case INTEGER_EXT:
+            return Integer.of(read4Bytes());
+        case LIST_EXT:
+            return readList();
+        case SMALL_BIG_EXT:
+            return readSmallBig();
+        case SMALL_INTEGER_EXT:
+            return Integer.of(read1Byte());
+        case SMALL_TUPLE_EXT:
+            return readSmallTuple();
+        case STRING_EXT:
+            return readString();
+        default:
+            throw new Error("Tag " + tag + " not supported yet");
+        }
+    }
+
+    protected void setInputStream(DataInputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
 }

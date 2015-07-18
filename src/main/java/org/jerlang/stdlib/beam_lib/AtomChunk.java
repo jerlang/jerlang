@@ -50,11 +50,8 @@ public class AtomChunk extends Chunk {
 
     private Atom[] atoms;
 
-    public AtomChunk(Chunk chunk) {
+    public AtomChunk(Chunk chunk, int numberOfAtoms) {
         super(ChunkId.ATOM, chunk);
-    }
-
-    public void init(int numberOfAtoms) {
         atoms = new Atom[numberOfAtoms];
     }
 

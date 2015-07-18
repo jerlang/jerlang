@@ -28,7 +28,7 @@ public class LocalFunctionTableChunkReaderTest {
         AtomChunk atomChunk = atomChunkReader.read();
 
         DataInputStream dis1 = new DataInputStream(new ByteArrayInputStream(bytes));
-        Chunk chunk1 = new Chunk(ChunkId.EXPT, 520, 40);
+        Chunk chunk1 = new Chunk(ChunkId.LOCT, 520, 40);
         dis1.skipBytes(chunk1.offset());
         LocalFunctionTableChunkReader localTableChunkReader = new LocalFunctionTableChunkReader(chunk1, dis1, atomChunk);
         LocalFunctionTableChunk localTableChunk = localTableChunkReader.read();
