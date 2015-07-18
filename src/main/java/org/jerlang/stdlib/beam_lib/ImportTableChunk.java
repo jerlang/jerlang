@@ -78,8 +78,8 @@ public class ImportTableChunk extends Chunk {
 
     private final ArrayList<FunctionSignature> imports;
 
-    public ImportTableChunk(int offset, int length) {
-        super(ChunkId.STRT, offset, length);
+    public ImportTableChunk(Chunk chunk) {
+        super(ChunkId.IMPT, chunk);
         imports = new ArrayList<>();
     }
 

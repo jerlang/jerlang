@@ -4,20 +4,17 @@ import java.io.DataInputStream;
 
 public class FunctionTableChunkReader extends AbstractChunkReader<FunctionTableChunk> {
 
-    private final Chunk chunk;
-    private final DataInputStream inputStream;
     private final AtomChunk atomChunk;
 
     public FunctionTableChunkReader(Chunk chunk, DataInputStream inputStream, AtomChunk atomChunk) {
-        this.chunk = chunk;
-        this.inputStream = inputStream;
+        super(chunk, inputStream);
         this.atomChunk = atomChunk;
     }
 
     public FunctionTableChunk read() throws Throwable {
-        FunctionTableChunk functionTableChunk = new FunctionTableChunk(chunk.offset(), chunk.length());
+        FunctionTableChunk functionTableChunk = new FunctionTableChunk(chunk());
 
-        int numberOfLambdas = inputStream.readInt();
+        int numberOfLambdas = read4Bytes();
         while (numberOfLambdas-- > 0) {
             functionTableChunk.add(nextLambdaInfo());
         }
@@ -27,13 +24,13 @@ public class FunctionTableChunkReader extends AbstractChunkReader<FunctionTableC
 
     private LambdaInfo nextLambdaInfo() throws Throwable {
         return new LambdaInfo(
-            inputStream.readInt(),
-            inputStream.readInt(),
-            inputStream.readInt(),
-            inputStream.readInt(),
-            inputStream.readInt(),
-            inputStream.readInt(),
-            inputStream.readInt(),
+            read4Bytes(),
+            read4Bytes(),
+            read4Bytes(),
+            read4Bytes(),
+            read4Bytes(),
+            read4Bytes(),
+            read4Bytes(),
             atomChunk);
     }
 

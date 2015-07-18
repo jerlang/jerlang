@@ -90,8 +90,8 @@ public class CodeChunk extends Chunk {
     private int functions;
     private ArrayList<Instruction> instructions;
 
-    public CodeChunk(int offset, int length) {
-        super(ChunkId.CODE, offset, length);
+    public CodeChunk(Chunk chunk) {
+        super(ChunkId.CODE, chunk);
         instructions = new ArrayList<>();
     }
 

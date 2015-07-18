@@ -85,8 +85,8 @@ public class ExportTableChunk extends Chunk {
 
     private final ArrayList<FunctionSignature> exports;
 
-    public ExportTableChunk(int offset, int length) {
-        super(ChunkId.EXPT, offset, length);
+    public ExportTableChunk(Chunk chunk) {
+        super(ChunkId.EXPT, chunk);
         exports = new ArrayList<>();
     }
 

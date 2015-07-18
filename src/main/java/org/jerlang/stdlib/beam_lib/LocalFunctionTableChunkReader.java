@@ -8,20 +8,17 @@ import org.jerlang.type.Integer;
 
 public class LocalFunctionTableChunkReader extends AbstractChunkReader<LocalFunctionTableChunk> {
 
-    private final Chunk chunk;
-    private final DataInputStream inputStream;
     private final AtomChunk atomChunk;
 
     public LocalFunctionTableChunkReader(Chunk chunk, DataInputStream inputStream, AtomChunk atomChunk) {
-        this.chunk = chunk;
-        this.inputStream = inputStream;
+        super(chunk, inputStream);
         this.atomChunk = atomChunk;
     }
 
     public LocalFunctionTableChunk read() throws Throwable {
-        LocalFunctionTableChunk localFunctionTableChunk = new LocalFunctionTableChunk(chunk.offset(), chunk.length());
+        LocalFunctionTableChunk localFunctionTableChunk = new LocalFunctionTableChunk(chunk());
 
-        int numberOfLocalFunctions = inputStream.readInt();
+        int numberOfLocalFunctions = read4Bytes();
         while (numberOfLocalFunctions-- > 0) {
             localFunctionTableChunk.add(nextFunctionSignature());
         }
@@ -31,9 +28,9 @@ public class LocalFunctionTableChunkReader extends AbstractChunkReader<LocalFunc
 
     private FunctionSignature nextFunctionSignature() throws Throwable {
         Atom module = atomChunk.atoms()[0];
-        Atom function = atomChunk.atoms()[inputStream.readInt() - 1];
-        Integer arity = Integer.of(inputStream.readInt());
-        Integer label = Integer.of(inputStream.readInt());
+        Atom function = atomChunk.atoms()[read4Bytes() - 1];
+        Integer arity = Integer.of(read4Bytes());
+        Integer label = Integer.of(read4Bytes());
         return new FunctionSignature(module, function, arity, label);
     }
 

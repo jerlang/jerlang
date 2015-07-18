@@ -20,8 +20,8 @@ public class StringTableChunk extends Chunk {
 
     private final Binary strings;
 
-    public StringTableChunk(int offset, int length, byte[] bytes) {
-        super(ChunkId.STRT, offset, length);
+    public StringTableChunk(Chunk chunk, byte[] bytes) {
+        super(ChunkId.STRT, chunk);
         strings = Binary.of(bytes);
     }
 

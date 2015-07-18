@@ -8,21 +8,17 @@ import org.jerlang.erts.emulator.Instruction;
 
 public class CodeChunkReader extends AbstractChunkReader<CodeChunk> {
 
-    private final Chunk chunk;
-    private final DataInputStream inputStream;
-
     public CodeChunkReader(Chunk chunk, DataInputStream inputStream) {
-        this.chunk = chunk;
-        this.inputStream = inputStream;
+        super(chunk, inputStream);
     }
 
     public CodeChunk read() throws Throwable {
-        CodeChunk codeChunk = new CodeChunk(chunk.offset(), chunk.length());
+        CodeChunk codeChunk = new CodeChunk(chunk());
 
         checkInfoSize();
         checkVersion();
         checkMaxOpcode();
-        codeChunk.setInfo(inputStream.readInt(), inputStream.readInt());
+        codeChunk.setInfo(read4Bytes(), read4Bytes());
 
         while (codeChunk.add(nextInstruction()));
 
@@ -36,23 +32,23 @@ public class CodeChunkReader extends AbstractChunkReader<CodeChunk> {
     }
 
     private void checkInfoSize() throws IOException {
-        int infoSize = inputStream.readInt();
+        int infoSize = read4Bytes();
         check(infoSize != 16, "Unexpected info-size header value: " + infoSize);
     }
 
     private void checkVersion() throws IOException {
-        int version = inputStream.readInt();
+        int version = read4Bytes();
         check(version != 0, "Unsupported instruction set version: " + version);
     }
 
     private void checkMaxOpcode() throws IOException {
-        int maxOpcode = inputStream.readInt();
+        int maxOpcode = read4Bytes();
         check(maxOpcode > Opcode.max(), "maxOpcode > " + Opcode.max());
     }
 
     private Instruction nextInstruction() throws Throwable {
-        Opcode opcode = Opcode.decode(inputStream.read());
-        return InstructionReader.read(opcode, inputStream);
+        Opcode opcode = Opcode.decode(read1Byte());
+        return InstructionReader.read(opcode, inputStream());
     }
 
 }

@@ -6,25 +6,21 @@ import org.jerlang.type.Atom;
 
 public class AtomChunkReader extends AbstractChunkReader<AtomChunk> {
 
-    private final Chunk chunk;
-    private final DataInputStream inputStream;
-
     public AtomChunkReader(Chunk chunk, DataInputStream inputStream) {
-        this.chunk = chunk;
-        this.inputStream = inputStream;
+        super(chunk, inputStream);
     }
 
     public AtomChunk read() throws Throwable {
-        AtomChunk atomChunk = new AtomChunk(chunk.offset(), chunk.length());
-        int numberOfAtoms = inputStream.readInt();
+        AtomChunk atomChunk = new AtomChunk(chunk());
+        int numberOfAtoms = read4Bytes();
         atomChunk.init(numberOfAtoms);
         for (int index = 0; index < numberOfAtoms; index++) {
-            int size = inputStream.read();
+            int size = read1Byte();
             byte[] bytes = new byte[size];
-            inputStream.read(bytes);
+            readBytes(bytes);
             atomChunk.set(index, Atom.of(bytes));
         }
-        inputStream.read(); // null byte
+        read1Byte(); // null byte
         return atomChunk;
     }
 

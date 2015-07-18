@@ -102,8 +102,8 @@ public class LiteralTableChunk extends Chunk {
 
     private ArrayList<Term> literals;
 
-    public LiteralTableChunk(int offset, int length) {
-        super(ChunkId.CODE, offset, length);
+    public LiteralTableChunk(Chunk chunk) {
+        super(ChunkId.LITT, chunk);
         literals = new ArrayList<>();
     }
 

@@ -17,8 +17,8 @@ public class LocalFunctionTableChunk extends Chunk {
 
     private final ArrayList<FunctionSignature> locals;
 
-    public LocalFunctionTableChunk(int offset, int length) {
-        super(ChunkId.LOCT, offset, length);
+    public LocalFunctionTableChunk(Chunk chunk) {
+        super(ChunkId.LOCT, chunk);
         locals = new ArrayList<>();
     }
 

@@ -75,8 +75,8 @@ public class FunctionTableChunk extends Chunk {
 
     private ArrayList<LambdaInfo> lambdas;
 
-    public FunctionTableChunk(int offset, int length) {
-        super(ChunkId.FUNT, offset, length);
+    public FunctionTableChunk(Chunk chunk) {
+        super(ChunkId.FUNT, chunk);
         lambdas = new ArrayList<>();
     }
 

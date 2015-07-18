@@ -8,20 +8,17 @@ import org.jerlang.type.Integer;
 
 public class ImportTableChunkReader extends AbstractChunkReader<ImportTableChunk> {
 
-    private final Chunk chunk;
-    private final DataInputStream inputStream;
     private final AtomChunk atomChunk;
 
     public ImportTableChunkReader(Chunk chunk, DataInputStream inputStream, AtomChunk atomChunk) {
-        this.chunk = chunk;
-        this.inputStream = inputStream;
+        super(chunk, inputStream);
         this.atomChunk = atomChunk;
     }
 
     public ImportTableChunk read() throws Throwable {
-        ImportTableChunk importTableChunk = new ImportTableChunk(chunk.offset(), chunk.length());
+        ImportTableChunk importTableChunk = new ImportTableChunk(chunk());
 
-        int numberOfImports = inputStream.readInt();
+        int numberOfImports = read4Bytes();
         while (numberOfImports-- > 0) {
             importTableChunk.add(nextFunctionSignature());
         }
@@ -30,9 +27,9 @@ public class ImportTableChunkReader extends AbstractChunkReader<ImportTableChunk
     }
 
     private FunctionSignature nextFunctionSignature() throws Throwable {
-        Atom module = atomChunk.atoms()[inputStream.readInt() - 1];
-        Atom function = atomChunk.atoms()[inputStream.readInt() - 1];
-        Integer arity = Integer.of(inputStream.readInt());
+        Atom module = atomChunk.atoms()[read4Bytes() - 1];
+        Atom function = atomChunk.atoms()[read4Bytes() - 1];
+        Integer arity = Integer.of(read4Bytes());
         return new FunctionSignature(module, function, arity);
     }
 

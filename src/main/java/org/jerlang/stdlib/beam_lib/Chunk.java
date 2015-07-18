@@ -5,12 +5,19 @@ import org.jerlang.type.Tuple;
 
 public class Chunk {
 
-    private ChunkId id;
-    private int offset;
-    private int length;
+    private final ChunkId id;
+    private final int offset;
+    private final int length;
 
-    public Chunk(ChunkId identifier, int offset, int length) {
-        this.id = identifier;
+    public Chunk(ChunkId expectedChunkId, Chunk chunk) {
+        this(chunk.id, chunk.offset, chunk.length);
+        if (id != expectedChunkId) {
+            throw new Error("Unexpected chunk id: " + id);
+        }
+    }
+
+    public Chunk(ChunkId id, int offset, int length) {
+        this.id = id;
         this.offset = offset;
         this.length = length;
     }
