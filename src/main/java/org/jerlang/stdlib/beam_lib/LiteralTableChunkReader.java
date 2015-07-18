@@ -36,4 +36,5 @@ public class LiteralTableChunkReader extends AbstractChunkReader<LiteralTableChu
 
         return literalTableChunk;
     }
+
 }
