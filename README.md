@@ -1,31 +1,19 @@
 # jerlang
 
-Erlang on the JVM
-
-## Goal
-
-This project aims to implement Erlang on the JVM.
-
-#### What is wrong with [erjang](https://github.com/trifork/erjang)?
-
-Nothing.
-It is a great project, which is actually able to run Erlang on the JVM, but it has some flaws:
-
-* Development seems to have been stopped in mid-2014.
-* Supported OTP version is R16B01, but latest Erlang/OTP is 18.0.
-* Does not support Java 8
-* No seperation between code representation and code generation.
-* Inconsistent naming (EObject instead of Term, etc.)
-* Outdated dependencies
-* Build is too complicated (uses e.g. ant and perl)
+[Erlang/OTP](https://github.com/erlang/otp) on the Java Virtual Machine (JVM)
 
 ## Status
 
 * Very early stage of development.
-* Not able to run Erlang yet.
+* Not able to run Erlang.
 
+## Alternatives
+
+* [erjang](https://github.com/trifork/erjang)
 
 ## Contribution Process
+
+All contributions are welcome!
 
 This project uses the [C4.1 process](http://rfc.zeromq.org/spec:22) for all code changes.
 
