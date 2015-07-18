@@ -16,17 +16,24 @@ import org.jerlang.AtomRegistry;
  */
 public class Atom extends Term {
 
-    private String name;
+    private final String name;
+    private final String value;
 
     private Atom(String name) {
         this.name = name;
+        this.value = name;
+    }
+
+    private Atom(String name, String value) {
+        this.name = name;
+        this.value = value;
     }
 
     @Override
     public boolean equals(Object object) {
         if (object instanceof Atom) {
             Atom other = (Atom) object;
-            return name.equals(other.name);
+            return name.equals(other.name) && value.equals(other.value);
         }
         return false;
     }
@@ -50,6 +57,19 @@ public class Atom extends Term {
         if (atom == null) {
             atom = new Atom(string);
             AtomRegistry.register(atom);
+        }
+        return atom;
+    }
+
+    public static Atom of(String name, String value) {
+        Atom atom = AtomRegistry.instance().get(name);
+        if (atom == null) {
+            atom = new Atom(name, value);
+            AtomRegistry.register(atom);
+        } else if (atom.value.equals(value)) {
+            return atom;
+        } else {
+            throw new Error("Duplicate value of atom: " + name);
         }
         return atom;
     }
