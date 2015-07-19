@@ -91,4 +91,19 @@ public class ExternalTermReader extends AbstractReader {
         return s;
     }
 
+    /*
+     * Reverses the bytes in the array in-place.
+     *
+     * Using `Collections.reverse(Arrays.asList(array))` is not possible,
+     * because that does not work on arrays of primitives.
+     */
+    public static void reverse(byte[] array) {
+        int half = array.length >> 1;
+        for (int i = 0, j = array.length - 1; i < half; i++, j--) {
+            array[i] ^= array[j];
+            array[j] ^= array[i];
+            array[i] ^= array[j];
+        }
+    }
+
 }
