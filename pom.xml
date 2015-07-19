@@ -18,6 +18,7 @@
     <jdk.version>1.8</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.asciidoclet>1.5.2</version.asciidoclet>
+    <version.assertj>3.1.0</version.assertj>
     <version.jacoco-maven-plugin>0.7.5.201505241946</version.jacoco-maven-plugin>
     <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
@@ -230,6 +231,12 @@
     </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${version.assertj}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
