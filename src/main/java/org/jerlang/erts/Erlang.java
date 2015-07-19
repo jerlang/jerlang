@@ -6,6 +6,7 @@ import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
 import org.jerlang.ProcessRegistry;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.erts.init.ProcessFlag;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
@@ -74,6 +75,35 @@ public class Erlang {
      */
     public static void display(Term term) {
         System.out.println(term);
+    }
+
+    /**
+     * Stops the execution of the calling process with the reason `reason`,
+     * where `reason` is any term. The actual exit reason will be
+     * `{reason, where}`, where `where` is a list of the functions most
+     * recently called (the current function first). Since evaluating this
+     * function causes the process to terminate, it has no return value.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#error-1
+     */
+    public static void error(Term reason) {
+        throw new Error(reason);
+    }
+
+    /**
+     * Stops the execution of the calling process with the reason `reason`,
+     * where `reason` is any term. The actual exit reason will be
+     * `{reason, where}`, where `where` is a list of the functions most
+     * recently called (the current function first). `args` is expected to
+     * be the list of arguments for the current function; in Beam it will be
+     * used to provide the actual arguments for the current function in the
+     * `where` term. Since evaluating this function causes the process to
+     * terminate, it has no return value.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#error-2
+     */
+    public static void error(Term reason, List args) {
+        throw new Error(reason, args);
     }
 
     /**
