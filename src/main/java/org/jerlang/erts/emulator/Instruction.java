@@ -29,4 +29,17 @@ public class Instruction {
         return opcode;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("{");
+        stringBuilder.append(opcode);
+        stringBuilder.append(",");
+        for (Term arg : args) {
+            stringBuilder.append(arg).append(",");
+        }
+        stringBuilder.setLength(stringBuilder.length() - 1);
+        stringBuilder.append("}");
+        return stringBuilder.toString();
+    }
+
 }

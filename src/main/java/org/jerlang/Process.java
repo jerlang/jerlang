@@ -1,5 +1,6 @@
 package org.jerlang;
 
+import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jerlang.type.PID;
@@ -19,6 +20,7 @@ public class Process {
     private final PID pid;
     private final LinkedBlockingQueue<Term> mailbox;
     private final ProcessDictionary dictionary;
+    private ProcessPriority priority = ProcessPriority.NORMAL;
 
     public Process() {
         pid = new PID(1);
@@ -40,6 +42,14 @@ public class Process {
 
     public PID pid() {
         return pid;
+    }
+
+    public ProcessPriority priority() {
+        return priority;
+    }
+
+    public void setPriority(ProcessPriority priority) {
+        this.priority = Objects.requireNonNull(priority);
     }
 
 }

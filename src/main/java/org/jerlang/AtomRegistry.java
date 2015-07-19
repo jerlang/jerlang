@@ -12,6 +12,7 @@ public class AtomRegistry {
      * Based on /erts/emulator/beam/atom.names
      */
     static {
+        instance = new AtomRegistry();
         register(Atom.of("false"));
         register(Atom.of("Underscore", "_"));
         register(Atom.of("Noname", "nonode@nohost"));
@@ -607,7 +608,7 @@ public class AtomRegistry {
         register(Atom.of("yield"));
     }
 
-    private static final AtomRegistry instance = new AtomRegistry();
+    private static final AtomRegistry instance;
     private final Map<String, Atom> atoms;
 
     public AtomRegistry() {
