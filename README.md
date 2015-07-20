@@ -2,6 +2,8 @@
 
 [Erlang/OTP](https://github.com/erlang/otp) on the Java Virtual Machine (JVM)
 
+[![Build Status](https://img.shields.io/travis/jerlang/jerlang.svg?branch=master&style=flat-square)](https://travis-ci.org/jerlang/jerlang)
+
 ## Status
 
 * Very early stage of development.
