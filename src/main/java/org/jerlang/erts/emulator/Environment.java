@@ -29,28 +29,28 @@ public enum Environment {
      * This variable gives the number of seconds that the emulator will be
      * allowed to spend writing a crash dump. When the given number of seconds
      * have elapsed, the emulator will be terminated by a SIGALRM signal.
-     * 
+     *
      * If the environment variable is not set or it is set to zero seconds,
      * `ERL_CRASH_DUMP_SECONDS=0`, the runtime system will not even attempt to
      * write the crash dump file. It will just terminate.
-     * 
+     *
      * If the environment variable is set to negative valie, e.g.
      * `ERL_CRASH_DUMP_SECONDS=-1`, the runtime system will wait indefinitely
      * for the crash dump file to be written.
-     * 
+     *
      * This environment variable is used in conjuction with heart if heart
      * is running:
-     * 
+     *
      * `ERL_CRASH_DUMP_SECONDS=0`::
      * Suppresses the writing a crash dump file entirely, thus rebooting the
      * runtime system immediately. This is the same as not setting the
      * environment variable.
-     * 
+     *
      * `ERL_CRASH_DUMP_SECONDS=-1`::
      * Setting the environment variable to a negative value will cause the
      * termination of the runtime system to wait until the crash dump file
      * has been completly written.
-     * 
+     *
      * `ERL_CRASH_DUMP_SECONDS=S`::
      * Will wait for S seconds to complete the crash dump file and then
      * terminate the runtime system.
@@ -60,7 +60,7 @@ public enum Environment {
     /**
      * The content of this environment variable will be added to the beginning
      * of the command line for erl.
-     * 
+     *
      * The -extra flag is treated specially.
      * Its scope ends at the end of the environment variable content.
      * Arguments following an -extra flag are moved on the command line into
@@ -72,7 +72,7 @@ public enum Environment {
     /**
      * The content of these environment variables will be added to the end of
      * the command line for erl.
-     * 
+     *
      * The -extra flag is treated specially.
      * Its scope ends at the end of the environment variable content.
      * Arguments following an -extra flag are moved on the command line into

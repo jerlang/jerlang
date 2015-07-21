@@ -3,6 +3,7 @@ package org.jerlang.erts.erlang;
 import static org.jerlang.type.List.nil;
 
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -13,6 +14,10 @@ public class Error extends RuntimeException {
 
     private final Term reason;
     private final List args;
+
+    public Error(String reason) {
+        this(Str.of(reason), nil);
+    }
 
     public Error(Term reason) {
         this(reason, nil);

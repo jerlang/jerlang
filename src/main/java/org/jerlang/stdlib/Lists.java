@@ -21,7 +21,7 @@ public class Lists {
             return list;
         }
         List result = List.nil;
-        while (list != List.nil) {
+        while (!list.equals(List.nil)) {
             result = new List(list.head(), result);
             list = list.tail();
         }

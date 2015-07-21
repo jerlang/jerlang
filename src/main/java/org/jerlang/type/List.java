@@ -37,7 +37,7 @@ public class List extends Term {
         if (object instanceof List) {
             List other = (List) object;
             return (head == null && other.head == null)
-                || (head.equals(other.head) && tail.equals(other.tail));
+                || (head != null && head.equals(other.head) && tail.equals(other.tail));
         }
         return false;
     }
@@ -61,7 +61,7 @@ public class List extends Term {
             }
             stringBuilder.append(",");
             list = list.tail();
-        } while (true);
+        } while (list != null);
         stringBuilder.append(']');
         return stringBuilder.toString();
     }

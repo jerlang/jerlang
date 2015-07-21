@@ -27,4 +27,13 @@ public class ListsTest {
         assertEquals(list2, Lists.reverse(list1));
     }
 
+    @Test
+    public void testReverse4() {
+        List list1 = new List(Atom.of("a"));
+        list1 = new List(Atom.of("b"), list1);
+        list1 = new List(Atom.of("c"), list1);
+        List list2 = List.of(Atom.of("a"), Atom.of("b"), Atom.of("c"));
+        assertEquals(list2, Lists.reverse(list1));
+    }
+
 }
