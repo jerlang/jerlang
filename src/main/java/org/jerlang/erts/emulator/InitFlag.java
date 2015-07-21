@@ -343,12 +343,16 @@ public enum InitFlag {
     }
 
     public static boolean valid(String string) {
+        return of(string) != null;
+    }
+
+    public static InitFlag of(String string) {
         for (InitFlag flag : values()) {
             if (flag.toString().equals(string)) {
-                return true;
+                return flag;
             }
         }
-        return false;
+        return null;
     }
 
 }

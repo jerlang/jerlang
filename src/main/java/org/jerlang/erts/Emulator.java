@@ -28,9 +28,9 @@ public class Emulator {
         for (int index = 0; index < args.length; index++) {
             String arg = args[index];
             if (InitFlag.valid(arg)) {
-                // TODO
+                index = parseInitFlag(InitFlag.of(arg), args, index);
             } else if (EmulatorFlag.valid(arg)) {
-                // TODO
+                index = parseEmulatorFlag(EmulatorFlag.of(arg), args, index);
             } else {
                 // User flag
                 if (!arg.startsWith("-") || arg.length() < 2) {
@@ -50,4 +50,28 @@ public class Emulator {
             }
         }
     }
+
+    private static int parseEmulatorFlag(EmulatorFlag flag, String[] args, int index) {
+        switch (flag) {
+        case RELEASE:
+        case WARNING:
+            // TODO
+            return index + 1;
+        default:
+            throw new Error("Unsupported emulator flag: " + flag);
+        }
+    }
+
+    private static int parseInitFlag(InitFlag flag, String[] args, int index) {
+        switch (flag) {
+        case EXTRA:
+        case S:
+        case SNAME:
+            // TODO
+            return index + 1;
+        default:
+            throw new Error("Unsupported init flag: " + flag);
+        }
+    }
+
 }

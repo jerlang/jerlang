@@ -110,12 +110,16 @@ public enum EmulatorFlag {
     }
 
     public static boolean valid(String string) {
+        return of(string) != null;
+    }
+
+    public static EmulatorFlag of(String string) {
         for (EmulatorFlag flag : values()) {
             if (flag.toString().equals(string)) {
-                return true;
+                return flag;
             }
         }
-        return false;
+        return null;
     }
 
 }
