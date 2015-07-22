@@ -36,7 +36,7 @@ public class OtpRing0 {
                 f,
                 Str.of("/1")
                 ));
-            Erlang.halt(1);
+            Erlang.halt(Integer.of(1));
             return null;
         }
     }
