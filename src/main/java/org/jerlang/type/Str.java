@@ -40,6 +40,10 @@ public class Str extends List {
         return Objects.hash(string);
     }
 
+    public String string() {
+        return string;
+    }
+
     @Override
     public String toString() {
         return "\"" + string + "\"";
