@@ -15,6 +15,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * http://www.erlang.org/doc/man/erlang.html
@@ -175,6 +176,18 @@ public class Erlang {
     }
 
     /**
+     * Returns the head of List, that is, the first element.
+     * Allowed in guard tests.
+     * Failure: `badarg` if `list` is the empty list `[]`.
+     */
+    public static Term hd(List list) {
+        if (list.equals(List.nil)) {
+            error(Atom.of("badarg"));
+        }
+        return list.head();
+    }
+
+    /**
      * Returns a binary which corresponds to the text representation of Integer.
      *
      * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-1
@@ -260,6 +273,25 @@ public class Erlang {
      */
     public static PID spawn(Object fun) {
         return new PID(0); // TODO
+    }
+
+    /**
+     * Returns an integer which is the number of elements in `tuple`.
+     */
+    public static Integer tuple_size(Tuple tuple) {
+        return Integer.of(tuple.arity());
+    }
+
+    /**
+     * Returns a list which corresponds to Tuple.
+     * Tuple may contain any Erlang terms.
+     */
+    public static List tuple_to_list(Tuple tuple) {
+        List list = new List();
+        for (int index = tuple.arity() - 1; index >= 0; index--) {
+            list = new List(tuple.element(index), list);
+        }
+        return list;
     }
 
 }
