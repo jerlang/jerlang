@@ -123,12 +123,50 @@ public class Erlang {
      * http://www.erlang.org/doc/man/erlang.html#function_exported-3
      */
     public static boolean function_exported(Atom module, Atom function, Integer arity) {
-        Module m = ModuleRegistry.instance().get(module);
+        Module m = ModuleRegistry.get(module);
         if (m == null) {
             return false;
         } else {
             return m.hasFunction(new FunctionSignature(module, function, arity));
         }
+    }
+
+    /**
+     * Returns the process dictionary as a list of `{Key, Val}` tuples.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#get-0
+     */
+    public static List get() {
+        return Runtime.getProcess().dictionary().get();
+    }
+
+    /**
+     * Returns the value Val associated with Key in the process dictionary,
+     * or undefined if Key does not exist.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#get-1
+     */
+    public static Term get(Term key) {
+        return Runtime.getProcess().dictionary().get(key);
+    }
+
+    /**
+     * Returns a list of keys all keys present in the process dictionary.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#get_keys-0
+     */
+    public static List get_keys() {
+        return Runtime.getProcess().dictionary().get_keys();
+    }
+
+    /**
+     * Returns a list of keys which are associated with the value Val
+     * in the process dictionary.
+     *
+     * http://www.erlang.org/doc/man/erlang.html#get_keys-1
+     */
+    public static List get_keys(Term value) {
+        return Runtime.getProcess().dictionary().get_keys(value);
     }
 
     /**

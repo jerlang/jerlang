@@ -70,7 +70,7 @@ public class ProcessDictionary {
      *
      * http://www.erlang.org/doc/man/erlang.html#get_keys-1
      */
-    public Term get_keys(Term value) {
+    public List get_keys(Term value) {
         List list = List.nil;
         for (Map.Entry<Term, Term> entry : map.entrySet()) {
             if (entry.getValue().equals(value)) {

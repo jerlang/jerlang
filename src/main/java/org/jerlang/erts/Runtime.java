@@ -2,6 +2,7 @@ package org.jerlang.erts;
 
 import java.util.HashMap;
 
+import org.jerlang.Process;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 
@@ -11,9 +12,18 @@ import org.jerlang.type.List;
 public class Runtime {
 
     private static final HashMap<Atom, List> userFlags = new HashMap<>();
+    private static final ThreadLocal<org.jerlang.Process> process = new ThreadLocal<>();
 
     public static HashMap<Atom, List> userFlags() {
         return userFlags;
+    }
+
+    public static org.jerlang.Process getProcess() {
+        return process.get();
+    }
+
+    public static void setProcess(Process proc) {
+        process.set(proc);
     }
 
 }
