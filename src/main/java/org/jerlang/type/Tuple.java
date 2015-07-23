@@ -57,6 +57,11 @@ public class Tuple extends Term {
         return stringBuilder.toString();
     }
 
+    @Override
+    public Tuple toTuple() {
+        return this;
+    }
+
     public static Tuple of(Term... terms) {
         Tuple tuple = new Tuple(terms.length);
         for (int index = 0; index < terms.length; index++) {

@@ -44,6 +44,11 @@ public class Atom extends Term {
     }
 
     @Override
+    public Atom toAtom() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return name;
     }

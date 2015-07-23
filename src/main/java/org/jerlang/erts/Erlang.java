@@ -66,7 +66,15 @@ public class Erlang {
      * http://www.erlang.org/doc/man/erlang.html#apply-3
      */
     public static Term apply(Term m, Term f, Term a) {
-        return null; // FIXME
+        Module module = ModuleRegistry.get(m.toAtom());
+        if (module == null) {
+            throw new Error(Str.of("Invalid module: " + m));
+        }
+        FunctionSignature signature = new FunctionSignature(m.toAtom(), f.toAtom(), a.toInteger());
+        if (!module.hasFunction(signature)) {
+            throw new Error(Str.of("Invalid function: " + signature));
+        }
+        return null;
     }
 
     /**

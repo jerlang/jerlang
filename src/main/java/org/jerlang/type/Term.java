@@ -19,4 +19,32 @@ public class Term {
         return new Str(string);
     }
 
+    public Atom toAtom() {
+        throw new Error("Cannot convert to atom: " + this);
+    }
+
+    public Binary toBinary() {
+        throw new Error("Cannot convert to binary: " + this);
+    }
+
+    public Integer toInteger() {
+        throw new Error("Cannot convert to integer: " + this);
+    }
+
+    public List toList() {
+        throw new Error("Cannot convert to list: " + this);
+    }
+
+    public Map toMap() {
+        throw new Error("Cannot convert to map: " + this);
+    }
+
+    public PID toPID() {
+        throw new Error("Cannot convert to pid: " + this);
+    }
+
+    public Tuple toTuple() {
+        throw new Error("Cannot convert to tuple: " + this);
+    }
+
 }

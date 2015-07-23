@@ -17,12 +17,8 @@ public class ModuleRegistry {
         modules = new HashMap<>();
     }
 
-    public Module get(Atom module) {
-        return modules.get(module);
-    }
-
-    public Module get(Object module) {
-        return null;
+    public static Module get(Atom module) {
+        return instance.modules.get(module);
     }
 
     public static ModuleRegistry instance() {

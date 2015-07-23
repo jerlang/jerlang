@@ -26,4 +26,9 @@ public class Map extends Term {
         return Integer.of(map.size());
     }
 
+    @Override
+    public Map toMap() {
+        return this;
+    }
+
 }

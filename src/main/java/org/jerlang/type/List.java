@@ -48,6 +48,11 @@ public class List extends Term {
     }
 
     @Override
+    public List toList() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         if (head() == null) {
             return "[]";

@@ -31,6 +31,11 @@ public class PID extends Term {
     }
 
     @Override
+    public PID toPID() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return "<0." + processId + ".0>";
     }

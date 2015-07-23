@@ -23,8 +23,8 @@ public class OtpRing0 {
         return run(Atom.of("init"), Atom.of("boot"), argv);
     }
 
-    private static Term run(Atom m, Atom f, Term a) {
-        if (Erlang.function_exported(m, f, Integer.of(1))) {
+    private static Term run(Term m, Term f, Term a) {
+        if (Erlang.function_exported(m.toAtom(), f.toAtom(), Integer.of(1))) {
             return Erlang.apply(m, f, a);
         } else {
             Erlang.display(Tuple.of(
