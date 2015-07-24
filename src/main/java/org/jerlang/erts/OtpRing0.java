@@ -8,7 +8,7 @@ import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
 /**
- * Start up of erlang system.
+ * Start up of Erlang system.
  *
  * https://github.com/erlang/otp/blob/master/erts/preloaded/src/otp_ring0.erl
  */

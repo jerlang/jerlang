@@ -111,7 +111,7 @@ public class Init {
      * Returns any plain command line arguments as a list of strings.
      */
     public static List get_plain_arguments() {
-        return List.nil;
+        return Runtime.plainArguments();
     }
 
 }

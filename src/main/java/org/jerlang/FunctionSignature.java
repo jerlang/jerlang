@@ -9,6 +9,10 @@ import org.jerlang.type.Tuple;
  */
 public class FunctionSignature extends Tuple {
 
+    public FunctionSignature(String module, String function, int arity) {
+        this(Atom.of(module), Atom.of(function), Integer.of(arity));
+    }
+
     public FunctionSignature(Atom module, Atom function, Integer arity) {
         super(3);
         set(0, module);
