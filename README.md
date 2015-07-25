@@ -1,6 +1,6 @@
 # jerlang
 
-[Erlang/OTP](https://github.com/erlang/otp) on the Java Virtual Machine (JVM)
+[Erlang/OTP](https://github.com/erlang/otp) on the [Java Virtual Machine](https://en.wikipedia.org/wiki/Java_virtual_machine) (JVM)
 
 [![Build Status](https://img.shields.io/travis/jerlang/jerlang.svg?branch=master&style=flat)](https://travis-ci.org/jerlang/jerlang)
 [![Dependency Status](https://www.versioneye.com/user/projects/55acc9853065350023000481/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55acc9853065350023000481)
