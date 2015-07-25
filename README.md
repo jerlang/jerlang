@@ -9,10 +9,22 @@
 
 * Very early stage of development.
 * Not able to run Erlang.
+* Looking for contributors.
 
-## Alternatives
+## Roadmap
 
-* [erjang](https://github.com/trifork/erjang)
+|Version|Milestone|
+|:-----:|---------|
+|0.1    |Parsing of BEAM files works, all BIFs, Opcodes and Terms are at least defined|
+|0.2    |A simple "hello world" can be executed in interpreted mode|
+|0.3    |Most single-node applications can be executed in interpreted mode|
+|0.4    |Most multi-node applications can be executed in interpreted mode|
+|0.5    |BEAM files are compiled to Java bytecode|
+|0.6    |Soft realtime support|
+|0.7    |Jerlang is fully compatible with native Erlang/OTP|
+|0.8    |The documentation is complete and awesome|
+|0.9    |Performance is comparable to native Erlang/OTP|
+|1.0    |Jerlang is production ready|
 
 ## Contribution Process
 
@@ -37,6 +49,10 @@ as expected
 4. Send a pull request
 5. Your pull request is merged and you are added to the
 [list of contributors](https://github.com/jerlang/jerlang/graphs/contributors)
+
+## See also
+
+* [erjang](https://github.com/trifork/erjang)
 
 ## License
 
