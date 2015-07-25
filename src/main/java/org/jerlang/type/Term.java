@@ -27,6 +27,10 @@ public class Term {
         throw new Error("Cannot convert to binary: " + this);
     }
 
+    public Fun toFun() {
+        throw new Error("Cannot convert to fun: " + this);
+    }
+
     public Integer toInteger() {
         throw new Error("Cannot convert to integer: " + this);
     }

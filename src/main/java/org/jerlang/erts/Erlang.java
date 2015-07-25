@@ -10,8 +10,11 @@ import org.jerlang.erts.erlang.Error;
 import org.jerlang.erts.init.ProcessFlag;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Map;
+import org.jerlang.type.Number;
 import org.jerlang.type.PID;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
@@ -266,6 +269,83 @@ public class Erlang {
      */
     public static List integer_to_list(Integer integer, Integer base) {
         return new Str(integer.toBigInteger().toString(base.toInt()));
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_atom-1
+     */
+    public static boolean is_atom(Term term) {
+        return (term instanceof Atom);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_binary-1
+     */
+    public static boolean is_binary(Term term) {
+        return (term instanceof Binary);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_boolean-1
+     */
+    public static boolean is_boolean(Term term) {
+        if (term instanceof Atom) {
+            switch (term.toString()) {
+            case "false":
+            case "true":
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_function-1
+     */
+    public static boolean is_function(Term term) {
+        return (term instanceof Fun);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_integer-1
+     */
+    public static boolean is_integer(Term term) {
+        return (term instanceof Integer);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_list-1
+     */
+    public static boolean is_list(Term term) {
+        return (term instanceof List);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_map-1
+     */
+    public static boolean is_map(Term term) {
+        return (term instanceof Map);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_number-1
+     */
+    public static boolean is_number(Term term) {
+        return (term instanceof Number);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_pid-1
+     */
+    public static boolean is_pid(Term term) {
+        return (term instanceof PID);
+    }
+
+    /**
+     * http://www.erlang.org/doc/man/erlang.html#is_tuple-1
+     */
+    public static boolean is_tuple(Term term) {
+        return (term instanceof Tuple);
     }
 
     /**

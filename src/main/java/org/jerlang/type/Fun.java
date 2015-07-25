@@ -5,4 +5,8 @@ package org.jerlang.type;
  */
 public class Fun extends Term {
 
+    public Fun toFun() {
+        return this;
+    }
+
 }
