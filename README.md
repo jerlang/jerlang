@@ -16,9 +16,9 @@
 |Version|Focus|Milestone|
 |:-----:|-----|---------|
 |0.1    |File Format     |BEAM files can be parsed|
-|0.2    |Proof of Concept|A simple "hello world" can be executed in interpreted mode|
-|0.3    |Interpreter     |Most single-node applications can be executed in interpreted mode|
-|0.4    |Network         |Most multi-node applications can be executed in interpreted mode|
+|0.2    |Proof of Concept|A simple "hello world" can be interpreted|
+|0.3    |Interpreter     |Most single-node applications can be interpreted|
+|0.4    |Network         |Most multi-node applications can be interpreted|
 |0.5    |Compiler        |BEAM files can be compiled to Java bytecode|
 |0.6    |Scheduler       |Soft realtime support|
 |0.7    |Compatibility   |Jerlang is fully compatible with native Erlang/OTP|
