@@ -22,6 +22,7 @@
     <version.jacoco-maven-plugin>0.7.5.201505241946</version.jacoco-maven-plugin>
     <version.coveralls-maven-plugin>3.1.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
+    <version.jline>2.12</version.jline>
     <version.junit>4.12</version.junit>
     <version.jnr-posix>3.0.17</version.jnr-posix>
     <version.jzlib>1.1.3</version.jzlib>
@@ -88,14 +89,14 @@
               <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
               <transformers>
                 <transformer
-                  implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                  implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+                  <addHeader>false</addHeader>
+                </transformer>              
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>org.jerlang.erts.Emulator</mainClass>
+                </transformer>
               </transformers>
-              <artifactSet>
-                <includes>
-                  <include>org.apache.maven.doxia:doxia-sink-api</include>
-                  <include>org.apache.maven.doxia:doxia-logging-api</include>
-                </includes>
-              </artifactSet>
             </configuration>
           </execution>
         </executions>
@@ -216,6 +217,11 @@
       <groupId>com.github.jnr</groupId>
       <artifactId>jnr-posix</artifactId>
       <version>${version.jnr-posix}</version>
+    </dependency>
+    <dependency>
+      <groupId>jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>${version.jline}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
