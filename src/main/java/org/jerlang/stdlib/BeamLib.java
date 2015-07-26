@@ -11,13 +11,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jerlang.ModuleRegistry;
+import org.jerlang.erts.Erlang;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.beam_lib.Chunk;
 import org.jerlang.stdlib.beam_lib.ChunkId;
 import org.jerlang.stdlib.beam_lib.MD5;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -172,11 +174,10 @@ import org.jerlang.type.Tuple;
 
 public class BeamLib {
 
-    static {
-        ModuleRegistry.register("beam_lib")
-            .export("info", 1)
-            .export("md5", 1);
-    }
+    public static final String[] EXPORT = {
+        "info/1",
+        "md5/1"
+    };
 
     public static final Atom beam_lib = Atom.of("beam_lib");
     public static final Atom error = Atom.of("error");
@@ -227,9 +228,17 @@ public class BeamLib {
      * For each chunk, the identifier (string) and the position and size of the chunk data, in bytes.
      * @throws IOException
      */
-    public static Term info(String filename) {
-        File file = new File(filename);
-        Term filename_term = Term.of(filename);
+    public static Term info(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 1:
+            return info_1(params.head().toStr());
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    static Term info_1(Str filename_term) {
+        File file = new File(filename_term.string());
         Term result = new List();
 
         if (!file.exists()) {
@@ -273,10 +282,19 @@ public class BeamLib {
             offset += 8 + ((chunk.length() + 3) & ~3);
             dis.skipBytes((chunk.length() + 3) & ~3);
         }
-        return new List(Tuple.of(Atom.of("chunks"), Lists.reverse(chunks)));
+        return new List(Tuple.of(Atom.of("chunks"), Lists.reverse_1(chunks)));
     }
 
-    public static Term md5(String filename) {
+    public static Term md5(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 1:
+            return md5_1(params.head().toStr());
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    static Term md5_1(Str filename) {
         return MD5.md5(filename);
     }
 

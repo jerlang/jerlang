@@ -44,6 +44,10 @@ public class Str extends List {
         return string;
     }
 
+    public Str toStr() {
+        return this;
+    }
+
     @Override
     public String toString() {
         return "\"" + string + "\"";

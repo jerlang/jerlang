@@ -11,20 +11,20 @@ public class ListsTest {
 
     @Test
     public void testReverse1() {
-        assertEquals(List.nil, Lists.reverse(List.nil));
+        assertEquals(List.nil, Lists.reverse_1(List.nil));
     }
 
     @Test
     public void testReverse2() {
         List list = new List(Atom.of("element"));
-        assertEquals(list, Lists.reverse(list));
+        assertEquals(list, Lists.reverse_1(list));
     }
 
     @Test
     public void testReverse3() {
         List list1 = new List(Atom.of("a"), new List(Atom.of("b")));
         List list2 = new List(Atom.of("b"), new List(Atom.of("a")));
-        assertEquals(list2, Lists.reverse(list1));
+        assertEquals(list2, Lists.reverse_1(list1));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ListsTest {
         list1 = new List(Atom.of("b"), list1);
         list1 = new List(Atom.of("c"), list1);
         List list2 = List.of(Atom.of("a"), Atom.of("b"), Atom.of("c"));
-        assertEquals(list2, Lists.reverse(list1));
+        assertEquals(list2, Lists.reverse_1(list1));
     }
 
 }

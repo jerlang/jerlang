@@ -7,7 +7,6 @@ import static org.jerlang.erts.init.Boot.boot3;
 import static org.jerlang.erts.init.Boot.flags_to_atoms_again;
 import static org.jerlang.erts.init.Boot.start_on_load_handler_process;
 
-import org.jerlang.ModuleRegistry;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.erts.init.Boot;
 import org.jerlang.stdlib.Maps;
@@ -23,10 +22,12 @@ import org.jerlang.type.Tuple;
  */
 public class Init {
 
-    static {
-        ModuleRegistry.register("init")
-            .export("boot", 1);
-    }
+    public static final String[] EXPORT = {
+        "boot/1",
+        "get_argument/1",
+        "get_arguments/0",
+        "get_plain_arguments/0"
+    };
 
     private static final Atom error = Atom.of("error");
     private static final Atom init = Atom.of("init");
@@ -53,7 +54,18 @@ public class Init {
      *
      * http://www.erlang.org/doc/man/init.html#boot-1
      */
-    public static void boot(String[] bootArgs) {
+    public static Term boot(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 1:
+            boot_1(params.head().toList());
+            break;
+        default:
+            throw new Error("badarg");
+        }
+        return null;
+    }
+
+    static void boot_1(List bootArgs) {
         // called by OtpRing0 module
         register(init, self());
         process_flag(trap_exit, true);
@@ -86,16 +98,20 @@ public class Init {
      *
      * Returns `error` if there is no value associated with `flag`.
      */
-    public static Term get_argument(Term term) {
-        if (term instanceof Atom) {
-            Atom flag = (Atom) term;
-            if (Runtime.userFlags().containsKey(flag)) {
-                return Tuple.of(ok, Runtime.userFlags().get(flag));
-            } else {
-                return error;
-            }
+    public static Term get_argument(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 0:
+            return get_argument_1(params.head().toAtom());
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static Term get_argument_1(Atom flag) {
+        if (Runtime.userFlags().containsKey(flag)) {
+            return Tuple.of(ok, Runtime.userFlags().get(flag));
         } else {
-            throw new Error("Bad argument");
+            return error;
         }
     }
 
@@ -103,14 +119,32 @@ public class Init {
      * Returns all command line flags, as well as the system defined flags,
      * see get_argument/1.
      */
-    public static List get_arguments() {
+    public static Term get_arguments(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 0:
+            return get_arguments_0();
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static List get_arguments_0() {
         return List.nil;
     }
 
     /**
      * Returns any plain command line arguments as a list of strings.
      */
-    public static List get_plain_arguments() {
+    public static Term get_plain_arguments(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 0:
+            return get_plain_arguments_0();
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static List get_plain_arguments_0() {
         return Runtime.plainArguments();
     }
 

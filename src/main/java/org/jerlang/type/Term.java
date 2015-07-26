@@ -47,6 +47,10 @@ public class Term {
         throw new Error("Cannot convert to pid: " + this);
     }
 
+    public Str toStr() {
+        throw new Error("Cannot convert to str: " + this);
+    }
+
     public Tuple toTuple() {
         throw new Error("Cannot convert to tuple: " + this);
     }

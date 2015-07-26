@@ -1,10 +1,17 @@
 package org.jerlang;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
+import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
+import org.jerlang.type.List;
+import org.jerlang.type.Term;
 
 /**
  * = Modules
@@ -29,19 +36,46 @@ import org.jerlang.type.Integer;
 
 public class Module {
 
-    private final Atom name;
-    private final Map<FunctionSignature, Object> exported_functions;
+    private static final MethodType METHOD_TYPE = MethodType.methodType(Term.class, List.class);
 
-    public Module(Atom name) {
+    private final Class<?> moduleClass;
+    private final Atom name;
+    private final Map<FunctionSignature, Fun> exported_functions;
+
+    public Module(Class<?> moduleClass, Atom name) {
+        this.moduleClass = moduleClass;
         this.name = name;
         this.exported_functions = new HashMap<>();
     }
 
-    public Module export(String function, int arity) {
+    public Term apply(FunctionSignature signature, Term params) {
+        if (!hasFunction(signature)) {
+            throw new Error("Unknown function: " + signature);
+        }
+        return exported_functions.get(signature).apply(params);
+    }
+
+    public void export(String[] exports) {
+        for (String export : exports) {
+            String[] token = export.split("/");
+            export(token[0], Integer.of(token[1]));
+        }
+    }
+
+    public Module export(String name, Integer arity) {
         FunctionSignature s = new FunctionSignature(
-            name,
-            Atom.of(function), Integer.of(arity));
-        exported_functions.put(s, null);
+            this.name, Atom.of(name), arity);
+        try {
+            String p = moduleClass.getPackage().getName();
+            String pm = p + "." + this.name.toString();
+            
+            getClass().getClassLoader().loadClass(name)
+            MethodHandle handle = MethodHandles.lookup()
+                .findStatic(moduleClass, name, METHOD_TYPE);
+            exported_functions.put(s, new Fun(s, handle));
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            System.err.println("Can not export: " + s);
+        }
         return this;
     }
 

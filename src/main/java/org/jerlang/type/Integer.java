@@ -33,6 +33,10 @@ public class Integer extends Number {
         return value.intValue();
     }
 
+    public Integer toInteger() {
+        return this;
+    }
+
     public long toLong() {
         return value.longValue();
     }
@@ -58,6 +62,10 @@ public class Integer extends Number {
 
     public static Integer of(int value) {
         return new Integer(value);
+    }
+
+    public static Integer of(String value) {
+        return new Integer(Long.parseLong(value));
     }
 
 }

@@ -24,6 +24,7 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -52,9 +53,8 @@ public class MD5 {
      * Calculates an MD5 redundancy check for the code of the module
      * (compilation date and other attributes are not included).
      */
-    public static Term md5(String filename) {
-        File file = new File(filename);
-        Term filename_term = Term.of(filename);
+    public static Term md5(Str filename_term) {
+        File file = new File(filename_term.string());
         Term result = new List();
 
         if (!file.exists()) {
@@ -138,7 +138,7 @@ public class MD5 {
             offset += 8 + ((chunk.length() + 3) & ~3);
             dis.skipBytes((chunk.length() + 3) & ~3);
         }
-        return Lists.reverse(chunks);
+        return Lists.reverse_1(chunks);
     }
 
     private static MessageDigest init() throws NoSuchAlgorithmException {

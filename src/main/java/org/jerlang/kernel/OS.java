@@ -4,7 +4,6 @@ import jnr.ffi.Pointer;
 import jnr.posix.POSIX;
 import jnr.posix.POSIXFactory;
 
-import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -24,8 +23,14 @@ import com.kenai.jffi.MemoryIO;
  */
 public class OS {
 
+    public static final String[] EXPORT = {
+        "getenv/0",
+        "getenv/1",
+        "getpid/0",
+        "putenv/2"
+    };
+
     static {
-        ModuleRegistry.register("os");
         posix = POSIXFactory.getPOSIX();
     }
 

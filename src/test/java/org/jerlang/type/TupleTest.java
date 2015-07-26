@@ -21,4 +21,11 @@ public class TupleTest {
         assertEquals(2, Tuple.of(Atom.of("a"), Atom.of("b")).arity());
     }
 
+    @Test
+    public void testHashCode() {
+        Tuple a = Tuple.of(Atom.of("a"));
+        Tuple b = Tuple.of(Atom.of("a"));
+        assertEquals(a.hashCode(), b.hashCode());
+    }
+
 }

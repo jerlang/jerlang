@@ -6,10 +6,14 @@ import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
 import org.jerlang.ProcessRegistry;
+import org.jerlang.erts.erlang.ErlangAbs;
+import org.jerlang.erts.erlang.ErlangApply;
+import org.jerlang.erts.erlang.ErlangDisplay;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.erts.init.ProcessFlag;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.Boolean;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -25,68 +29,48 @@ import org.jerlang.type.Tuple;
  */
 public class Erlang {
 
-    static {
-        ModuleRegistry.register("erlang")
-            .export("abs", 1)
-            .export("apply", 3)
-            .export("display", 1)
-            .export("function_exported", 3)
-            .export("halt", 1)
-            .export("integer_to_binary", 1)
-            .export("integer_to_binary", 2)
-            .export("integer_to_list", 1)
-            .export("integer_to_list", 2)
-            .export("length", 1);
+    public static final String[] EXPORT = {
+        "abs/1",
+        "apply/3",
+        "display/1",
+        "error/1",
+        "error/2",
+        "function_exported/3",
+        "get/0",
+        "get/1",
+        "get_keys/0",
+        "get_keys/1",
+        "halt/0",
+        "halt/1",
+        "halt/2",
+        "hd/1",
+        "integer_to_binary/1",
+        "integer_to_binary/2",
+        "integer_to_list/1",
+        "integer_to_list/2",
+        "is_atom/1",
+        "is_binary/1",
+        "is_boolean/1",
+        "is_function/1",
+        "is_integer/1",
+        "is_list/1",
+        "is_map/1",
+        "is_number/1",
+        "is_pid/1",
+        "is_tuple/1",
+        "length/1"
+    };
+
+    public static Term abs(List params) {
+        return ErlangAbs.dispatch(params);
     }
 
-    /**
-     * abs(Float) -> float()
-     * abs(Int) -> integer() >= 0
-     *
-     * Types:
-     * Float = float()
-     * Int = integer()
-     *
-     * Returns an integer or float which is the arithmetical absolute
-     * value of Float or Int.
-     *
-     * > abs(-3.33).
-     * 3.33
-     * > abs(-3).
-     * 3
-     *
-     * Allowed in guard tests.
-     */
-    public static Integer abs(Integer integer) {
-        return new Integer(integer.toBigInteger().abs());
+    public static Term apply(List params) {
+        return ErlangApply.dispatch(params);
     }
 
-    /**
-     * Returns the result of applying Function in Module to Args.
-     * The applied function must be exported from Module.
-     * The arity of the function is the length of Args.
-     *
-     * http://www.erlang.org/doc/man/erlang.html#apply-3
-     */
-    public static Term apply(Term m, Term f, Term a) {
-        Module module = ModuleRegistry.get(m.toAtom());
-        if (module == null) {
-            throw new Error(Str.of("Invalid module: " + m));
-        }
-        FunctionSignature signature = new FunctionSignature(m.toAtom(), f.toAtom(), a.toInteger());
-        if (!module.hasFunction(signature)) {
-            throw new Error(Str.of("Invalid function: " + signature));
-        }
-        return null;
-    }
-
-    /**
-     * Prints a text representation of Term on the standard output.
-     *
-     * http://www.erlang.org/doc/man/erlang.html#display-1
-     */
-    public static void display(Term term) {
-        System.out.println(term);
+    public static Term display(List params) {
+        return ErlangDisplay.dispatch(params);
     }
 
     /**
@@ -125,7 +109,21 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#function_exported-3
      */
-    public static boolean function_exported(Atom module, Atom function, Integer arity) {
+    public static Term function_exported(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 3:
+            Atom m = params.head().toAtom();
+            params = params.tail();
+            Atom f = params.head().toAtom();
+            params = params.tail();
+            Integer a = params.head().toInteger();
+            return Boolean.of(function_exported_3(m, f, a));
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static boolean function_exported_3(Atom module, Atom function, Integer arity) {
         Module m = ModuleRegistry.get(module);
         if (m == null) {
             return false;
@@ -172,11 +170,30 @@ public class Erlang {
         return Runtime.getProcess().dictionary().get_keys(value);
     }
 
+    public static Term halt(List params) {
+        switch (length_1(params).toInt()) {
+        case 0:
+            halt_0();
+            return null;
+        case 1:
+            halt_1(params.head());
+            return null;
+        case 2:
+            Term status = params.head();
+            params = params.tail();
+            List options = params.head().toList();
+            halt_2(status, options);
+            return null;
+        default:
+            throw new Error("badarg");
+        }
+    }
+
     /**
      * The same as `halt(0, [])`.
      */
-    public static void halt() {
-        halt(Integer.of(0), List.nil);
+    public static void halt_0() {
+        halt_2(Integer.of(0), List.nil);
     }
 
     /**
@@ -184,8 +201,8 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#halt-1
      */
-    public static void halt(Term status) {
-        halt(status, List.nil);
+    public static void halt_1(Term status) {
+        halt_2(status, List.nil);
     }
 
     /**
@@ -216,7 +233,7 @@ public class Erlang {
      * For statuses string() and abort the flush option is ignored and
      * flushing is not done.
      */
-    public static void halt(Term status, List options) {
+    public static void halt_2(Term status, List options) {
         if (status instanceof Integer) {
             System.exit(((Integer) status).toInt());
         } else {
@@ -241,14 +258,28 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-1
      */
-    public static Binary integer_to_binary(Integer integer) {
+    public static Term integer_to_binary(List params) {
+        switch (length_1(params).toInt()) {
+        case 1:
+            return integer_to_binary_1(params.head().toInteger());
+        case 2:
+            Integer integer = params.head().toInteger();
+            params = params.tail();
+            Integer base = params.head().toInteger();
+            return integer_to_binary_2(integer, base);
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static Binary integer_to_binary_1(Integer integer) {
         return new Binary(integer.toString().getBytes(ISO_8859_1));
     }
 
     /**
      * http://www.erlang.org/doc/man/erlang.html#integer_to_binary-2
      */
-    public static Binary integer_to_binary(Integer integer, Integer base) {
+    public static Binary integer_to_binary_2(Integer integer, Integer base) {
         return new Binary(integer.toBigInteger().toString(base.toInt()).getBytes(ISO_8859_1));
     }
 
@@ -257,7 +288,21 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#integer_to_list-1
      */
-    public static List integer_to_list(Integer integer) {
+    public static Term integer_to_list(List params) {
+        switch (length_1(params).toInt()) {
+        case 1:
+            return integer_to_list_1(params.head().toInteger());
+        case 2:
+            Integer integer = params.head().toInteger();
+            params = params.tail();
+            Integer base = params.head().toInteger();
+            return integer_to_list_2(integer, base);
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static List integer_to_list_1(Integer integer) {
         return new Str(integer.toString());
     }
 
@@ -267,7 +312,8 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#integer_to_list-2
      */
-    public static List integer_to_list(Integer integer, Integer base) {
+
+    public static List integer_to_list_2(Integer integer, Integer base) {
         return new Str(integer.toBigInteger().toString(base.toInt()));
     }
 
@@ -353,7 +399,17 @@ public class Erlang {
      *
      * http://www.erlang.org/doc/man/erlang.html#length-1
      */
-    public static Integer length(List list) {
+    public static Term length(List params) {
+        switch (length_1(params).toInt()) {
+        case 1:
+            List list = params.head().toList();
+            return length_1(list);
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static Integer length_1(List list) {
         if (list == List.nil) {
             return new Integer(0);
         }

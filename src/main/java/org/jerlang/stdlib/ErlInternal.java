@@ -1,8 +1,12 @@
 package org.jerlang.stdlib;
 
-import org.jerlang.ModuleRegistry;
+import org.jerlang.erts.Erlang;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
+import org.jerlang.type.Boolean;
 import org.jerlang.type.Integer;
+import org.jerlang.type.List;
+import org.jerlang.type.Term;
 
 /**
  * = erl_internal
@@ -19,18 +23,17 @@ import org.jerlang.type.Integer;
  */
 public class ErlInternal {
 
-    static {
-        ModuleRegistry.register("erl_internal")
-            .export("arith_op", 2)
-            .export("bif", 2)
-            .export("bool_op", 2)
-            .export("comp_op", 2)
-            .export("guard_bif", 2)
-            .export("list_op", 2)
-            .export("op_type", 2)
-            .export("send_op", 2)
-            .export("type_test", 2);
-    }
+    public static final String[] EXPORT = {
+        "arith_op/2",
+        "bif/2",
+        "bool_op/2",
+        "comp_op/2",
+        "guard_bif/2",
+        "list_op/2",
+        "op_type/2",
+        "send_op/2",
+        "type_test/2"
+    };
 
     private static final Atom arith = Atom.of("arith");
     private static final Atom bool = Atom.of("bool");
@@ -44,7 +47,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `opName/arity` is an arithmetic operator, otherwise `false`.
      */
-    public static boolean arith_op(Atom opName, Integer arity) {
+    public static Term arith_op(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(arith_op_2(opName, arity));
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static boolean arith_op_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "+/1":
         case "-/1":
@@ -70,7 +85,19 @@ public class ErlInternal {
      * Returns `true` if `name/arity` is an Erlang BIF which is automatically
      * recognized by the compiler, otherwise `false`.
      */
-    public static boolean bif(Atom name, Integer arity) {
+    public static Term bif(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom name = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(bif_2(name, arity));
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static boolean bif_2(Atom name, Integer arity) {
         switch (name.toString() + "/" + arity) {
         case "abs/1":
         case "apply/2":
@@ -234,7 +261,19 @@ public class ErlInternal {
      * Returns `true` if `name/arity` is an Erlang BIF which is allowed in guards,
      * otherwise `false`.
      */
-    public static boolean guard_bif(Atom name, Integer arity) {
+    public static Term guard_bif(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom name = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(guard_bif_2(name, arity));
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    public static boolean guard_bif_2(Atom name, Integer arity) {
         switch (name.toString() + "/" + arity) {
         case "abs/1":
         case "float/1":
@@ -280,7 +319,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `name/arity` is a valid Erlang type test, otherwise `false`.
      */
-    public static boolean type_test(Atom name, Integer arity) {
+    public static Term type_test(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom name = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(type_test_2(name, arity));
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    public static boolean type_test_2(Atom name, Integer arity) {
         switch (name.toString() + "/" + arity) {
         case "is_atom/1":
         case "is_boolean/1":
@@ -323,7 +374,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `opName/arity` is a Boolean operator, otherwise `false`.
      */
-    public static boolean bool_op(Atom opName, Integer arity) {
+    public static Term bool_op(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(bool_op_2(opName, arity));
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static boolean bool_op_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "not/1":
         case "and/2":
@@ -338,7 +401,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `opName/arity` is a comparison operator, otherwise `false`.
      */
-    public static boolean comp_op(Atom opName, Integer arity) {
+    public static Term comp_op(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(comp_op_2(opName, arity));
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    public static boolean comp_op_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "==/2":
         case "/=/2":
@@ -357,7 +432,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `opName/arity` is a list operator, otherwise `false`.
      */
-    public static boolean list_op(Atom opName, Integer arity) {
+    public static Term list_op(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(list_op_2(opName, arity));
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    public static boolean list_op_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "++/2":
         case "--/2":
@@ -370,7 +457,19 @@ public class ErlInternal {
     /**
      * Returns `true` if `opName/arity` is a send operator, otherwise `false`.
      */
-    public static boolean send_op(Atom opName, Integer arity) {
+    public static Term send_op(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return Boolean.of(send_op_2(opName, arity));
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    public static boolean send_op_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "!/2":
             return true;
@@ -383,7 +482,19 @@ public class ErlInternal {
      * Returns the `Type` of operator that `opName/arity` belongs to,
      * or generates a `function_clause` error if it is not an operator at all.
      */
-    public static Atom op_type(Atom opName, Integer arity) {
+    public static Term op_type(List params) {
+        switch (Erlang.length_1(params).toInt()) {
+        case 2:
+            Atom opName = params.head().toAtom();
+            params = params.tail();
+            Integer arity = params.head().toInteger();
+            return op_type_2(opName, arity);
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
+    public static Atom op_type_2(Atom opName, Integer arity) {
         switch (opName.toString() + "/" + arity) {
         case "+/1":
         case "-/1":
@@ -420,7 +531,8 @@ public class ErlInternal {
         case "!/2":
             return send;
         default:
-            throw new Error("no function clause matching ErlInternal.op_type(" + opName + "," + arity + ")");
+            throw new Error("no function clause matching ErlInternal.op_type(" + opName + ","
+                + arity + ")");
         }
     }
 

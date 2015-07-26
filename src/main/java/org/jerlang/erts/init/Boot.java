@@ -72,7 +72,7 @@ public class Boot {
     }
 
     public static List flags_to_atoms_again(List flags) {
-        if (Erlang.length(flags).equals(Integer.of(0))) {
+        if (Erlang.length_1(flags).equals(Integer.of(0))) {
             return flags;
         }
         List newList = null;

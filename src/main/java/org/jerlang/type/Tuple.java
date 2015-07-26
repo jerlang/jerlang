@@ -41,7 +41,7 @@ public class Tuple extends Term {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(elements);
+        return Objects.hash((Object[]) elements);
     }
 
     @Override

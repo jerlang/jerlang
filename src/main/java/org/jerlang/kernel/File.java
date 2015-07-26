@@ -3,7 +3,6 @@ package org.jerlang.kernel;
 import jnr.posix.POSIX;
 import jnr.posix.POSIXFactory;
 
-import org.jerlang.ModuleRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.Str;
@@ -85,8 +84,14 @@ import org.jerlang.type.Tuple;
 
 public class File {
 
+    public static final String[] EXPORT = {
+        "delete/1",
+        "get_cwd/0",
+        "get_cwd/1",
+        "rename/2"
+    };
+
     static {
-        ModuleRegistry.register("file");
         posix = POSIXFactory.getPOSIX();
     }
 
