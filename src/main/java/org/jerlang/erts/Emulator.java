@@ -7,6 +7,7 @@ import org.jerlang.erts.emulator.EmulatorFlag;
 import org.jerlang.erts.emulator.InitFlag;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.Lists;
+import org.jerlang.stdlib.Shell;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -24,6 +25,7 @@ public class Emulator {
 
     public static void main(String[] args) {
         parse(args);
+        Shell.start();
     }
 
     public static void parse(String[] args) {

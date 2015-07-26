@@ -114,4 +114,8 @@ public class Init {
         return Runtime.plainArguments();
     }
 
+    public static void stop() {
+        System.exit(0);
+    }
+
 }
