@@ -68,8 +68,6 @@ public class Module {
         try {
             String p = moduleClass.getPackage().getName();
             String pm = p + "." + this.name.toString();
-            
-            getClass().getClassLoader().loadClass(name)
             MethodHandle handle = MethodHandles.lookup()
                 .findStatic(moduleClass, name, METHOD_TYPE);
             exported_functions.put(s, new Fun(s, handle));
