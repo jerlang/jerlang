@@ -7,9 +7,15 @@ import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
+import org.junit.Before;
 import org.junit.Test;
 
 public class InitTest {
+
+    @Before
+    public void setup() {
+        Runtime.reset();
+    }
 
     @Test
     public void testGetArgument() {

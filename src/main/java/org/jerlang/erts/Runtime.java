@@ -47,6 +47,14 @@ public class Runtime {
         return Lists.reverse(plainArguments);
     }
 
+    /**
+     * Used by unit tests only.
+     * Resets all states back to their default.
+     */
+    public static void reset() {
+        extraFlag = false;
+    }
+
     public static void setExtraFlag() {
         extraFlag = true;
     }
