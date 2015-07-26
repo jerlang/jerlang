@@ -13,18 +13,18 @@
 
 ## Roadmap
 
-|Version|Milestone|
-|:-----:|---------|
-|0.1    |Parsing of BEAM files works, all BIFs, Opcodes and Terms are at least defined|
-|0.2    |A simple "hello world" can be executed in interpreted mode|
-|0.3    |Most single-node applications can be executed in interpreted mode|
-|0.4    |Most multi-node applications can be executed in interpreted mode|
-|0.5    |BEAM files are compiled to Java bytecode|
-|0.6    |Soft realtime support|
-|0.7    |Jerlang is fully compatible with native Erlang/OTP|
-|0.8    |The documentation is complete and awesome|
-|0.9    |Performance is comparable to native Erlang/OTP|
-|1.0    |Jerlang is production ready|
+|Version|Focus|Milestone|
+|:-----:|-----|---------|
+|0.1    |File Format     |BEAM files can be parsed|
+|0.2    |Proof of Concept|A simple "hello world" can be executed in interpreted mode|
+|0.3    |Interpreter     |Most single-node applications can be executed in interpreted mode|
+|0.4    |Network         |Most multi-node applications can be executed in interpreted mode|
+|0.5    |Compiler        |BEAM files can be compiled to Java bytecode|
+|0.6    |Scheduler       |Soft realtime support|
+|0.7    |Compatibility   |Jerlang is fully compatible with native Erlang/OTP|
+|0.8    |Documentation   |The documentation is complete and awesome|
+|0.9    |Performance     |Performance is comparable to native Erlang/OTP|
+|1.0    |Stability       |Jerlang is production ready|
 
 ## Contribution Process
 
