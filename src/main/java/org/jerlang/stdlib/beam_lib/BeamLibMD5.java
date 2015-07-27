@@ -154,7 +154,7 @@ public class BeamLibMD5 {
     }
 
     private static MessageDigest init() throws NoSuchAlgorithmException {
-        return MessageDigest.getInstance("BeamLibMD5");
+        return MessageDigest.getInstance("MD5");
     }
 
     private static void update(MessageDigest md5, byte[] bytes, int offset, int len) {
