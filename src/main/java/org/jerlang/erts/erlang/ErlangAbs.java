@@ -25,8 +25,11 @@ import org.jerlang.type.Term;
  */
 public class ErlangAbs {
 
+    private ErlangAbs() {
+    }
+
     public static Term dispatch(List params) {
-        switch (Erlang.length_1(params).toInt()) {
+        switch (Erlang.length(params).toInt()) {
         case 1:
             return abs_1(params.head().toInteger());
         default:
@@ -34,7 +37,7 @@ public class ErlangAbs {
         }
     }
 
-    private static Integer abs_1(Integer integer) {
+    public static Integer abs_1(Integer integer) {
         return new Integer(integer.toBigInteger().abs());
     }
 

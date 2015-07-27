@@ -47,11 +47,11 @@ public class Emulator {
                 while (index + 1 < args.length && !args[index + 1].startsWith("-")) {
                     flagList = new List(Str.of(args[++index]), flagList);
                 }
-                flagList = Lists.reverse_1(flagList);
+                flagList = Lists.reverse(flagList);
                 if (!userFlags.containsKey(userFlag)) {
                     userFlags.put(userFlag, List.nil);
                 }
-                List newList = Lists.reverse_1(new List(flagList, userFlags.get(userFlag)));
+                List newList = Lists.reverse(new List(flagList, userFlags.get(userFlag)));
                 userFlags.put(userFlag, newList);
             }
         }
@@ -98,8 +98,8 @@ public class Emulator {
         while (++index < args.length) {
             arguments = new List(Str.of(args[index]), arguments);
         }
-        arguments = Lists.reverse_1(arguments);
-        Integer arity = Erlang.length_1(arguments);
+        arguments = Lists.reverse(arguments);
+        Integer arity = Erlang.length(arguments);
         Runtime.setRunFlag(new FunctionSignature(mod, func, arity));
         return index;
     }

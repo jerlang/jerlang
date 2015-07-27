@@ -6,8 +6,11 @@ public class StringUtil {
      * Converts a string from snake_case to CamelCase.
      */
     public static String snakeToCamelCase(String string) {
-        if (string.length() <= 2) {
-            return string.toUpperCase();
+        if ("os".equals(string)) {
+            return "OS";
+        }
+        if ("md5".equals(string)) {
+            return "MD5";
         }
         StringBuilder result = new StringBuilder(string.length());
         boolean capitalize = true;
@@ -28,8 +31,11 @@ public class StringUtil {
      * Converts a string from CamelCase to snake_case.
      */
     public static String camelToSnakeCase(String string) {
-        if (string.length() <= 2) {
-            return string.toLowerCase();
+        if ("OS".equals(string)) {
+            return "os";
+        }
+        if ("MD5".equals(string)) {
+            return "md5";
         }
         StringBuilder result = new StringBuilder(string.length());
         for (char c : string.toCharArray()) {

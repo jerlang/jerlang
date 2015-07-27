@@ -15,7 +15,7 @@ public class OSTest {
     public void testGetenv0() {
         List env = OS.getenv();
         assertThat(env).isNotNull();
-        assertThat(Erlang.length_1(env).toInt()).isGreaterThan(0);
+        assertThat(Erlang.length(env).toInt()).isGreaterThan(0);
     }
 
     @Test

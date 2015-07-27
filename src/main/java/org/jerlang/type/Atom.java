@@ -43,6 +43,26 @@ public class Atom extends Term {
         return name.hashCode();
     }
 
+    public boolean isFalse() {
+        if (equals(Boolean.am_false)) {
+            return true;
+        } else if (equals(Boolean.am_true)) {
+            return false;
+        } else {
+            throw new Error("Cannot convert to boolean: " + this);
+        }
+    }
+
+    public boolean isTrue() {
+        if (equals(Boolean.am_false)) {
+            return false;
+        } else if (equals(Boolean.am_true)) {
+            return true;
+        } else {
+            throw new Error("Cannot convert to boolean: " + this);
+        }
+    }
+
     @Override
     public Atom toAtom() {
         return this;

@@ -3,6 +3,7 @@ package org.jerlang;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
+import org.jerlang.util.StringUtil;
 
 /**
  * = Modules
@@ -55,23 +57,30 @@ public class Module {
         return exported_functions.get(signature).apply(params);
     }
 
-    public void export(String[] exports) {
-        for (String export : exports) {
-            String[] token = export.split("/");
-            export(token[0], Integer.of(token[1]));
+    public void export() {
+        for (Method method : moduleClass.getDeclaredMethods()) {
+            export(method.getName(), method.getParameterCount());
         }
     }
 
-    public Module export(String name, Integer arity) {
+    public Module export(String name, int arity) {
+        return export(Atom.of(name), Integer.of(arity));
+    }
+
+    public Module export(Atom name, Integer arity) {
         FunctionSignature s = new FunctionSignature(
-            this.name, Atom.of(name), arity);
+            this.name, name, arity);
         try {
             String p = moduleClass.getPackage().getName();
             String pm = p + "." + this.name.toString();
+            String cn = pm + "."
+                + StringUtil.snakeToCamelCase(this.name.toString())
+                + StringUtil.snakeToCamelCase(name.toString());
+            Class<?> c = getClass().getClassLoader().loadClass(cn);
             MethodHandle handle = MethodHandles.lookup()
-                .findStatic(moduleClass, name, METHOD_TYPE);
+                .findStatic(c, "dispatch", METHOD_TYPE);
             exported_functions.put(s, new Fun(s, handle));
-        } catch (NoSuchMethodException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Can not export: " + s);
         }
         return this;

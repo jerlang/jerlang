@@ -17,8 +17,11 @@ import org.jerlang.type.Term;
  */
 public class ErlangApply {
 
+    private ErlangApply() {
+    }
+
     public static Term dispatch(List params) {
-        switch (Erlang.length_1(params).toInt()) {
+        switch (Erlang.length(params).toInt()) {
         case 3:
             Term m = params.head();
             params = params.tail();

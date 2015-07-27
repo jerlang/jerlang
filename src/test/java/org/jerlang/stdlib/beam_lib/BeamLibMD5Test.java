@@ -2,6 +2,7 @@ package org.jerlang.stdlib.beam_lib;
 
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.stdlib.BeamLib;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Str;
@@ -9,11 +10,11 @@ import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 import org.junit.Test;
 
-public class MD5Test {
+public class BeamLibMD5Test {
 
     @Test
     public void testMD5() {
-        Term result = MD5.md5(Str.of("src/test/resources/pid.beam"));
+        Term result = BeamLib.md5(Str.of("src/test/resources/pid.beam"));
         Term expected = Tuple.of(
             Atom.of("ok"),
             Tuple.of(

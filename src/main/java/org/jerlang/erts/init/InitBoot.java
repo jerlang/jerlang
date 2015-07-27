@@ -1,16 +1,70 @@
 package org.jerlang.erts.init;
 
+import static org.jerlang.erts.Erlang.process_flag;
 import static org.jerlang.erts.Erlang.register;
+import static org.jerlang.erts.Erlang.self;
 import static org.jerlang.erts.Erlang.spawn;
 
 import org.jerlang.erts.Erlang;
+import org.jerlang.erts.erlang.Error;
+import org.jerlang.stdlib.Maps;
 import org.jerlang.type.Atom;
+import org.jerlang.type.Boolean;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Map;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
-public class Boot {
+public class InitBoot {
+
+    private static final Atom init = Atom.of("init");
+    private static final Atom trap_exit = Atom.of("trap_exit");
+
+    public static Term dispatch(List params) {
+        switch (Erlang.length(params).toInt()) {
+        case 1:
+            boot_1(params.head().toList());
+            return null;
+        default:
+            throw new Error("badarg");
+        }
+    }
+
+    /**
+     * boot(BootArgs) -> no_return()
+     *
+     * Types:
+     * BootArgs = [binary()]
+     *
+     * Starts the Erlang runtime system.
+     * This function is called when the emulator is started and
+     * coordinates system start-up.
+     *
+     * BootArgs are all command line arguments except the emulator flags,
+     * that is, flags and plain arguments. See erl(1).
+     *
+     * init itself interprets some of the flags, see Command Line Flags below.
+     * The remaining flags ("user flags") and plain arguments are passed to the
+     * init loop and can be retrieved by calling get_arguments/0 and
+     * get_plain_arguments/0, respectively.
+     *
+     * http://www.erlang.org/doc/man/init.html#boot-1
+     */
+    public static void boot_1(List bootArgs) {
+        // called by OtpRing0 module
+        register(init, self());
+        process_flag(trap_exit, Boolean.am_true);
+        start_on_load_handler_process();
+        Tuple tuple = parse_boot_args(bootArgs);
+        Map start0 = (Map) tuple.element(0);
+        List flags = (List) tuple.element(1);
+        Map args = (Map) tuple.element(2);
+        Map start = Maps.map(null, start0);
+        List flags0 = flags_to_atoms_again(flags);
+        boot3(start, flags0, args);
+    }
 
     private static final Atom init__boot__on_load_handler = Atom.of("init__boot__on_load_handler");
     private static final Atom ON_LOAD_HANDLER = init__boot__on_load_handler;
@@ -31,7 +85,7 @@ public class Boot {
     }
 
     public static void start_on_load_handler_process() {
-        register(ON_LOAD_HANDLER, spawn("on_load_handler_init/0"));
+        register(ON_LOAD_HANDLER, spawn(Str.of("on_load_handler_init/0")));
     }
 
     public static Tuple parse_boot_args(Object args) {
@@ -72,7 +126,7 @@ public class Boot {
     }
 
     public static List flags_to_atoms_again(List flags) {
-        if (Erlang.length_1(flags).equals(Integer.of(0))) {
+        if (Erlang.length(flags).equals(Integer.of(0))) {
             return flags;
         }
         List newList = null;

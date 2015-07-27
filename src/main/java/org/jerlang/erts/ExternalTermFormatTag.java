@@ -253,7 +253,7 @@ public enum ExternalTermFormatTag {
      * is the arity of the function implementing the fun.
      *
      * Uniq::
-     * is the 16 bytes MD5 of the significant parts of the Beam file.
+     * is the 16 bytes BeamLibMD5 of the significant parts of the Beam file.
      *
      * Index::
      * is an index number. Each fun within a module has an unique index.

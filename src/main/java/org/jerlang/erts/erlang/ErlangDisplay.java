@@ -12,18 +12,21 @@ import org.jerlang.type.Term;
  */
 public class ErlangDisplay {
 
+    private ErlangDisplay() {
+    }
+
     public static Term dispatch(List params) {
-        switch (Erlang.length_1(params).toInt()) {
+        switch (Erlang.length(params).toInt()) {
         case 1:
-            return Boolean.of(display_1(params.head()));
+            return display_1(params.head());
         default:
             throw new Error("badarg");
         }
     }
 
-    public static boolean display_1(Term term) {
+    public static Term display_1(Term term) {
         System.out.println(term);
-        return true;
+        return Boolean.am_true;
     }
 
 }

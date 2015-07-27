@@ -2,11 +2,6 @@ package org.jerlang.stdlib.beam_lib;
 
 import static org.jerlang.kernel.File.enoent;
 import static org.jerlang.kernel.File.eperm;
-import static org.jerlang.stdlib.BeamLib.beam_lib;
-import static org.jerlang.stdlib.BeamLib.error;
-import static org.jerlang.stdlib.BeamLib.file_error;
-import static org.jerlang.stdlib.BeamLib.invalid_beam_file;
-import static org.jerlang.stdlib.BeamLib.not_a_beam_file;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -19,6 +14,7 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.jerlang.erts.Erlang;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
@@ -31,11 +27,11 @@ import org.jerlang.type.Tuple;
 /**
  * Implementation of the beam_lib:md5/1 function.
  */
-public class MD5 {
+public class BeamLibMD5 {
 
     /**
-     * The following chunks are significant when calculating the MD5
-     * for a module. They are listed in the order that they should be MD5:ed.
+     * The following chunks are significant when calculating the BeamLibMD5
+     * for a module. They are listed in the order that they should be BeamLibMD5:ed.
      */
     public static List md5_chunks() {
         return List.of(
@@ -49,11 +45,27 @@ public class MD5 {
             );
     }
 
+    public static final Atom beam_lib = Atom.of("beam_lib");
+    public static final Atom error = Atom.of("error");
+    public static final Atom file = Atom.of("file");
+    public static final Atom file_error = Atom.of("file_error");
+    public static final Atom invalid_beam_file = Atom.of("invalid_beam_file");
+    public static final Atom not_a_beam_file = Atom.of("not_a_beam_file");
+
+    public static Term dispatch(List params) {
+        switch (Erlang.length(params).toInt()) {
+        case 1:
+            return md5_1(params.head().toStr());
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
+
     /**
-     * Calculates an MD5 redundancy check for the code of the module
+     * Calculates an BeamLibMD5 redundancy check for the code of the module
      * (compilation date and other attributes are not included).
      */
-    public static Term md5(Str filename_term) {
+    public static Term md5_1(Str filename_term) {
         File file = new File(filename_term.string());
         Term result = new List();
 
@@ -138,11 +150,11 @@ public class MD5 {
             offset += 8 + ((chunk.length() + 3) & ~3);
             dis.skipBytes((chunk.length() + 3) & ~3);
         }
-        return Lists.reverse_1(chunks);
+        return Lists.reverse(chunks);
     }
 
     private static MessageDigest init() throws NoSuchAlgorithmException {
-        return MessageDigest.getInstance("MD5");
+        return MessageDigest.getInstance("BeamLibMD5");
     }
 
     private static void update(MessageDigest md5, byte[] bytes, int offset, int len) {

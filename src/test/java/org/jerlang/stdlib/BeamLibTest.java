@@ -20,7 +20,7 @@ public class BeamLibTest {
     public void testInfo1() throws IOException {
         File tempFile = File.createTempFile("junit", "temp");
         Str tempFilename = Str.of(tempFile.getCanonicalPath());
-        Term result = BeamLib.info_1(tempFilename);
+        Term result = BeamLib.info(tempFilename);
         assertTrue(result instanceof Tuple);
         Tuple resultTuple = (Tuple) result;
         Tuple expectedTuple = Tuple.of(
@@ -38,7 +38,7 @@ public class BeamLibTest {
     public void testInfo2() throws IOException {
         File file = new File("src/test/resources/pid.beam");
         Str filename = Str.of(file.getCanonicalPath());
-        Term result = BeamLib.info_1(filename);
+        Term result = BeamLib.info(filename);
         assertTrue(result instanceof List);
         List resultList = (List) result;
         Tuple filenameTuple = Tuple.of(Atom.of("file"), filename);

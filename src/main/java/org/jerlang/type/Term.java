@@ -19,6 +19,14 @@ public class Term {
         return new Str(string);
     }
 
+    public boolean isFalse() {
+        throw new Error("Cannot convert to boolean: " + this);
+    }
+
+    public boolean isTrue() {
+        throw new Error("Cannot convert to boolean: " + this);
+    }
+
     public Atom toAtom() {
         throw new Error("Cannot convert to atom: " + this);
     }

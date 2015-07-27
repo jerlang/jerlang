@@ -24,7 +24,7 @@ public class InitTest {
             List.of(Str.of("b"), Str.of("c")),
             List.of(Str.of("d"))
             );
-        Term result = Init.get_argument_1(Atom.of("a"));
+        Term result = Init.get_argument(Atom.of("a"));
         assertThat(result).isEqualTo(Tuple.of(Atom.of("ok"), expected));
     }
 

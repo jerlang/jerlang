@@ -1,5 +1,7 @@
 package org.jerlang;
 
+import static org.jerlang.util.StringUtil.camelToSnakeCase;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +23,12 @@ public class ModuleRegistry {
 
     public ModuleRegistry() {
         modules = new HashMap<>();
-        init(BeamLib.class, "beam_lib").export(BeamLib.EXPORT);
-        init(Erlang.class, "erlang").export(Erlang.EXPORT);
-        init(ErlInternal.class, "erl_internal").export(ErlInternal.EXPORT);
-        init(Init.class, "init").export(Init.EXPORT);
-        init(Lists.class, "lists").export(Lists.EXPORT);
-        init(OtpRing0.class, "otp_ring_0").export(OtpRing0.EXPORT);
+        init(BeamLib.class).export();
+        init(Erlang.class).export();
+        init(ErlInternal.class).export();
+        init(Init.class).export();
+        init(Lists.class).export();
+        init(OtpRing0.class).export();
     }
 
     public static Module get(Atom module) {
@@ -37,8 +39,9 @@ public class ModuleRegistry {
         return instance;
     }
 
-    private Module init(Class<?> moduleClass, String module) {
-        return init(moduleClass, Atom.of(module));
+    private Module init(Class<?> moduleClass) {
+        String moduleName = camelToSnakeCase(moduleClass.getSimpleName());
+        return init(moduleClass, Atom.of(moduleName));
     }
 
     private Module init(Class<?> moduleClass, Atom module) {

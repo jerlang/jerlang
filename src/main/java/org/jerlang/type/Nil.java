@@ -6,4 +6,9 @@ public class Nil extends List {
         super(null);
     }
 
+    @Override
+    public int length() {
+        return 0;
+    }
+
 }

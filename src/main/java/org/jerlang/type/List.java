@@ -7,21 +7,26 @@ public class List extends Term {
 
     public static final Nil nil = new Nil();
 
-    private Term head;
-    private List tail;
+    private final Term head;
+    private final List tail;
+    private final int length;
 
     public List() {
         this(nil);
     }
 
     public List(Term head) {
-        this.head = head;
-        this.tail = nil;
+        this(head, nil);
     }
 
     public List(Term head, List tail) {
         this.head = head;
         this.tail = tail;
+        if (tail == null) {
+            this.length = 1;
+        } else {
+            this.length = 1 + tail.length();
+        }
     }
 
     public Term head() {
@@ -45,6 +50,10 @@ public class List extends Term {
     @Override
     public int hashCode() {
         return Objects.hash(head, tail);
+    }
+
+    public int length() {
+        return length;
     }
 
     @Override
