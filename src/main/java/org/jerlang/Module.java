@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jerlang.erts.erlang.Error;
+import org.jerlang.stdlib.beam_lib.BeamData;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
@@ -40,14 +41,23 @@ public class Module {
 
     private static final MethodType METHOD_TYPE = MethodType.methodType(Term.class, List.class);
 
+    private final BeamData beamData;
     private final Class<?> moduleClass;
     private final Atom name;
     private final Map<FunctionSignature, Fun> exported_functions;
 
+    public Module(BeamData beamData, Atom name) {
+        this.beamData = beamData;
+        this.exported_functions = new HashMap<>();
+        this.moduleClass = null;
+        this.name = name;
+    }
+
     public Module(Class<?> moduleClass, Atom name) {
+        this.beamData = null;
+        this.exported_functions = new HashMap<>();
         this.moduleClass = moduleClass;
         this.name = name;
-        this.exported_functions = new HashMap<>();
     }
 
     public Term apply(FunctionSignature signature, Term params) {
@@ -55,6 +65,10 @@ public class Module {
             throw new Error("Unknown function: " + signature);
         }
         return exported_functions.get(signature).apply(params);
+    }
+
+    public BeamData beamData() {
+        return beamData;
     }
 
     public void export() {

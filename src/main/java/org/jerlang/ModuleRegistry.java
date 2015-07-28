@@ -36,11 +36,19 @@ public class ModuleRegistry {
     }
 
     public static Module get(Atom module) {
+        if (!instance.modules.containsKey(module)) {
+            // Maybe the module is not loaded yet
+            ModuleLoader.load(module);
+        }
         return instance.modules.get(module);
     }
 
     public static ModuleRegistry instance() {
         return instance;
+    }
+
+    public static void register(Module module) {
+        instance.modules.put(module.name(), module);
     }
 
     private Module init(Class<?> moduleClass) {
