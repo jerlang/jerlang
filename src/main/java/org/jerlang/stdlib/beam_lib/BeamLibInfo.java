@@ -1,8 +1,5 @@
 package org.jerlang.stdlib.beam_lib;
 
-import static org.jerlang.kernel.File.enoent;
-import static org.jerlang.kernel.File.eperm;
-
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -11,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
@@ -27,6 +23,8 @@ public class BeamLibInfo {
     }
 
     public static final Atom beam_lib = Atom.of("beam_lib");
+    public static final Atom enoent = Atom.of("enoent");
+    public static final Atom eperm = Atom.of("eperm");
     public static final Atom error = Atom.of("error");
     public static final Atom file = Atom.of("file");
     public static final Atom file_error = Atom.of("file_error");
@@ -34,7 +32,7 @@ public class BeamLibInfo {
     public static final Atom not_a_beam_file = Atom.of("not_a_beam_file");
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return info_1(params.head().toStr());
         default:

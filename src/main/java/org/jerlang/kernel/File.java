@@ -1,13 +1,10 @@
 package org.jerlang.kernel;
 
-import jnr.posix.POSIX;
-import jnr.posix.POSIXFactory;
-
-import org.jerlang.type.Atom;
-import org.jerlang.type.Integer;
+import org.jerlang.kernel.file.FileDelete;
+import org.jerlang.kernel.file.FileGetCwd;
+import org.jerlang.kernel.file.FileRename;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
-import org.jerlang.type.Tuple;
 
 /**
  * = file
@@ -84,73 +81,23 @@ import org.jerlang.type.Tuple;
 
 public class File {
 
-    public static final String[] EXPORT = {
-        "delete/1",
-        "get_cwd/0",
-        "get_cwd/1",
-        "rename/2"
-    };
-
-    static {
-        posix = POSIXFactory.getPOSIX();
-    }
-
-    private static final POSIX posix;
-
-    /** No such file or directory (POSIX.1) */
-    public static final Atom enoent = Atom.of("enoent");
-
-    /** Operation not supported (POSIX.1) */
-    public static final Atom enotsup = Atom.of("enotsup");
-
-    /** Operation not permitted (POSIX.1) */
-    public static final Atom eperm = Atom.of("eperm");
-
-    public static final Atom error = Atom.of("error");
-
-    public static final Atom ok = Atom.of("ok");
-
     private File() {
     }
 
-    /**
-     * http://www.erlang.org/doc/man/file.html#delete-1
-     */
     public static Term delete(Str filename) {
-        int result = posix.unlink(filename.string());
-        switch (result) {
-        case 0:
-            return ok;
-        default:
-            return Tuple.of(error, Integer.of(result));
-        }
+        return FileDelete.delete_1(filename);
     }
 
-    /**
-     * http://www.erlang.org/doc/man/file.html#get_cwd-0
-     */
     public static Term get_cwd() {
-        return Tuple.of(ok, Str.of(posix.getcwd()));
+        return FileGetCwd.get_cwd_0();
     }
 
-    /**
-     * http://www.erlang.org/doc/man/file.html#get_cwd-1
-     */
     public static Term get_cwd(Str drive) {
-        return Tuple.of(error, enotsup);
+        return FileGetCwd.get_cwd_1(drive);
     }
 
-    /**
-     * http://www.erlang.org/doc/man/file.html#rename-2
-     */
     public static Term rename(Str source, Str destination) {
-        int result = posix.rename(source.string(), destination.string());
-        switch (result) {
-        case 0:
-            return ok;
-        default:
-            return Tuple.of(error, Integer.of(result));
-        }
+        return FileRename.rename_2(source, destination);
     }
 
 }

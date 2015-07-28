@@ -8,6 +8,8 @@ import java.util.Map;
 import org.jerlang.erts.Erlang;
 import org.jerlang.erts.Init;
 import org.jerlang.erts.OtpRing0;
+import org.jerlang.kernel.File;
+import org.jerlang.kernel.OS;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.ErlInternal;
 import org.jerlang.stdlib.Lists;
@@ -26,8 +28,10 @@ public class ModuleRegistry {
         init(BeamLib.class).export();
         init(Erlang.class).export();
         init(ErlInternal.class).export();
+        init(File.class).export();
         init(Init.class).export();
         init(Lists.class).export();
+        init(OS.class).export();
         init(OtpRing0.class).export();
     }
 

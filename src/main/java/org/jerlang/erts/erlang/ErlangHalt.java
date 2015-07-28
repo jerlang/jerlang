@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -11,7 +10,7 @@ public class ErlangHalt {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 0:
             halt_0();
             return null;

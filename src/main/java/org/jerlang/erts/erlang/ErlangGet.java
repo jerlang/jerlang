@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.erts.Runtime;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -11,7 +10,7 @@ public class ErlangGet {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 0:
             return get_0();
         case 1:

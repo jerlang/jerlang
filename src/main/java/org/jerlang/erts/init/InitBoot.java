@@ -5,12 +5,10 @@ import static org.jerlang.erts.Erlang.register;
 import static org.jerlang.erts.Erlang.self;
 import static org.jerlang.erts.Erlang.spawn;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.Maps;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Boolean;
-import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Map;
 import org.jerlang.type.Str;
@@ -23,7 +21,7 @@ public class InitBoot {
     private static final Atom trap_exit = Atom.of("trap_exit");
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             boot_1(params.head().toList());
             return null;
@@ -126,7 +124,7 @@ public class InitBoot {
     }
 
     public static List flags_to_atoms_again(List flags) {
-        if (Erlang.length(flags).equals(Integer.of(0))) {
+        if (flags.length() == 0) {
             return flags;
         }
         List newList = null;

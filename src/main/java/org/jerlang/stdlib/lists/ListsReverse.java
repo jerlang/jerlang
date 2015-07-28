@@ -1,6 +1,5 @@
 package org.jerlang.stdlib.lists;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -11,7 +10,7 @@ public class ListsReverse {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return reverse_1(params.head().toList());
         default:

@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
@@ -10,7 +9,7 @@ public class ErlangError {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             error_1(params.head());
             return null;

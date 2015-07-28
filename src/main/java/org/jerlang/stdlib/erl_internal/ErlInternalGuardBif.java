@@ -1,6 +1,5 @@
 package org.jerlang.stdlib.erl_internal;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Boolean;
 import org.jerlang.type.Integer;
@@ -13,7 +12,7 @@ public class ErlInternalGuardBif {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 2:
             Atom name = params.head().toAtom();
             params = params.tail();

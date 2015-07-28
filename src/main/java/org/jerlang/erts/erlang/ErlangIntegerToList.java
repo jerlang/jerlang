@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -12,7 +11,7 @@ public class ErlangIntegerToList {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return integer_to_list_1(params.head().toInteger());
         case 2:

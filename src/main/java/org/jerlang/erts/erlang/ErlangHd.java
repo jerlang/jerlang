@@ -11,7 +11,7 @@ public class ErlangHd {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return hd_1(params.head().toList());
         default:

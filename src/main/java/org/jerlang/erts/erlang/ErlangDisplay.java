@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Boolean;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -16,7 +15,7 @@ public class ErlangDisplay {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return display_1(params.head());
         default:

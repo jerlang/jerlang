@@ -15,7 +15,7 @@ public class ErlangLength {
     }
 
     public static Term dispatch(List params) {
-        switch (length_1(params).toInt()) {
+        switch (params.length()) {
         case 1:
             List list = params.head().toList();
             return length_1(list);

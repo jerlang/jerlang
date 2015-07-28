@@ -156,11 +156,6 @@ import org.jerlang.type.Term;
 
 public class BeamLib {
 
-    public static final String[] EXPORT = {
-        "info/1",
-        "md5/1"
-    };
-
     private BeamLib() {
     }
 

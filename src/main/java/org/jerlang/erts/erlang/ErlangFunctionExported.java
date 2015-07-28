@@ -3,7 +3,6 @@ package org.jerlang.erts.erlang;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Boolean;
 import org.jerlang.type.Integer;
@@ -23,7 +22,7 @@ public class ErlangFunctionExported {
      * http://www.erlang.org/doc/man/erlang.html#function_exported-3
      */
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 3:
             Atom m = params.head().toAtom();
             params = params.tail();

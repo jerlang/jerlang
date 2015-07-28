@@ -2,7 +2,6 @@ package org.jerlang.erts.erlang;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -14,7 +13,7 @@ public class ErlangIntegerToBinary {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 1:
             return integer_to_binary_1(params.head().toInteger());
         case 2:

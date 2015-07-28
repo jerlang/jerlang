@@ -3,7 +3,6 @@ package org.jerlang.erts.erlang;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
-import org.jerlang.erts.Erlang;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
@@ -21,7 +20,7 @@ public class ErlangApply {
     }
 
     public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
+        switch (params.length()) {
         case 3:
             Term m = params.head();
             params = params.tail();

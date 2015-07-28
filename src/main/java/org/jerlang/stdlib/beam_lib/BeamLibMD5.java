@@ -1,8 +1,5 @@
 package org.jerlang.stdlib.beam_lib;
 
-import static org.jerlang.kernel.File.enoent;
-import static org.jerlang.kernel.File.eperm;
-
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -14,7 +11,6 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.jerlang.erts.Erlang;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
@@ -28,6 +24,24 @@ import org.jerlang.type.Tuple;
  * Implementation of the beam_lib:md5/1 function.
  */
 public class BeamLibMD5 {
+
+    public static final Atom beam_lib = Atom.of("beam_lib");
+    public static final Atom enoent = Atom.of("enoent");
+    public static final Atom eperm = Atom.of("eperm");
+    public static final Atom error = Atom.of("error");
+    public static final Atom file = Atom.of("file");
+    public static final Atom file_error = Atom.of("file_error");
+    public static final Atom invalid_beam_file = Atom.of("invalid_beam_file");
+    public static final Atom not_a_beam_file = Atom.of("not_a_beam_file");
+
+    public static Term dispatch(List params) {
+        switch (params.length()) {
+        case 1:
+            return md5_1(params.head().toStr());
+        default:
+            throw new org.jerlang.erts.erlang.Error("badarg");
+        }
+    }
 
     /**
      * The following chunks are significant when calculating the BeamLibMD5
@@ -43,22 +57,6 @@ public class BeamLibMD5 {
             ChunkId.FUNT.toStr(),
             ChunkId.LITT.toStr()
             );
-    }
-
-    public static final Atom beam_lib = Atom.of("beam_lib");
-    public static final Atom error = Atom.of("error");
-    public static final Atom file = Atom.of("file");
-    public static final Atom file_error = Atom.of("file_error");
-    public static final Atom invalid_beam_file = Atom.of("invalid_beam_file");
-    public static final Atom not_a_beam_file = Atom.of("not_a_beam_file");
-
-    public static Term dispatch(List params) {
-        switch (Erlang.length(params).toInt()) {
-        case 1:
-            return md5_1(params.head().toStr());
-        default:
-            throw new org.jerlang.erts.erlang.Error("badarg");
-        }
     }
 
     /**
