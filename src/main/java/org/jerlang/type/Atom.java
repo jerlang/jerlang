@@ -20,8 +20,7 @@ public class Atom extends Term {
     private final String value;
 
     private Atom(String name) {
-        this.name = name;
-        this.value = name;
+        this(name, name);
     }
 
     private Atom(String name, String value) {

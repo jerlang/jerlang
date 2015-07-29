@@ -72,4 +72,20 @@ public class BeamData {
         return stringTableChunk;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder()
+            .append("{beam_data, [\n")
+            .append("  ").append(atomChunk).append('\n')
+            .append("  ").append(attributeChunk).append('\n')
+            .append("  ").append(codeChunk).append('\n')
+            .append("  ").append(exportTableChunk).append('\n')
+            .append("  ").append(functionTableChunk).append('\n')
+            .append("  ").append(importTableChunk).append('\n')
+            .append("  ").append(literalTableChunk).append('\n')
+            .append("  ").append(localFunctionTableChunk).append('\n')
+            .append("  ").append(stringTableChunk).append('\n')
+            .append("  ]}");
+        return stringBuilder.toString();
+    }
 }

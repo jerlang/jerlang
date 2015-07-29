@@ -52,4 +52,13 @@ public enum ChunkId {
         return null;
     }
 
+    public static ChunkId of(String string) {
+        for (ChunkId chunkId : values()) {
+            if (chunkId.string.equals(string)) {
+                return chunkId;
+            }
+        }
+        System.err.println("Invalid chunk ID: '" + string + "'");
+        return null;
+    }
 }

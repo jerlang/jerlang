@@ -25,4 +25,20 @@ public class AttributeChunk extends Chunk {
         return attributes;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{attribute_chunk,[");
+        List list = attributes;
+        while (list.length() > 0) {
+            stringBuilder.append(list.head()).append(',');
+            list = list.tail();
+        }
+        if (attributes.length() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }

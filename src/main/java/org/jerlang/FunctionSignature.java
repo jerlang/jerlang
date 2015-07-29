@@ -34,7 +34,7 @@ public class FunctionSignature extends Tuple {
 
     @Override
     public String toString() {
-        String string = "" + element(0) + ":" + element(1) + "/" + element(2);
+        String string = "" + element(1) + ":" + element(2) + "/" + element(3);
         if (arity() == 4) {
             string += " (label " + element(3) + ")";
         }

@@ -115,4 +115,18 @@ public class LiteralTableChunk extends Chunk {
         return List.of(literals);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{literal_chunk,[");
+        for (Term s : literals) {
+            stringBuilder.append(s).append(',');
+        }
+        if (literals.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }

@@ -117,4 +117,17 @@ public class CodeChunk extends Chunk {
         this.functions = functions;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{code_chunk,[");
+        for (Instruction i : instructions) {
+            stringBuilder.append(i).append(',');
+        }
+        if (instructions.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
 }

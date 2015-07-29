@@ -29,4 +29,11 @@ public class StringTableChunk extends Chunk {
         return strings;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{string_chunk,").append(strings).append('}');
+        return stringBuilder.toString();
+    }
+
 }

@@ -30,4 +30,18 @@ public class LocalFunctionTableChunk extends Chunk {
         return List.of(locals);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{local_functions_chunk,[");
+        for (FunctionSignature s : locals) {
+            stringBuilder.append(s).append(',');
+        }
+        if (locals.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }

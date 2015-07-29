@@ -2,6 +2,8 @@ package org.jerlang.type;
 
 import java.util.Objects;
 
+import org.jerlang.erts.erlang.Error;
+
 public class Tuple extends Term {
 
     private final Term[] elements;
@@ -14,8 +16,15 @@ public class Tuple extends Term {
         return elements.length;
     }
 
+    /**
+     * Get the n-th element.
+     * Please note that the index starts at 1, not at 0.
+     */
     public Term element(int index) {
-        return elements[index];
+        if (index < 1) {
+            throw new Error("tuple index starts at 1, not 0");
+        }
+        return elements[index - 1];
     }
 
     public void set(int index, Term term) {

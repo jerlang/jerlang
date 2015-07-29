@@ -98,4 +98,18 @@ public class ExportTableChunk extends Chunk {
         return List.of(exports);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{export_chunk,[");
+        for (FunctionSignature s : exports) {
+            stringBuilder.append(s).append(',');
+        }
+        if (exports.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }

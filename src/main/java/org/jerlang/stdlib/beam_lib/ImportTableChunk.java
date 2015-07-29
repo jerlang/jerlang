@@ -91,4 +91,18 @@ public class ImportTableChunk extends Chunk {
         return List.of(imports);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{import_chunk,[");
+        for (FunctionSignature s : imports) {
+            stringBuilder.append(s).append(',');
+        }
+        if (imports.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }

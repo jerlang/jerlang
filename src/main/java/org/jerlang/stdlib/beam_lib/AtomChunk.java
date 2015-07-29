@@ -63,4 +63,18 @@ public class AtomChunk extends Chunk {
         return atoms;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{atom_chunk,[");
+        for (int index = 0; index < atoms.length; index++) {
+            stringBuilder.append(atoms[index]).append(',');
+        }
+        if (atoms.length > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 1);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
+
 }
