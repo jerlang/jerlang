@@ -7,11 +7,11 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 
 import org.jerlang.FunctionSignature;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
-import org.jerlang.type.List;
 import org.junit.Test;
 
 public class ExportChunkReaderTest {
@@ -34,13 +34,10 @@ public class ExportChunkReaderTest {
         ExportTableChunk exportTableChunk = exportTableChunkReader.read();
         assertNotNull(exportTableChunk);
         assertNotNull(exportTableChunk.exports());
-        List exports = exportTableChunk.exports();
-        assertEquals(mfa("pid", "loop", 0, 2), exports.head());
-        exports = exports.tail();
-        assertEquals(mfa("pid", "module_info", 0, 7), exports.head());
-        exports = exports.tail();
-        assertEquals(mfa("pid", "module_info", 1, 9), exports.head());
-        assertEquals(List.nil, exports.tail());
+        List<FunctionSignature> exports = exportTableChunk.exports();
+        assertEquals(mfa("pid", "module_info", 1, 9), exports.get(0));
+        assertEquals(mfa("pid", "module_info", 0, 7), exports.get(1));
+        assertEquals(mfa("pid", "loop", 0, 2), exports.get(2));
     }
 
     private static FunctionSignature mfa(String m, String f, int a, int l) {

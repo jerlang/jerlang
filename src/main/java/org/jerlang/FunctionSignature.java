@@ -1,5 +1,7 @@
 package org.jerlang;
 
+import java.util.Objects;
+
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.Tuple;
@@ -30,6 +32,23 @@ public class FunctionSignature extends Tuple {
         set(1, function);
         set(2, arity);
         set(3, label);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Tuple) {
+            Tuple other = (Tuple) object;
+            return other.arity() >= 3
+                && element(1).equals(other.element(1))
+                && element(2).equals(other.element(2))
+                && element(3).equals(other.element(3));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(element(1), element(2), element(3));
     }
 
     @Override

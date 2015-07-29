@@ -3,7 +3,6 @@ package org.jerlang.stdlib.beam_lib;
 import java.util.ArrayList;
 
 import org.jerlang.FunctionSignature;
-import org.jerlang.type.List;
 
 /**
  * = Export Table Chunk
@@ -94,8 +93,8 @@ public class ExportTableChunk extends Chunk {
         exports.add(functionSignature);
     }
 
-    public List exports() {
-        return List.of(exports);
+    public ArrayList<FunctionSignature> exports() {
+        return exports;
     }
 
     @Override

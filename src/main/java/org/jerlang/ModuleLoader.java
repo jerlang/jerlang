@@ -50,6 +50,7 @@ public class ModuleLoader {
         }
         Module m = new Module(loadBeamData(filename, info.toList()), module);
         ModuleRegistry.register(m);
+        m.export();
     }
 
     private static BeamData loadBeamData(String filename, List info) {

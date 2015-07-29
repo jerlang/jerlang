@@ -60,6 +60,7 @@ public class Shell {
         }
         Module m = ModuleRegistry.get(Atom.of(token[0]));
         if (m == null) {
+            System.out.println("no module");
             return false;
         }
         FunctionSignature f = new FunctionSignature(m, token[1], 0);
@@ -67,6 +68,8 @@ public class Shell {
             Erlang.display(m.apply(f, List.nil));
             return true;
         } catch (Error e) {
+            System.out.println("error");
+            e.printStackTrace();
             return false;
         }
     }

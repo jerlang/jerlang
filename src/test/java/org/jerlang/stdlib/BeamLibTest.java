@@ -47,9 +47,9 @@ public class BeamLibTest {
         assertTrue(resultList.head() instanceof Tuple);
         Tuple chunksTuple = (Tuple) resultList.head();
         assertEquals(2, chunksTuple.arity());
-        assertEquals(Atom.of("chunks"), chunksTuple.element(0));
-        assertTrue(chunksTuple.element(1) instanceof List);
-        List chunkList = (List) chunksTuple.element(1);
+        assertEquals(Atom.of("chunks"), chunksTuple.element(1));
+        assertTrue(chunksTuple.element(2) instanceof List);
+        List chunkList = chunksTuple.element(2).toList();
 
         assertChunk(chunkList.head(), "Atom", 20, 75);
         chunkList = chunkList.tail();
@@ -79,9 +79,9 @@ public class BeamLibTest {
 
     private void assertChunk(Term term, String id, int offset, int length) {
         assertTrue(term instanceof Tuple);
-        assertEquals(Term.of(id), ((Tuple) term).element(0));
-        assertEquals(Integer.of(offset), ((Tuple) term).element(1));
-        assertEquals(Integer.of(length), ((Tuple) term).element(2));
+        assertEquals(Term.of(id), ((Tuple) term).element(1));
+        assertEquals(Integer.of(offset), ((Tuple) term).element(2));
+        assertEquals(Integer.of(length), ((Tuple) term).element(3));
     }
 
 }

@@ -72,8 +72,17 @@ public class Module {
     }
 
     public void export() {
-        for (Method method : moduleClass.getDeclaredMethods()) {
-            export(method.getName(), method.getParameterCount());
+        if (moduleClass == null) {
+            // The module was loaded from a BEAM file
+            for (FunctionSignature s : beamData.exportTableChunk().exports()) {
+                // TODO: provide link to code
+                exported_functions.put(s, new Fun(s, null));
+            }
+        } else {
+            // The module is included in jerlang
+            for (Method method : moduleClass.getDeclaredMethods()) {
+                export(method.getName(), method.getParameterCount());
+            }
         }
     }
 

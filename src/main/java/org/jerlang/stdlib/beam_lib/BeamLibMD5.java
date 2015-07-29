@@ -100,8 +100,8 @@ public class BeamLibMD5 {
             while (chunkList.head() != null) {
                 Tuple chunk = (Tuple) chunkList.head();
                 if (is_md5_chunk(chunk)) {
-                    Integer offset = (Integer) chunk.element(1);
-                    Integer size = (Integer) chunk.element(2);
+                    Integer offset = (Integer) chunk.element(2);
+                    Integer size = (Integer) chunk.element(3);
                     update(md5, bytes, offset.toInt(), size.toInt());
                 }
                 chunkList = chunkList.tail();
@@ -116,7 +116,7 @@ public class BeamLibMD5 {
     }
 
     private static boolean is_md5_chunk(Tuple chunk) {
-        String chunk_name = chunk.element(0).toString();
+        String chunk_name = chunk.element(1).toString();
         switch (chunk_name) {
         case "\"Atom\"":
         case "\"Code\"":
