@@ -15,6 +15,8 @@ import org.jerlang.stdlib.beam_lib.Chunk;
 import org.jerlang.stdlib.beam_lib.ChunkId;
 import org.jerlang.stdlib.beam_lib.CodeChunk;
 import org.jerlang.stdlib.beam_lib.CodeChunkReader;
+import org.jerlang.stdlib.beam_lib.CompileInfoChunk;
+import org.jerlang.stdlib.beam_lib.CompileInfoChunkReader;
 import org.jerlang.stdlib.beam_lib.ExportTableChunk;
 import org.jerlang.stdlib.beam_lib.ExportTableChunkReader;
 import org.jerlang.stdlib.beam_lib.FunctionTableChunk;
@@ -58,6 +60,7 @@ public class ModuleLoader {
             AtomChunk atomChunk = null;
             AttributeChunk attributeChunk = null;
             CodeChunk codeChunk = null;
+            CompileInfoChunk compileInfoChunk = null;
             ExportTableChunk exportTableChunk = null;
             FunctionTableChunk functionTableChunk = null;
             ImportTableChunk importTableChunk = null;
@@ -86,7 +89,7 @@ public class ModuleLoader {
                     attributeChunk = new AttributeChunkReader(chunk, dis).read();
                     break;
                 case CINF:
-                    // not supported
+                    compileInfoChunk = new CompileInfoChunkReader(chunk, dis).read();
                     break;
                 case CODE:
                     codeChunk = new CodeChunkReader(chunk, dis, atomChunk).read();
@@ -121,6 +124,7 @@ public class ModuleLoader {
                 atomChunk,
                 attributeChunk,
                 codeChunk,
+                compileInfoChunk,
                 exportTableChunk,
                 functionTableChunk,
                 importTableChunk,

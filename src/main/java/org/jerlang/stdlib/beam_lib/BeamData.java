@@ -8,6 +8,7 @@ public class BeamData {
     private final AtomChunk atomChunk;
     private final AttributeChunk attributeChunk;
     private final CodeChunk codeChunk;
+    private final CompileInfoChunk compileInfoChunk;
     private final ExportTableChunk exportTableChunk;
     private final FunctionTableChunk functionTableChunk;
     private final ImportTableChunk importTableChunk;
@@ -19,6 +20,7 @@ public class BeamData {
         AtomChunk atomChunk,
         AttributeChunk attributeChunk,
         CodeChunk codeChunk,
+        CompileInfoChunk compileInfoChunk,
         ExportTableChunk exportTableChunk,
         FunctionTableChunk functionTableChunk,
         ImportTableChunk importTableChunk,
@@ -28,6 +30,7 @@ public class BeamData {
         this.atomChunk = atomChunk;
         this.attributeChunk = attributeChunk;
         this.codeChunk = codeChunk;
+        this.compileInfoChunk = compileInfoChunk;
         this.exportTableChunk = exportTableChunk;
         this.functionTableChunk = functionTableChunk;
         this.importTableChunk = importTableChunk;
@@ -46,6 +49,10 @@ public class BeamData {
 
     public CodeChunk codeChunk() {
         return codeChunk;
+    }
+
+    public CompileInfoChunk compileInfoChunk() {
+        return compileInfoChunk;
     }
 
     public ExportTableChunk exportTableChunk() {
@@ -79,6 +86,7 @@ public class BeamData {
             .append("  ").append(atomChunk).append('\n')
             .append("  ").append(attributeChunk).append('\n')
             .append("  ").append(codeChunk).append('\n')
+            .append("  ").append(compileInfoChunk).append('\n')
             .append("  ").append(exportTableChunk).append('\n')
             .append("  ").append(functionTableChunk).append('\n')
             .append("  ").append(importTableChunk).append('\n')

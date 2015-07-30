@@ -14,11 +14,7 @@ public class AttributeChunk extends Chunk {
 
     public AttributeChunk(Chunk chunk, Term attributes) {
         super(ChunkId.ATTR, chunk);
-        if (attributes instanceof List) {
-            this.attributes = (List) attributes;
-        } else {
-            throw new Error("attributes is not a list");
-        }
+        this.attributes = attributes.toList();
     }
 
     public List attributes() {

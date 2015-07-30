@@ -37,6 +37,8 @@ public class ExternalTermReader extends AbstractReader {
             return Integer.of(read4Bytes());
         case LIST_EXT:
             return readList();
+        case NIL_EXT:
+            return List.nil;
         case SMALL_BIG_EXT:
             return readSmallBig();
         case SMALL_INTEGER_EXT:
