@@ -5,6 +5,7 @@ package org.jerlang.stdlib.beam_lib;
  */
 public class BeamData {
 
+    private final AbstractSyntaxTreeChunk abstractSyntaxTreeChunk;
     private final AtomChunk atomChunk;
     private final AttributeChunk attributeChunk;
     private final CodeChunk codeChunk;
@@ -17,6 +18,7 @@ public class BeamData {
     private final StringTableChunk stringTableChunk;
 
     public BeamData(
+        AbstractSyntaxTreeChunk abstractSyntaxTreeChunk,
         AtomChunk atomChunk,
         AttributeChunk attributeChunk,
         CodeChunk codeChunk,
@@ -27,6 +29,7 @@ public class BeamData {
         LiteralTableChunk literalTableChunk,
         LocalFunctionTableChunk localFunctionTableChunk,
         StringTableChunk stringTableChunk) {
+        this.abstractSyntaxTreeChunk = abstractSyntaxTreeChunk;
         this.atomChunk = atomChunk;
         this.attributeChunk = attributeChunk;
         this.codeChunk = codeChunk;
@@ -37,6 +40,10 @@ public class BeamData {
         this.literalTableChunk = literalTableChunk;
         this.localFunctionTableChunk = localFunctionTableChunk;
         this.stringTableChunk = stringTableChunk;
+    }
+
+    public AbstractSyntaxTreeChunk abstractSyntaxTreeChunk() {
+        return abstractSyntaxTreeChunk;
     }
 
     public AtomChunk atomChunk() {
@@ -83,6 +90,7 @@ public class BeamData {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder()
             .append("{beam_data, [\n")
+            .append("  ").append(abstractSyntaxTreeChunk).append('\n')
             .append("  ").append(atomChunk).append('\n')
             .append("  ").append(attributeChunk).append('\n')
             .append("  ").append(codeChunk).append('\n')

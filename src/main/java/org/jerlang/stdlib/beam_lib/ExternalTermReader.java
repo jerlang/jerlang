@@ -33,6 +33,10 @@ public class ExternalTermReader extends AbstractReader {
         switch (tag) {
         case ATOM_EXT:
             return readAtom();
+        case BIT_BINARY_INTERNAL_REF:
+            read4Bytes(); // offset
+            read4Bytes(); // size
+            return new Str("Binary Internal Ref");
         case INTEGER_EXT:
             return Integer.of(read4Bytes());
         case LIST_EXT:

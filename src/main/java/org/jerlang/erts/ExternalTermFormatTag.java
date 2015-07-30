@@ -3,6 +3,9 @@ package org.jerlang.erts;
 /**
  * See:
  * http://erlang.org/doc/apps/erts/erl_ext_dist.html
+ *
+ * All values are defined in Erlang/OTP source here:
+ * erts/emulator/beam/external.h
  */
 public enum ExternalTermFormatTag {
 
@@ -12,21 +15,21 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id92929
      */
-    ATOM_CACHE_REF(82),
+    ATOM_CACHE_REF('R'), // 82
 
     /**
      * Unsigned 8 bit integer.
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93004
      */
-    SMALL_INTEGER_EXT(97),
+    SMALL_INTEGER_EXT('a'), // 97
 
     /**
      * Signed 32 bit integer in big-endian format (i.e. MSB first)
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93068
      */
-    INTEGER_EXT(98),
+    INTEGER_EXT('b'), // 98
 
     /**
      * A float is stored in string format.
@@ -39,7 +42,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93132
      */
-    FLOAT_EXT(99),
+    FLOAT_EXT('c'), // 99
 
     /**
      * An atom is stored with a 2 byte unsigned length in big-endian order,
@@ -50,7 +53,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93208
      */
-    ATOM_EXT(100),
+    ATOM_EXT('d'), // 100
 
     /**
      * Encode a reference object (an object generated with `make_ref/0`).
@@ -67,7 +70,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93307
      */
-    REFERENCE_EXT(101),
+    REFERENCE_EXT('e'), // 101
 
     /**
      * Encode a port object (obtained form `open_port/2`).
@@ -77,7 +80,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93464
      */
-    PORT_EXT(102),
+    PORT_EXT('f'), // 102
 
     /**
      * Encode a process identifier object (obtained from spawn/3 or friends).
@@ -87,7 +90,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93583
      */
-    PID_EXT(103),
+    PID_EXT('g'), // 103
 
     /**
      * SMALL_TUPLE_EXT encodes a tuple.
@@ -96,7 +99,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93727
      */
-    SMALL_TUPLE_EXT(104),
+    SMALL_TUPLE_EXT('h'), // 104
 
     /**
      * Same as SMALL_TUPLE_EXT with the exception that Arity is an
@@ -104,7 +107,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93819
      */
-    LARGE_TUPLE_EXT(105),
+    LARGE_TUPLE_EXT('i'), // 105
 
     /**
      * `MAP_EXT` encodes a map.
@@ -120,14 +123,14 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id93909
      */
-    MAP_EXT(116),
+    MAP_EXT('t'), // 116
 
     /**
      * The representation for an empty list, i.e. the Erlang syntax `[]`.
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94020
      */
-    NIL_EXT(106),
+    NIL_EXT('j'), // 106
 
     /**
      * String does NOT have a corresponding Erlang representation,
@@ -140,7 +143,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94071
      */
-    STRING_EXT(107),
+    STRING_EXT('k'), // 107
 
     /**
      * Length is the number of elements that follows in the Elements section.
@@ -149,7 +152,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94163
      */
-    LIST_EXT(108),
+    LIST_EXT('l'), // 108
 
     /**
      * Binaries are generated with bit syntax expression or with
@@ -158,7 +161,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94282
      */
-    BINARY_EXT(109),
+    BINARY_EXT('m'), // 109
 
     /**
      * Bignums are stored in unary form with a Sign byte that is 0 if the binum
@@ -174,7 +177,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94379
      */
-    SMALL_BIG_EXT(110),
+    SMALL_BIG_EXT('n'), // 110
 
     /**
      * Same as `SMALL_BIG_EXT` with the difference that the length field
@@ -182,7 +185,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94486
      */
-    LARGE_BIG_EXT(111),
+    LARGE_BIG_EXT('o'), // 111
 
     /**
      * Node and Creation are as in REFERENCE_EXT.
@@ -204,7 +207,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94589
      */
-    NEW_REFERENCE_EXT(114),
+    NEW_REFERENCE_EXT('r'), // 114
 
     /**
      * An atom is stored with a 1 byte unsigned length, followed by Len numbers
@@ -216,7 +219,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94762
      */
-    SMALL_ATOM_EXT(115),
+    SMALL_ATOM_EXT('s'), // 115
 
     /**
      * Pid::
@@ -240,7 +243,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id94880
      */
-    FUN_EXT(117),
+    FUN_EXT('u'), // 117
 
     /**
      * This is the new encoding of internal funs:
@@ -283,7 +286,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95127
      */
-    NEW_FUN_EXT(112),
+    NEW_FUN_EXT('p'), // 112
 
     /**
      * This term is the encoding for external funs: `fun M:F/A`.
@@ -295,7 +298,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95505
      */
-    EXPORT_EXT(113),
+    EXPORT_EXT('q'), // 113
 
     /**
      * This term represents a bitstring whose length in bits does not have to
@@ -307,7 +310,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95648
      */
-    BIT_BINARY_EXT(77),
+    BIT_BINARY_EXT('M'), // 77
 
     /**
      * A float is stored as 8 bytes in big-endian IEEE format.
@@ -316,7 +319,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95755
      */
-    NEW_FLOAT_EXT(70),
+    NEW_FLOAT_EXT('F'), // 70
 
     /**
      * An atom is stored with a 2 byte unsigned length in big-endian order,
@@ -327,7 +330,7 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95823
      */
-    ATOM_UTF8_EXT(118),
+    ATOM_UTF8_EXT('v'), // 118
 
     /**
      * An atom is stored with a 1 byte unsigned length,
@@ -339,7 +342,12 @@ public enum ExternalTermFormatTag {
      *
      * http://erlang.org/doc/apps/erts/erl_ext_dist.html#id95924
      */
-    SMALL_ATOM_UTF8_EXT(119);
+    SMALL_ATOM_UTF8_EXT('w'), // 119
+
+    /**
+     * TODO: Undocumented
+     */
+    BIT_BINARY_INTERNAL_REF('L'); // 76
 
     private final int tag;
 

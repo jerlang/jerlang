@@ -6,6 +6,8 @@ import java.io.File;
 import java.nio.file.Files;
 
 import org.jerlang.stdlib.BeamLib;
+import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunk;
+import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunkReader;
 import org.jerlang.stdlib.beam_lib.AtomChunk;
 import org.jerlang.stdlib.beam_lib.AtomChunkReader;
 import org.jerlang.stdlib.beam_lib.AttributeChunk;
@@ -57,6 +59,7 @@ public class ModuleLoader {
 
     private static BeamData loadBeamData(String filename, List info) {
         try {
+            AbstractSyntaxTreeChunk abstractSyntaxTreeChunk = null;
             AtomChunk atomChunk = null;
             AttributeChunk attributeChunk = null;
             CodeChunk codeChunk = null;
@@ -80,7 +83,7 @@ public class ModuleLoader {
                 dis.skipBytes(offset);
                 switch (chunkId) {
                 case ABST:
-                    // not supported
+                    abstractSyntaxTreeChunk = new AbstractSyntaxTreeChunkReader(chunk, dis).read();
                     break;
                 case ATOM:
                     atomChunk = new AtomChunkReader(chunk, dis).read();
@@ -121,6 +124,7 @@ public class ModuleLoader {
                 chunkList = chunkList.tail();
             }
             BeamData bd = new BeamData(
+                abstractSyntaxTreeChunk,
                 atomChunk,
                 attributeChunk,
                 codeChunk,
