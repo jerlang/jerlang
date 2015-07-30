@@ -2,6 +2,8 @@ package org.jerlang.erts;
 
 import java.util.HashMap;
 
+import jline.console.history.MemoryHistory;
+
 import org.jerlang.FunctionSignature;
 import org.jerlang.Process;
 import org.jerlang.stdlib.Lists;
@@ -22,6 +24,8 @@ public class Runtime {
     private static List plainArguments = List.nil;
     private static final ThreadLocal<org.jerlang.Process> process = new ThreadLocal<>();
     private static final HashMap<Atom, List> userFlags = new HashMap<>();
+
+    private static MemoryHistory shellHistory = new MemoryHistory();
 
     public static void addPlainArgument(String string) {
         plainArguments = new List(Str.of(string), plainArguments);
@@ -65,6 +69,10 @@ public class Runtime {
 
     public static void setRunFlag(FunctionSignature signature) {
         runFlag = signature;
+    }
+
+    public static MemoryHistory shellHistory() {
+        return shellHistory;
     }
 
 }

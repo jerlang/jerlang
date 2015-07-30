@@ -13,6 +13,7 @@ import org.jerlang.kernel.OS;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.ErlInternal;
 import org.jerlang.stdlib.Lists;
+import org.jerlang.stdlib.Shell;
 import org.jerlang.type.Atom;
 
 /**
@@ -33,6 +34,7 @@ public class ModuleRegistry {
         init(Lists.class).export();
         init(OS.class).export();
         init(OtpRing0.class).export();
+        init(Shell.class).export();
     }
 
     public static Module get(Atom module) {
