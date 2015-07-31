@@ -155,4 +155,8 @@ public class ModuleLoader {
         return null;
     }
 
+    public static void main(String[] args) {
+        ModuleLoader.load(Atom.of("hello_world"));
+    }
+
 }

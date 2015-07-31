@@ -345,8 +345,13 @@ public enum ExternalTermFormatTag {
     SMALL_ATOM_UTF8_EXT('w'), // 119
 
     /**
-     * TODO: Undocumented
+     * TODO: Undocumented and currently unsupported
      */
+    DIST_HEADER('D'), // 68
+    ATOM_INTERNAL_REF2('I'), // 73
+    BINARY_INTERNAL_REF('J'), // 74
+    ATOM_INTERNAL_REF3('K'), // 75
+    COMPRESSED('P'), // 80
     BIT_BINARY_INTERNAL_REF('L'); // 76
 
     private final int tag;
