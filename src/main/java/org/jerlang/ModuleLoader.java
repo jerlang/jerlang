@@ -25,6 +25,8 @@ import org.jerlang.stdlib.beam_lib.FunctionTableChunk;
 import org.jerlang.stdlib.beam_lib.FunctionTableChunkReader;
 import org.jerlang.stdlib.beam_lib.ImportTableChunk;
 import org.jerlang.stdlib.beam_lib.ImportTableChunkReader;
+import org.jerlang.stdlib.beam_lib.LineTableChunk;
+import org.jerlang.stdlib.beam_lib.LineTableChunkReader;
 import org.jerlang.stdlib.beam_lib.LiteralTableChunk;
 import org.jerlang.stdlib.beam_lib.LiteralTableChunkReader;
 import org.jerlang.stdlib.beam_lib.LocalFunctionTableChunk;
@@ -67,6 +69,7 @@ public class ModuleLoader {
             ExportTableChunk exportTableChunk = null;
             FunctionTableChunk functionTableChunk = null;
             ImportTableChunk importTableChunk = null;
+            LineTableChunk lineTableChunk = null;
             LiteralTableChunk literalTableChunk = null;
             LocalFunctionTableChunk localFunctionTableChunk = null;
             StringTableChunk stringTableChunk = null;
@@ -107,7 +110,7 @@ public class ModuleLoader {
                     importTableChunk = new ImportTableChunkReader(chunk, dis, atomChunk).read();
                     break;
                 case LINE:
-                    // not supported
+                    lineTableChunk = new LineTableChunkReader(chunk, dis, atomChunk).read();
                     break;
                 case LITT:
                     literalTableChunk = new LiteralTableChunkReader(chunk, dis).read();
@@ -132,6 +135,7 @@ public class ModuleLoader {
                 exportTableChunk,
                 functionTableChunk,
                 importTableChunk,
+                lineTableChunk,
                 literalTableChunk,
                 localFunctionTableChunk,
                 stringTableChunk);

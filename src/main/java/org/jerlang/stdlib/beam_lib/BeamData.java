@@ -13,6 +13,7 @@ public class BeamData {
     private final ExportTableChunk exportTableChunk;
     private final FunctionTableChunk functionTableChunk;
     private final ImportTableChunk importTableChunk;
+    private final LineTableChunk lineTableChunk;
     private final LiteralTableChunk literalTableChunk;
     private final LocalFunctionTableChunk localFunctionTableChunk;
     private final StringTableChunk stringTableChunk;
@@ -26,6 +27,7 @@ public class BeamData {
         ExportTableChunk exportTableChunk,
         FunctionTableChunk functionTableChunk,
         ImportTableChunk importTableChunk,
+        LineTableChunk lineTableChunk,
         LiteralTableChunk literalTableChunk,
         LocalFunctionTableChunk localFunctionTableChunk,
         StringTableChunk stringTableChunk) {
@@ -37,6 +39,7 @@ public class BeamData {
         this.exportTableChunk = exportTableChunk;
         this.functionTableChunk = functionTableChunk;
         this.importTableChunk = importTableChunk;
+        this.lineTableChunk = lineTableChunk;
         this.literalTableChunk = literalTableChunk;
         this.localFunctionTableChunk = localFunctionTableChunk;
         this.stringTableChunk = stringTableChunk;
@@ -74,6 +77,10 @@ public class BeamData {
         return importTableChunk;
     }
 
+    public LineTableChunk lineTableChunk() {
+        return lineTableChunk;
+    }
+
     public LiteralTableChunk literalTableChunk() {
         return literalTableChunk;
     }
@@ -98,6 +105,7 @@ public class BeamData {
             .append("  ").append(exportTableChunk).append('\n')
             .append("  ").append(functionTableChunk).append('\n')
             .append("  ").append(importTableChunk).append('\n')
+            .append("  ").append(lineTableChunk).append('\n')
             .append("  ").append(literalTableChunk).append('\n')
             .append("  ").append(localFunctionTableChunk).append('\n')
             .append("  ").append(stringTableChunk).append('\n')
