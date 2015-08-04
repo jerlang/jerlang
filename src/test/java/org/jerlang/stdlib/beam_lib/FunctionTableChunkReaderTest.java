@@ -17,7 +17,7 @@ import org.junit.Test;
 public class FunctionTableChunkReaderTest {
 
     @Test
-    public void testImportChunkReader() throws Throwable {
+    public void testFunctionTableChunkReader() throws Throwable {
         File file = new File("src/test/resources/fun_test.beam");
         byte[] bytes = Files.readAllBytes(file.toPath());
 

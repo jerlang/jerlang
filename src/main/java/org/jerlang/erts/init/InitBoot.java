@@ -3,7 +3,6 @@ package org.jerlang.erts.init;
 import static org.jerlang.erts.Erlang.process_flag;
 import static org.jerlang.erts.Erlang.register;
 import static org.jerlang.erts.Erlang.self;
-import static org.jerlang.erts.Erlang.spawn;
 
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.Maps;
@@ -11,7 +10,6 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Boolean;
 import org.jerlang.type.List;
 import org.jerlang.type.Map;
-import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -83,7 +81,7 @@ public class InitBoot {
     }
 
     public static void start_on_load_handler_process() {
-        register(ON_LOAD_HANDLER, spawn(Str.of("on_load_handler_init/0")));
+        //register(ON_LOAD_HANDLER, spawn(Str.of("on_load_handler_init/0")));
     }
 
     public static Tuple parse_boot_args(Object args) {

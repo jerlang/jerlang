@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Comparator;
+import java.util.TreeMap;
 
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunk;
@@ -75,7 +77,7 @@ public class ModuleLoader {
             StringTableChunk stringTableChunk = null;
             byte[] bytes = Files.readAllBytes(new File(filename).toPath());
             Tuple chunksTuple = get_chunks_tuple(info);
-            List chunkList = chunksTuple.element(2).toList();
+            List chunkList = sort_chunk_list(chunksTuple.element(2).toList());
             while (chunkList.length() > 0) {
                 Tuple chunkTuple = chunkList.head().toTuple();
                 int offset = chunkTuple.element(2).toInteger().toInt();
@@ -98,7 +100,7 @@ public class ModuleLoader {
                     compileInfoChunk = new CompileInfoChunkReader(chunk, dis).read();
                     break;
                 case CODE:
-                    codeChunk = new CodeChunkReader(chunk, dis, atomChunk).read();
+                    codeChunk = new CodeChunkReader(chunk, dis, atomChunk, literalTableChunk).read();
                     break;
                 case EXPT:
                     exportTableChunk = new ExportTableChunkReader(chunk, dis, atomChunk).read();
@@ -145,6 +147,31 @@ public class ModuleLoader {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * We need to sort the list of chunks so that chunks
+     * without dependencies (e.g. the atom chunk) are loaded first.
+     * Otherwise, loading of chunks depending on such chunks,
+     * like the code chunk, is not possible.
+     */
+    private static List sort_chunk_list(List chunkList) {
+        TreeMap<ChunkId, Tuple> chunks = new TreeMap<>(new Comparator<ChunkId>() {
+
+            @Override
+            public int compare(ChunkId a, ChunkId b) {
+                return -Integer.compare(a.sortOrder(), b.sortOrder());
+            }
+
+        });
+        while (chunkList.length() > 0) {
+            Tuple chunkTuple = chunkList.head().toTuple();
+            ChunkId chunkId = ChunkId.of(chunkTuple.element(1).toStr().string());
+            chunks.put(chunkId, chunkTuple);
+            chunkList = chunkList.tail();
+        }
+        List result = List.of(chunks.values());
+        return result;
     }
 
     private static Tuple get_chunks_tuple(List info) {

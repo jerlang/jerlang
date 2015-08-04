@@ -28,7 +28,10 @@ public class Tuple extends Term {
     }
 
     public void set(int index, Term term) {
-        elements[index] = term;
+        if (index < 1) {
+            throw new Error("tuple index starts at 1, not 0");
+        }
+        elements[index - 1] = term;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class Tuple extends Term {
     public static Tuple of(Term... terms) {
         Tuple tuple = new Tuple(terms.length);
         for (int index = 0; index < terms.length; index++) {
-            tuple.set(index, terms[index]);
+            tuple.set(index + 1, terms[index]);
         }
         return tuple;
     }

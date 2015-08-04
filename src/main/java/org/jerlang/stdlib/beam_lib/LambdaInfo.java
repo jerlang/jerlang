@@ -21,8 +21,8 @@ public class LambdaInfo extends Tuple {
         int oldUnique,
         AtomChunk atomChunk) {
         super(2);
-        set(0, Integer.of(oldIndex));
-        set(1, Tuple.of(
+        set(1, Integer.of(oldIndex));
+        set(2, Tuple.of(
             atomChunk.atoms()[functionId - 1],
             Integer.of(arity),
             Integer.of(label),

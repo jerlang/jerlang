@@ -44,7 +44,7 @@ public class AbstractReader {
         this.inputStream = inputStream;
     }
 
-    protected Term decodeArg(AtomChunk atomChunk) throws IOException {
+    protected Term decodeArg(AtomChunk atomChunk, LiteralTableChunk literalTableChunk) throws IOException {
         int b = read1Byte();
         OpcodeTag tag = OpcodeTag.decode(b);
         switch (tag) {
@@ -72,10 +72,8 @@ public class AbstractReader {
             case 3:
                 throw new Error("decode allocation list not implemented yet");
             case 4:
-                // TODO: literal/float lookup
-                Term litIndex = decodeArg(atomChunk);
-                System.out.println("Literal at index " + litIndex);
-                break;
+                Term litIndex = decodeArg(atomChunk, literalTableChunk);
+                return literalTableChunk.literals().get(litIndex.toInteger().toInt());
             }
         default:
             return Tuple.of(tag.toAtom(), Integer.of(decodeInt(b)));

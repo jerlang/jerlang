@@ -30,6 +30,7 @@ import org.jerlang.erts.erlang.ErlangTupleSize;
 import org.jerlang.erts.erlang.ErlangTupleToList;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
@@ -169,7 +170,7 @@ public class Erlang {
         return ErlangSelf.self_0();
     }
 
-    public static PID spawn(Term fun) {
+    public static PID spawn(Fun fun) {
         return ErlangSpawn.spawn_1(fun);
     }
 

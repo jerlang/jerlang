@@ -3,6 +3,7 @@ package org.jerlang;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.jerlang.type.Fun;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 
@@ -15,17 +16,22 @@ import org.jerlang.type.Term;
  * Source:
  * http://www.erlang.org/doc/reference_manual/processes.html
  */
-public class Process {
+public class Process implements ProcessOrPort {
 
     private final PID pid;
     private final LinkedBlockingQueue<Term> mailbox;
     private final ProcessDictionary dictionary;
     private ProcessPriority priority = ProcessPriority.NORMAL;
+    private Scheduler scheduler = null;
 
     public Process() {
         pid = new PID(1);
         dictionary = new ProcessDictionary();
         mailbox = new LinkedBlockingQueue<>();
+    }
+
+    public Process(Fun fun) {
+        this();
     }
 
     public void send(Term message) {
@@ -40,6 +46,9 @@ public class Process {
         return dictionary;
     }
 
+    public void execute() {
+    }
+
     public PID pid() {
         return pid;
     }
@@ -48,8 +57,16 @@ public class Process {
         return priority;
     }
 
+    public Scheduler scheduler() {
+        return scheduler;
+    }
+
     public void setPriority(ProcessPriority priority) {
         this.priority = Objects.requireNonNull(priority);
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
     }
 
 }

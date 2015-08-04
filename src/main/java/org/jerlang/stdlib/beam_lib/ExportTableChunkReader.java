@@ -18,8 +18,8 @@ public class ExportTableChunkReader extends AbstractChunkReader<ExportTableChunk
     public ExportTableChunk read() throws Throwable {
         ExportTableChunk exportTableChunk = new ExportTableChunk(chunk());
 
-        int numberOfImports = read4Bytes();
-        while (numberOfImports-- > 0) {
+        int numberOfExports = read4Bytes();
+        while (numberOfExports-- > 0) {
             exportTableChunk.add(nextFunctionSignature());
         }
 

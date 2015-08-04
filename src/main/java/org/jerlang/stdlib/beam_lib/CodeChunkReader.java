@@ -10,9 +10,10 @@ public class CodeChunkReader extends AbstractChunkReader<CodeChunk> {
 
     private final InstructionReader instructionReader;
 
-    public CodeChunkReader(Chunk chunk, DataInputStream inputStream, AtomChunk atomChunk) {
+    public CodeChunkReader(Chunk chunk, DataInputStream inputStream, AtomChunk atomChunk,
+        LiteralTableChunk literalTableChunk) {
         super(chunk, inputStream);
-        instructionReader = new InstructionReader(inputStream, atomChunk);
+        instructionReader = new InstructionReader(inputStream, atomChunk, literalTableChunk);
     }
 
     public CodeChunk read() throws Throwable {

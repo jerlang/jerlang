@@ -21,17 +21,17 @@ public class FunctionSignature extends Tuple {
 
     public FunctionSignature(Atom module, Atom function, Integer arity) {
         super(3);
-        set(0, module);
-        set(1, function);
-        set(2, arity);
+        set(1, module);
+        set(2, function);
+        set(3, arity);
     }
 
     public FunctionSignature(Atom module, Atom function, Integer arity, Integer label) {
         super(4);
-        set(0, module);
-        set(1, function);
-        set(2, arity);
-        set(3, label);
+        set(1, module);
+        set(2, function);
+        set(3, arity);
+        set(4, label);
     }
 
     @Override

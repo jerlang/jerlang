@@ -27,7 +27,7 @@ public class LineTableChunkReader extends AbstractChunkReader<LineTableChunk> {
         // Tag the line numbers with an 'i' (integer) tag."
         Atom filename = atomChunk.atoms()[0];
         for (int index = 0; index < lineTableChunk.records().length; index++) {
-            Term t = decodeArg(null);
+            Term t = decodeArg(null, null);
             if (t instanceof Atom) {
                 filename = t.toAtom();
             } else if (t instanceof Integer) {

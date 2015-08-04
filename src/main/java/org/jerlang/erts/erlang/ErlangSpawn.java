@@ -1,5 +1,8 @@
 package org.jerlang.erts.erlang;
 
+import org.jerlang.Process;
+import org.jerlang.VirtualMachine;
+import org.jerlang.type.Fun;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
@@ -12,7 +15,7 @@ public class ErlangSpawn {
     public static Term dispatch(List params) {
         switch (params.length()) {
         case 1:
-            return spawn_1(params.head());
+            return spawn_1(params.head().toFun());
         default:
             throw new Error("badarg");
         }
@@ -24,8 +27,8 @@ public class ErlangSpawn {
      *
      * http://www.erlang.org/doc/man/erlang.html#spawn-1
      */
-    public static PID spawn_1(Term fun) {
-        return new PID(0); // TODO
+    public static PID spawn_1(Fun fun) {
+        return VirtualMachine.instance().spawn(new Process(fun));
     }
 
 }

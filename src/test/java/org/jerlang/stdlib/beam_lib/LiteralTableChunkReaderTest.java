@@ -7,9 +7,10 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 
-import org.jerlang.type.List;
 import org.jerlang.type.Str;
+import org.jerlang.type.Term;
 import org.junit.Test;
 
 public class LiteralTableChunkReaderTest {
@@ -26,9 +27,9 @@ public class LiteralTableChunkReaderTest {
         LiteralTableChunk literalTableChunk = literalTableChunkReader.read();
         assertNotNull(literalTableChunk);
         assertNotNull(literalTableChunk.literals());
-        List literals = literalTableChunk.literals();
-        assertEquals(Str.of(new String(new byte[] { 1, 2, 3, 4, 5 })), literals.head());
-        assertEquals(List.nil, literals.tail());
+        List<Term> literals = literalTableChunk.literals();
+        assertEquals(Str.of(new String(new byte[] { 1, 2, 3, 4, 5 })), literals.get(0));
+        assertEquals(1, literals.size());
     }
 
 }

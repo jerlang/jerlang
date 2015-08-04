@@ -2,31 +2,37 @@ package org.jerlang.stdlib.beam_lib;
 
 import org.jerlang.type.Str;
 
-public enum ChunkId {
+public enum ChunkId implements Comparable<ChunkId> {
 
-    ABST("Abst"), // Abstract Code
-    ATOM("Atom"), // Atoms
-    ATTR("Attr"), // Attributes
-    CINF("CInf"), // Compile Information
-    CODE("Code"), // Code
-    EXPT("ExpT"), // Export Table
-    FUNT("FunT"), // Function Table
-    IMPT("ImpT"), // Import Table
-    LINE("Line"), // Line Table
-    LITT("LitT"), // Literal Table
-    LOCT("LocT"), // Local Table
-    STRT("StrT"); // String Table
+    ABST("Abst", 10), // Abstract Code
+    ATOM("Atom", 1), // Atoms
+    ATTR("Attr", 11), // Attributes
+    CINF("CInf", 12), // Compile Information
+    CODE("Code", 8), // Code
+    EXPT("ExpT", 4), // Export Table
+    FUNT("FunT", 5), // Function Table
+    IMPT("ImpT", 6), // Import Table
+    LINE("Line", 9), // Line Table
+    LITT("LitT", 2), // Literal Table
+    LOCT("LocT", 7), // Local Table
+    STRT("StrT", 3); // String Table
 
+    private final int sortOrder; // ascending
     private final String string;
     private final int value;
 
-    private ChunkId(String string) {
+    private ChunkId(String string, int sortOrder) {
         char a = string.charAt(0);
         char b = string.charAt(1);
         char c = string.charAt(2);
         char d = string.charAt(3);
+        this.sortOrder = sortOrder;
         this.string = string;
         this.value = (a << 24) | (b << 16) | (c << 8) | d;
+    }
+
+    public int sortOrder() {
+        return sortOrder;
     }
 
     public int toInt() {
@@ -61,4 +67,5 @@ public enum ChunkId {
         System.err.println("Invalid chunk ID: '" + string + "'");
         return null;
     }
+
 }

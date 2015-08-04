@@ -1,8 +1,8 @@
 package org.jerlang.stdlib.beam_lib;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
@@ -111,8 +111,8 @@ public class LiteralTableChunk extends Chunk {
         literals.add(literal);
     }
 
-    public List literals() {
-        return List.of(literals);
+    public List<Term> literals() {
+        return literals;
     }
 
     @Override
