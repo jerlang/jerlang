@@ -25,14 +25,14 @@ public class CompileInfoChunk extends Chunk {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{compile_info,[");
+        stringBuilder.append("{compile_info,[\n    ");
         List list = compile_info;
         while (list.length() > 0) {
-            stringBuilder.append(list.head()).append(',');
+            stringBuilder.append(list.head()).append(",\n    ");
             list = list.tail();
         }
         if (compile_info.length() > 0) {
-            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.setLength(stringBuilder.length() - 6);
         }
         stringBuilder.append("]}");
         return stringBuilder.toString();

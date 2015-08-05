@@ -94,12 +94,12 @@ public class ImportTableChunk extends Chunk {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{import_chunk,[");
+        stringBuilder.append("{import_chunk,[\n    ");
         for (FunctionSignature s : imports) {
-            stringBuilder.append(s).append(',');
+            stringBuilder.append(s).append(",\n    ");
         }
         if (imports.size() > 0) {
-            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.setLength(stringBuilder.length() - 6);
         }
         stringBuilder.append("]}");
         return stringBuilder.toString();

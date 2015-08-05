@@ -64,10 +64,11 @@ public class ExternalTermReader extends AbstractReader {
 
     private List readList() throws Throwable {
         int length = read4Bytes();
-        List list = new List();
+        List list = List.nil;
         while (length-- > 0) {
             list = new List(read(), list);
         }
+        read(); // Lists are terminated by a NIL, which we skip
         return list;
     }
 
@@ -93,8 +94,7 @@ public class ExternalTermReader extends AbstractReader {
         int len = read2Bytes();
         byte[] bytes = new byte[len];
         readBytes(bytes);
-        Str s = Str.of(new String(bytes));
-        return s;
+        return Str.of(new String(bytes));
     }
 
     /*

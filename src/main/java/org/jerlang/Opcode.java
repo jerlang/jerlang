@@ -49,6 +49,9 @@ public enum Opcode {
     /**
      * Call the function of arity Arity pointed to by Destination.
      * Save the next instruction as the return address in the CP register.
+     *
+     * First argument is the arity.
+     * Second argument is the index of the function in import chunk.
      */
     call_ext(7, 2),
 

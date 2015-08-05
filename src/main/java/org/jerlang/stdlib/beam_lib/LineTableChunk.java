@@ -48,17 +48,28 @@ public class LineTableChunk extends Chunk {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{lines,[");
-        stringBuilder.append("{records,[");
+        stringBuilder.append("{lines,[\n    ");
+        stringBuilder.append("{records,[\n      ");
         for (LineRecord lineRecord : records) {
-            stringBuilder.append(lineRecord).append(',');
+            stringBuilder.append(lineRecord).append(",\n      ");
         }
-        stringBuilder.append("]]}");
-        stringBuilder.append("{filenames,[");
-        for (Str filename : fnames) {
-            stringBuilder.append(filename).append(',');
+        if (records.length > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 8);
         }
-        stringBuilder.append("]]}");
+        stringBuilder.append("]},\n    ");
+        if (fnames.length == 0) {
+            stringBuilder.append("{filenames,[]}");
+        } else {
+            stringBuilder.append("{filenames,[\n    ");
+            for (Str filename : fnames) {
+                stringBuilder.append(filename).append(",\n    ");
+            }
+            if (fnames.length > 0) {
+                stringBuilder.setLength(stringBuilder.length() - 6);
+            }
+            stringBuilder.append("]}");
+        }
+        stringBuilder.append("]}");
         return stringBuilder.toString();
     }
 

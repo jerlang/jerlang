@@ -120,12 +120,12 @@ public class CodeChunk extends Chunk {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{code_chunk,[");
+        stringBuilder.append("{code_chunk,[\n    ");
         for (Instruction i : instructions) {
-            stringBuilder.append(i).append(',');
+            stringBuilder.append(i).append(",\n    ");
         }
         if (instructions.size() > 0) {
-            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.setLength(stringBuilder.length() - 6);
         }
         stringBuilder.append("]}");
         return stringBuilder.toString();

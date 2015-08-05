@@ -100,12 +100,12 @@ public class ExportTableChunk extends Chunk {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{export_chunk,[");
+        stringBuilder.append("{export_chunk,[\n    ");
         for (FunctionSignature s : exports) {
-            stringBuilder.append(s).append(',');
+            stringBuilder.append(s).append(",\n    ");
         }
         if (exports.size() > 0) {
-            stringBuilder.setLength(stringBuilder.length() - 1);
+            stringBuilder.setLength(stringBuilder.length() - 6);
         }
         stringBuilder.append("]}");
         return stringBuilder.toString();

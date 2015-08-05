@@ -68,14 +68,14 @@ public class List extends Term {
         }
         StringBuilder stringBuilder = new StringBuilder("[");
         List list = this;
-        do {
+        while (list.length() > 0) {
             stringBuilder.append(list.head());
             if (list.tail() == nil) {
                 break;
             }
             stringBuilder.append(",");
             list = list.tail();
-        } while (list != null);
+        }
         stringBuilder.append(']');
         return stringBuilder.toString();
     }

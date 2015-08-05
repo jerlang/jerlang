@@ -50,7 +50,7 @@ public class Str extends List {
 
     @Override
     public String toString() {
-        return "\"" + string + "\"";
+        return "\"" + string.replace("\n", "\\n") + "\"";
     }
 
     public static Str of(String string) {

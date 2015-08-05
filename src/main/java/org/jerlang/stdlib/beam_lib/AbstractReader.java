@@ -74,6 +74,8 @@ public class AbstractReader {
             case 4:
                 Term litIndex = decodeArg(atomChunk, literalTableChunk);
                 return literalTableChunk.literals().get(litIndex.toInteger().toInt());
+            default:
+                throw new Error("unsupported z value: " + (b >> 4));
             }
         default:
             return Tuple.of(tag.toAtom(), Integer.of(decodeInt(b)));
