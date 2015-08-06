@@ -10,7 +10,7 @@
 |Version|Focus           |Milestone                                         |Status|
 |:-----:|----------------|--------------------------------------------------|:----:|
 |0.1    |File Format     |BEAM files can be parsed                          |:heavy_check_mark:|
-|0.2    |Proof of Concept|A simple "hello world" can be interpreted         ||
+|0.2    |Proof of Concept|A simple "hello world" can be interpreted         |:heavy_check_mark:|
 |0.3    |Interpreter     |Most single-node applications can be interpreted  ||
 |0.4    |Network         |Most multi-node applications can be interpreted   ||
 |0.5    |Compiler        |BEAM files can be compiled to Java bytecode       ||

@@ -46,16 +46,32 @@ public class FunctionSignature extends Tuple {
         return false;
     }
 
+    public Atom function() {
+        return element(2).toAtom();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(element(1), element(2), element(3));
+    }
+
+    public Integer label() {
+        if (arity() == 4) {
+            return element(4).toInteger();
+        } else {
+            return Integer.of(0);
+        }
+    }
+
+    public Atom module() {
+        return element(1).toAtom();
     }
 
     @Override
     public String toString() {
         String string = "" + element(1) + ":" + element(2) + "/" + element(3);
         if (arity() == 4) {
-            string += " (label " + element(3) + ")";
+            string += " (label " + element(4) + ")";
         }
         return string;
     }

@@ -12,6 +12,13 @@ public class TupleTest {
     }
 
     @Test
+    public void testEquals() {
+        Tuple a = Tuple.of(Atom.of("label"), Integer.of(1));
+        Tuple b = Tuple.of(Atom.of("label"), Integer.of(1));
+        assertEquals(a, b);
+    }
+
+    @Test
     public void testTuple1() {
         assertEquals(1, Tuple.of(Atom.of("a")).arity());
     }

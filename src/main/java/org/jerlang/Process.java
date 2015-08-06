@@ -18,11 +18,15 @@ import org.jerlang.type.Term;
  */
 public class Process implements ProcessOrPort {
 
+    // See "erts/emulator/beam/erl_vm.h":
+    private final int MAX_REG = 1024;
+
     private final PID pid;
     private final LinkedBlockingQueue<Term> mailbox;
     private final ProcessDictionary dictionary;
     private ProcessPriority priority = ProcessPriority.NORMAL;
     private Scheduler scheduler = null;
+    private Term[] registers = null;
 
     public Process() {
         pid = new PID(1);
@@ -55,6 +59,13 @@ public class Process implements ProcessOrPort {
 
     public ProcessPriority priority() {
         return priority;
+    }
+
+    public Term[] registers() {
+        if (registers == null) {
+            registers = new Term[MAX_REG];
+        }
+        return registers;
     }
 
     public Scheduler scheduler() {

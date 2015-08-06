@@ -6,6 +6,9 @@ public class StringUtil {
      * Converts a string from snake_case to CamelCase.
      */
     public static String snakeToCamelCase(String string) {
+        if ("io".equals(string)) {
+            return "IO";
+        }
         if ("os".equals(string)) {
             return "OS";
         }
@@ -31,6 +34,9 @@ public class StringUtil {
      * Converts a string from CamelCase to snake_case.
      */
     public static String camelToSnakeCase(String string) {
+        if ("IO".equals(string)) {
+            return "io";
+        }
         if ("OS".equals(string)) {
             return "os";
         }

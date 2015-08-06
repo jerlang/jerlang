@@ -4,7 +4,7 @@
   <groupId>org.jerlang</groupId>
   <artifactId>jerlang</artifactId>
   <name>jerlang</name>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <description>Erlang on the JVM</description>
   <prerequisites>
     <maven>3.0</maven>
@@ -91,7 +91,7 @@
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
                   <addHeader>false</addHeader>
-                </transformer>              
+                </transformer>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>org.jerlang.erts.Emulator</mainClass>

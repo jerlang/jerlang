@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import org.jerlang.FunctionSignature;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
-import org.jerlang.type.List;
 import org.junit.Test;
 
 public class ImportChunkReaderTest {
@@ -34,16 +33,11 @@ public class ImportChunkReaderTest {
         ImportTableChunk importTableChunk = importTableChunkReader.read();
         assertNotNull(importTableChunk);
         assertNotNull(importTableChunk.imports());
-        List imports = importTableChunk.imports();
-        assertEquals(mfa("erlang", "get_module_info", 2), imports.head());
-        imports = imports.tail();
-        assertEquals(mfa("erlang", "get_module_info", 1), imports.head());
-        imports = imports.tail();
-        assertEquals(mfa("io", "format", 2), imports.head());
-        imports = imports.tail();
-        assertEquals(mfa("erlang", "self", 0), imports.head());
-        imports = imports.tail();
-        assertEquals(null, imports.tail());
+        java.util.List<FunctionSignature> imports = importTableChunk.imports();
+        assertEquals(mfa("erlang", "self", 0), imports.get(0));
+        assertEquals(mfa("io", "format", 2), imports.get(1));
+        assertEquals(mfa("erlang", "get_module_info", 1), imports.get(2));
+        assertEquals(mfa("erlang", "get_module_info", 2), imports.get(3));
     }
 
     private static FunctionSignature mfa(String m, String f, int a) {

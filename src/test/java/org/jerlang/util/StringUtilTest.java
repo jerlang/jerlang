@@ -15,6 +15,7 @@ public class StringUtilTest {
         assertThat(snakeToCamelCase("abcd")).isEqualTo("Abcd");
         // Exceptions
         assertThat(snakeToCamelCase("abs")).isEqualTo("Abs");
+        assertThat(snakeToCamelCase("io")).isEqualTo("IO");
         assertThat(snakeToCamelCase("os")).isEqualTo("OS");
         assertThat(snakeToCamelCase("md5")).isEqualTo("MD5");
     }
@@ -26,6 +27,7 @@ public class StringUtilTest {
         assertThat(camelToSnakeCase("Abcd")).isEqualTo("abcd");
         // Exceptions
         assertThat(camelToSnakeCase("Abs")).isEqualTo("abs");
+        assertThat(camelToSnakeCase("IO")).isEqualTo("io");
         assertThat(camelToSnakeCase("OS")).isEqualTo("os");
         assertThat(camelToSnakeCase("MD5")).isEqualTo("md5");
     }

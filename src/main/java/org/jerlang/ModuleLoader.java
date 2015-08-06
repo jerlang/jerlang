@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+import org.jerlang.erts.Erlang;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunk;
 import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunkReader;
@@ -141,7 +142,7 @@ public class ModuleLoader {
                 literalTableChunk,
                 localFunctionTableChunk,
                 stringTableChunk);
-            System.out.println(bd);
+            // System.out.println(bd);
             return bd;
         } catch (Throwable e) {
             e.printStackTrace();
@@ -188,6 +189,7 @@ public class ModuleLoader {
 
     public static void main(String[] args) {
         ModuleLoader.load(Atom.of("hello_world"));
+        Erlang.apply(Atom.of("hello_world"), Atom.of("start"), List.nil);
     }
 
 }

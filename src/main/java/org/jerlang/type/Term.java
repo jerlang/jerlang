@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import org.jerlang.FunctionSignature;
+
 /**
  * A piece of data of any data type is called a term.
  *
@@ -37,6 +39,10 @@ public class Term {
 
     public Fun toFun() {
         throw new Error("Cannot convert to fun: " + this);
+    }
+
+    public FunctionSignature toFunctionSignature() {
+        throw new Error("Cannot convert to function signature: " + this);
     }
 
     public Integer toInteger() {

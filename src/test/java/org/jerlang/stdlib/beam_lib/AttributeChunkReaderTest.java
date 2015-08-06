@@ -32,11 +32,8 @@ public class AttributeChunkReaderTest {
         assertEquals(Tuple.of(
             Atom.of("vsn"),
             List.of(
-                new Integer(new BigInteger("42628055827663549810906328445318760077")),
-                List.nil
+                new Integer(new BigInteger("42628055827663549810906328445318760077"))
                 )), list.head());
-        list = list.tail();
-        assertEquals(List.nil, list.head());
     }
 
 }

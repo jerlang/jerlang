@@ -27,4 +27,8 @@ public class ProcessRegistry {
         instance.processes.put(name, pid);
     }
 
+    public static Process self() {
+        return new Process(); // TODO
+    }
+
 }

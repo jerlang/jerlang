@@ -1,5 +1,13 @@
 package org.jerlang;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
+import org.jerlang.erts.emulator.Instruction;
+import org.jerlang.type.List;
+import org.jerlang.util.StringUtil;
+
 /**
  * Based on:
  * https://github.com/erlang/otp/blob/master/lib/compiler/src/genop.tab
@@ -610,10 +618,30 @@ public enum Opcode {
 
     private final int code;
     private final int arity;
+    private final MethodHandle methodHandle;
 
     private Opcode(int code, int arity) {
         this.code = code;
         this.arity = arity;
+
+        String m = StringUtil.snakeToCamelCase(name());
+        String c = "org.jerlang.erts.emulator.op." + m;
+        MethodHandle mh = null;
+
+        try {
+            MethodType METHOD_TYPE = MethodType.methodType(
+                void.class,
+                Process.class,
+                Module.class,
+                Instruction.class,
+                List.class);
+            Class<?> clazz = getClass().getClassLoader().loadClass(c);
+            mh = MethodHandles.lookup().findStatic(clazz, "execute", METHOD_TYPE);
+        } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
+            // System.err.println("Can not export: " + c);
+        }
+
+        this.methodHandle = mh;
     }
 
     public Integer arity() {
@@ -622,6 +650,10 @@ public enum Opcode {
 
     public int encode() {
         return code;
+    }
+
+    public MethodHandle methodHandle() {
+        return methodHandle;
     }
 
     @Override

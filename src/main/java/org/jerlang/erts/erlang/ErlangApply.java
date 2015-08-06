@@ -3,6 +3,7 @@ package org.jerlang.erts.erlang;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
+import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
@@ -38,11 +39,11 @@ public class ErlangApply {
         if (module == null) {
             throw new Error(Str.of("Invalid module: " + m));
         }
-        FunctionSignature signature = new FunctionSignature(m.toAtom(), f.toAtom(), a.toInteger());
+        FunctionSignature signature = new FunctionSignature(m.toAtom(), f.toAtom(), Integer.of(a.toList().length()));
         if (!module.hasFunction(signature)) {
             throw new Error(Str.of("Invalid function: " + signature));
         }
-        return null;
+        return module.apply(signature, a);
     }
 
 }

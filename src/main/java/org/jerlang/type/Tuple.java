@@ -2,6 +2,7 @@ package org.jerlang.type;
 
 import java.util.Objects;
 
+import org.jerlang.FunctionSignature;
 import org.jerlang.erts.erlang.Error;
 
 public class Tuple extends Term {
@@ -54,6 +55,25 @@ public class Tuple extends Term {
     @Override
     public int hashCode() {
         return Objects.hash((Object[]) elements);
+    }
+
+    @Override
+    public FunctionSignature toFunctionSignature() {
+        switch (arity()) {
+        case 3:
+            return new FunctionSignature(
+                element(1).toAtom(),
+                element(2).toAtom(),
+                element(3).toInteger());
+        case 4:
+            return new FunctionSignature(
+                element(1).toAtom(),
+                element(2).toAtom(),
+                element(3).toInteger(),
+                element(4).toInteger());
+        default:
+            throw new Error("Cannot convert to function signature: " + this);
+        }
     }
 
     @Override

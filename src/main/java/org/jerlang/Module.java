@@ -45,10 +45,12 @@ public class Module {
     private final Class<?> moduleClass;
     private final Atom name;
     private final Map<FunctionSignature, Fun> exported_functions;
+    private final Map<FunctionSignature, Integer> labels;
 
     public Module(BeamData beamData, Atom name) {
         this.beamData = beamData;
         this.exported_functions = new HashMap<>();
+        this.labels = new HashMap<>();
         this.moduleClass = null;
         this.name = name;
     }
@@ -56,6 +58,7 @@ public class Module {
     public Module(Class<?> moduleClass, Atom name) {
         this.beamData = null;
         this.exported_functions = new HashMap<>();
+        this.labels = new HashMap<>();
         this.moduleClass = moduleClass;
         this.name = name;
     }
@@ -64,7 +67,18 @@ public class Module {
         if (!hasFunction(signature)) {
             throw new Error("Unknown function: " + signature);
         }
-        return exported_functions.get(signature).apply(params);
+        Integer label = labels.get(signature);
+        if (label == null) {
+            return exported_functions.get(signature).apply(params);
+        } else {
+            FunctionSignature s = new FunctionSignature(
+                signature.element(1).toAtom(),
+                signature.element(2).toAtom(),
+                signature.element(3).toInteger(),
+                label);
+            List extendedParams = new List(s, params.toList());
+            return exported_functions.get(signature).apply(extendedParams);
+        }
     }
 
     public BeamData beamData() {
@@ -74,12 +88,18 @@ public class Module {
     public void export() {
         if (moduleClass == null) {
             // The module was loaded from a BEAM file
+            MethodHandle mh = null;
+            try {
+                mh = MethodHandles.lookup().findStatic(Interpreter.class, "dispatch", METHOD_TYPE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             for (FunctionSignature s : beamData.exportTableChunk().exports()) {
-                // TODO: provide link to code
-                exported_functions.put(s, new Fun(s, null));
+                labels.put(s, s.label());
+                exported_functions.put(s, new Fun(s, mh));
             }
         } else {
-            // The module is included in jerlang
+            // The module is included in JErlang
             for (Method method : moduleClass.getDeclaredMethods()) {
                 export(method.getName(), method.getParameterCount());
             }

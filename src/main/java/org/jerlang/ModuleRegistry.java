@@ -12,6 +12,7 @@ import org.jerlang.kernel.File;
 import org.jerlang.kernel.OS;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.ErlInternal;
+import org.jerlang.stdlib.IO;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.stdlib.Shell;
 import org.jerlang.type.Atom;
@@ -31,6 +32,7 @@ public class ModuleRegistry {
         init(ErlInternal.class).export();
         init(File.class).export();
         init(Init.class).export();
+        init(IO.class).export();
         init(Lists.class).export();
         init(OS.class).export();
         init(OtpRing0.class).export();
