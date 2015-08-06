@@ -13,7 +13,7 @@ public class Move {
 
     private final static Atom x = Atom.of("x");
 
-    public static void execute(Process proc, Module m, Instruction i, List params) {
+    public static Term execute(Process proc, Module m, Instruction i, List params) {
         Term source = i.arg(0);
         Term destination = i.arg(1);
 
@@ -27,6 +27,7 @@ public class Move {
             }
             Integer registerIndex = destinationTuple.element(2).toInteger();
             proc.registers()[registerIndex.toInt()] = source;
+            return null;
         } else {
             throw new Error("Unsupported destination: " + destination);
         }

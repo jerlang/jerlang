@@ -2,7 +2,9 @@ package org.jerlang.stdlib.beam_lib;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jerlang.Opcode;
 import org.jerlang.erts.emulator.Instruction;
@@ -86,16 +88,21 @@ import org.jerlang.erts.emulator.Instruction;
 */
 public class CodeChunk extends Chunk {
 
-    private int labels;
+    private int numberOfLabels;
     private int functions;
     private ArrayList<Instruction> instructions;
+    private Map<Integer, Integer> labels;
 
     public CodeChunk(Chunk chunk) {
         super(ChunkId.CODE, chunk);
         instructions = new ArrayList<>();
+        labels = new HashMap<>();
     }
 
     public boolean add(Instruction instruction) {
+        if (instruction.opcode().equals(Opcode.label)) {
+            labels.put(instruction.arg(0).toInteger().toInt(), instructions.size());
+        }
         instructions.add(instruction);
         return instruction.opcode() != Opcode.int_code_end;
     }
@@ -108,12 +115,16 @@ public class CodeChunk extends Chunk {
         return functions;
     }
 
-    public int labels() {
-        return labels;
+    public Map<Integer, Integer> labels() {
+        return Collections.unmodifiableMap(labels);
+    }
+
+    public int numberOfLabels() {
+        return numberOfLabels;
     }
 
     public void setInfo(int labels, int functions) {
-        this.labels = labels;
+        this.numberOfLabels = labels;
         this.functions = functions;
     }
 

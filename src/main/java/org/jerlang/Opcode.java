@@ -6,6 +6,7 @@ import java.lang.invoke.MethodType;
 
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.List;
+import org.jerlang.type.Term;
 import org.jerlang.util.StringUtil;
 
 /**
@@ -630,7 +631,7 @@ public enum Opcode {
 
         try {
             MethodType METHOD_TYPE = MethodType.methodType(
-                void.class,
+                Term.class,
                 Process.class,
                 Module.class,
                 Instruction.class,

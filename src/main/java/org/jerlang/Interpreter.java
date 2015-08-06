@@ -1,10 +1,13 @@
 package org.jerlang;
 
+import java.util.Map;
+
 import org.jerlang.erts.emulator.Instruction;
+import org.jerlang.stdlib.beam_lib.BeamData;
+import org.jerlang.stdlib.beam_lib.CodeChunk;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.jerlang.type.Tuple;
 
 /**
  * Executes opcodes
@@ -18,25 +21,33 @@ public class Interpreter {
         params = params.tail();
         // Lookup the module to get the code
         Module m = ModuleRegistry.get(s.module());
-        boolean skip = true;
-        Tuple label = Tuple.of(Atom.of("label"), s.label());
         Atom line = Atom.of("line");
         Process process = ProcessRegistry.self();
-        for (Instruction i : m.beamData().codeChunk().instructions()) {
-            if (label.equals(i)) {
-                skip = false;
-                continue;
-            }
+        CodeChunk code = m.beamData().codeChunk();
+        java.util.List<Instruction> instructions = code.instructions();
+        Map<Integer, Integer> labels = code.labels();
+        int maxInstructions = instructions.size();
+
+        int start = find_start(s, m.beamData());
+
+        params_to_register(params, process.registers());
+
+        Term result = List.nil;
+        for (int index = start; index < maxInstructions; index++) {
+            Instruction i = instructions.get(index);
             if (line.equals(i.element(1))) {
-                continue;
-            }
-            if (skip) {
                 continue;
             }
 
             try {
                 if (i.opcode().methodHandle() != null) {
-                    i.opcode().methodHandle().invoke(process, m, i, params);
+                    Term r = (Term) i.opcode().methodHandle().invoke(process, m, i, params);
+                    if (r != null) {
+                        // this must be a label jump
+                        int lbl = r.toTuple().element(2).toInteger().toInt();
+                        index = labels.get(lbl);
+                        continue;
+                    }
                 } else {
                     System.err.println("Unsupported opcode: " + i.opcode());
                 }
@@ -44,10 +55,42 @@ public class Interpreter {
                 e.printStackTrace();
             }
 
-            if (i.element(1).toString().endsWith("_last")) {
+            if (i.opcode() == Opcode.call_last
+                || i.opcode() == Opcode.call_ext_last
+                || i.opcode() == Opcode._return) {
+                // The result of the call or return
+                // is stored in the x0 register
+                result = process.registers()[0];
                 break;
             }
         }
-        return null;
+        return result;
+    }
+
+    /**
+     * Store the params, if any, in the X registers of the process.
+     */
+    private static void params_to_register(List params, Term[] registers) {
+        int index = 0;
+        while (params.length() > 0) {
+            registers[index++] = params.head();
+            params = params.tail();
+        }
+    }
+
+    /**
+     * Looks for the exported functions.
+     * On match, returns the index of the label instruction
+     * that is assigned to the function.
+     */
+    private static int find_start(FunctionSignature s, BeamData beamData) {
+        for (FunctionSignature fs : beamData.exportTableChunk().exports()) {
+            if (fs.equals(s)) {
+                int lbl = fs.label().toInt();
+                int idx = beamData.codeChunk().labels().get(lbl);
+                return idx;
+            }
+        }
+        throw new Error("No label found for " + s);
     }
 }

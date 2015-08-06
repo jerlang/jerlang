@@ -3,11 +3,12 @@ package org.jerlang.erts.emulator.op;
 import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.List;
+import org.jerlang.type.Term;
 
 public class Call {
 
-    public static void execute(Process process, Instruction instruction, List params) {
-        System.out.println("Call");
+    public static Term execute(Process process, Instruction instruction, List params) {
+        throw new Error("not implemented yet");
     }
 
 }

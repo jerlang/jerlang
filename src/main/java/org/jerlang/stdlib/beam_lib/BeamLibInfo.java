@@ -1,12 +1,12 @@
 package org.jerlang.stdlib.beam_lib;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
 
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.Lists;
@@ -16,6 +16,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
+import org.jerlang.util.ByteUtil;
 
 public class BeamLibInfo {
 
@@ -52,8 +53,9 @@ public class BeamLibInfo {
             return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, eperm));
         }
 
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            result = do_info(filename_term, new FileInputStream(file));
+        try {
+            byte[] bytes = ByteUtil.maybe_decompress(Files.readAllBytes(file.toPath()));
+            result = do_info(filename_term, bytes);
             if (result instanceof List) {
                 result = new List(Tuple.of(Atom.of("file"), filename_term), (List) result);
             }
@@ -68,9 +70,10 @@ public class BeamLibInfo {
         return result;
     }
 
-    private static Term do_info(Term filename, InputStream inputStream) throws IOException {
+    private static Term do_info(Term filename, byte[] bytes) throws IOException {
         List chunks = List.nil;
-        DataInputStream dis = new DataInputStream(inputStream);
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));
+
         if (dis.readInt() != 0x464f5231) { // "FOR1"
             return Tuple.of(not_a_beam_file, filename);
         }

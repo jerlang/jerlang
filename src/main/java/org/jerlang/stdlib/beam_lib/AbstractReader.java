@@ -53,7 +53,8 @@ public class AbstractReader {
             if (atomIndex == 0) {
                 return List.nil;
             } else {
-                return Tuple.of(atom, atomChunk.atoms()[atomIndex - 1]);
+                return atomChunk.atoms()[atomIndex - 1];
+                //return Tuple.of(atom, atomChunk.atoms()[atomIndex - 1]);
             }
         case i:
         case u:

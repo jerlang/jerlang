@@ -6,10 +6,10 @@ import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
-public class CallExtLast {
+public class Return {
 
-    public static Term execute(Process process, Module m, Instruction i, List params) {
-        return CallExt.execute(process, m, i, params);
+    public static Term execute(Process proc, Module m, Instruction i, List params) {
+        return null;
     }
 
 }

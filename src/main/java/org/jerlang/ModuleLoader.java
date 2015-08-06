@@ -41,6 +41,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
+import org.jerlang.util.ByteUtil;
 
 /**
  * The ModuleLoader loads a BEAM file into a BeamData object and
@@ -55,6 +56,7 @@ public class ModuleLoader {
         String filename = module.toString() + ".beam";
         Term info = BeamLib.info(Str.of(filename));
         if (!(info instanceof List)) {
+            System.err.println("Can not load module: " + info);
             return;
         }
         Module m = new Module(loadBeamData(filename, info.toList()), module);
@@ -76,7 +78,7 @@ public class ModuleLoader {
             LiteralTableChunk literalTableChunk = null;
             LocalFunctionTableChunk localFunctionTableChunk = null;
             StringTableChunk stringTableChunk = null;
-            byte[] bytes = Files.readAllBytes(new File(filename).toPath());
+            byte[] bytes = ByteUtil.maybe_decompress(Files.readAllBytes(new File(filename).toPath()));
             Tuple chunksTuple = get_chunks_tuple(info);
             List chunkList = sort_chunk_list(chunksTuple.element(2).toList());
             while (chunkList.length() > 0) {
@@ -188,8 +190,7 @@ public class ModuleLoader {
     }
 
     public static void main(String[] args) {
-        ModuleLoader.load(Atom.of("hello_world"));
-        Erlang.apply(Atom.of("hello_world"), Atom.of("start"), List.nil);
+        Erlang.apply(Atom.of("fun_test"), Atom.of("t1"), List.nil);
     }
 
 }

@@ -36,7 +36,7 @@ public class CodeChunkReaderTest {
         CodeChunkReader codeChunkReader = new CodeChunkReader(chunk2, dis2, atomChunk, literalTableatomChunk);
         CodeChunk codeChunk = codeChunkReader.read();
         assertNotNull(codeChunk);
-        assertEquals(10, codeChunk.labels());
+        assertEquals(10, codeChunk.numberOfLabels());
         assertEquals(3, codeChunk.functions());
         for (Instruction i : codeChunk.instructions()) {
             System.out.println(i);
