@@ -192,18 +192,18 @@ public enum Opcode {
     // ========================================================================
     // Arithmethic opcodes.
 
-    m_plus(27, 4),
-    m_minus(28, 4),
-    m_times(29, 4),
-    m_div(30, 4),
-    int_div(31, 4),
-    int_rem(32, 4),
-    int_band(33, 4),
-    int_bor(34, 4),
-    int_bxor(35, 4),
-    int_bsl(36, 4),
-    int_bsr(37, 4),
-    int_bnot(38, 3),
+    // m_plus(27, 4),
+    // m_minus(28, 4),
+    // m_times(29, 4),
+    // m_div(30, 4),
+    // int_div(31, 4),
+    // int_rem(32, 4),
+    // int_band(33, 4),
+    // int_bor(34, 4),
+    // int_bxor(35, 4),
+    // int_bsl(36, 4),
+    // int_bsr(37, 4),
+    // int_bnot(38, 3),
 
     // ========================================================================
     // Comparision operators.
@@ -286,7 +286,7 @@ public enum Opcode {
      */
     is_binary(53, 2),
 
-    is_constant(54, 2),
+    // is_constant(54, 2),
 
     /**
      * Test the type of Arg1 and jump to Lbl if it is not a cons or nil.
@@ -366,7 +366,7 @@ public enum Opcode {
     // ========================================================================
     // Building terms.
 
-    put_string(68, 3),
+    // put_string(68, 3),
     put_list(69, 3),
     put_tuple(70, 2),
     put(71, 1),
@@ -388,7 +388,7 @@ public enum Opcode {
      */
     call_fun(75, 1),
 
-    make_fun(76, 3),
+    // make_fun(76, 3),
 
     /**
      * Test the type of Arg1 and jump to Lbl if it is not a
@@ -408,20 +408,20 @@ public enum Opcode {
     // ========================================================================
     // Binary matching (R7).
 
-    bs_start_match(79, 2),
-    bs_get_integer(80, 5),
-    bs_get_float(81, 5),
-    bs_get_binary(82, 5),
-    bs_skip_bits(83, 4),
-    bs_test_tail(84, 2),
-    bs_save(85, 1),
-    bs_restore(86, 1),
+    // bs_start_match(79, 2),
+    // bs_get_integer(80, 5),
+    // bs_get_float(81, 5),
+    // bs_get_binary(82, 5),
+    // bs_skip_bits(83, 4),
+    // bs_test_tail(84, 2),
+    // bs_save(85, 1),
+    // bs_restore(86, 1),
 
     // ========================================================================
     // Binary construction (R7A).
 
-    bs_init(87, 2),
-    bs_final(88, 2),
+    // bs_init(87, 2),
+    // bs_final(88, 2),
     bs_put_integer(89, 5),
     bs_put_binary(90, 5),
     bs_put_float(91, 5),
@@ -430,7 +430,7 @@ public enum Opcode {
     // ========================================================================
     // Binary construction (R7B).
 
-    bs_need_buf(93, 1),
+    // bs_need_buf(93, 1),
 
     // ========================================================================
     // Floating point arithmetic (R8).
@@ -463,7 +463,7 @@ public enum Opcode {
     // New instructions in R10B.
 
     bs_init2(109, 6),
-    bs_bits_to_bytes(110, 3),
+    // bs_bits_to_bytes(110, 3),
     bs_add(111, 5),
     apply(112, 1),
     apply_last(113, 2),
@@ -518,13 +518,13 @@ public enum Opcode {
      * Experimental new bit_level bifs introduced in R11B.
      */
     // NOT used in R12B.
-    bs_final2(126, 2),
-    bs_bits_to_bytes2(127, 2),
+    // bs_final2(126, 2),
+    // bs_bits_to_bytes2(127, 2),
 
     // ========================================================================
     // R11B-4
 
-    put_literal(128, 2),
+    // put_literal(128, 2),
 
     // ========================================================================
     // R11B-5
