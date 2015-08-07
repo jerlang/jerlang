@@ -61,9 +61,11 @@ public class Interpreter {
                     }
                 } else {
                     System.err.println("Unsupported opcode: " + i.opcode());
+                    break;
                 }
             } catch (Throwable e) {
                 e.printStackTrace();
+                break;
             }
 
             if (i.opcode() == Opcode.call_last

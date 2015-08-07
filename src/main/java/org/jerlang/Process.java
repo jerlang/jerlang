@@ -57,16 +57,20 @@ public class Process implements ProcessOrPort {
     }
 
     public void allocate_zero(int size, int keep) {
-        allocate(size, keep);
-        Arrays.fill(stack, stack.length - size, stack.length, List.nil);
-        sp += size;
+        if (size > 0) {
+            allocate(size, keep);
+            Arrays.fill(stack, stack.length - size, stack.length, List.nil);
+            sp += size;
+        }
     }
 
     public void deallocate(int size) {
-        Term[] newStack = new Term[stack.length - size];
-        System.arraycopy(stack, 0, newStack, 0, newStack.length);
-        stack = newStack;
-        sp -= size;
+        if (size > 0) {
+            Term[] newStack = new Term[stack.length - size];
+            System.arraycopy(stack, 0, newStack, 0, newStack.length);
+            stack = newStack;
+            sp -= size;
+        }
     }
 
     public int getCP() {
