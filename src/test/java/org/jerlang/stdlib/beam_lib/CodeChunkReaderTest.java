@@ -8,7 +8,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.nio.file.Files;
 
-import org.jerlang.erts.emulator.Instruction;
 import org.junit.Test;
 
 public class CodeChunkReaderTest {
@@ -38,9 +37,6 @@ public class CodeChunkReaderTest {
         assertNotNull(codeChunk);
         assertEquals(10, codeChunk.numberOfLabels());
         assertEquals(3, codeChunk.functions());
-        for (Instruction i : codeChunk.instructions()) {
-            System.out.println(i);
-        }
     }
 
 }

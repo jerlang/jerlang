@@ -2,6 +2,8 @@ package org.jerlang.erts;
 
 import org.jerlang.erts.erlang.ErlangAbs;
 import org.jerlang.erts.erlang.ErlangApply;
+import org.jerlang.erts.erlang.ErlangAtomMinus;
+import org.jerlang.erts.erlang.ErlangAtomMultiply;
 import org.jerlang.erts.erlang.ErlangDisplay;
 import org.jerlang.erts.erlang.ErlangError;
 import org.jerlang.erts.erlang.ErlangFunctionExported;
@@ -41,6 +43,14 @@ import org.jerlang.type.Tuple;
  * http://www.erlang.org/doc/man/erlang.html
  */
 public class Erlang {
+
+    public static Integer atom_minus(Integer a, Integer b) {
+        return ErlangAtomMinus.atom_minus_2(a, b);
+    }
+
+    public static Integer atom_multiply(Integer a, Integer b) {
+        return ErlangAtomMultiply.atom_multiply_2(a, b);
+    }
 
     public static Integer abs(Integer integer) {
         return ErlangAbs.abs_1(integer);

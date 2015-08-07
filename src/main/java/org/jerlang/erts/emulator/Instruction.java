@@ -13,14 +13,16 @@ public class Instruction extends Tuple {
 
     private final Opcode opcode;
     private final Term[] args;
+    private final int index;
 
-    public Instruction(Opcode opcode, Term... args) {
+    public Instruction(int index, Opcode opcode, Term... args) {
         super(args.length + 1);
+        this.index = index;
         this.opcode = opcode;
         this.args = args;
         set(1, Atom.of(opcode.toString()));
-        for (int index = 0; index < args.length; index++) {
-            set(2 + index, args[index]);
+        for (int i = 0; i < args.length; i++) {
+            set(2 + i, args[i]);
         }
     }
 
@@ -30,6 +32,10 @@ public class Instruction extends Tuple {
 
     public int arity() {
         return args.length;
+    }
+
+    public int index() {
+        return index;
     }
 
     public Opcode opcode() {

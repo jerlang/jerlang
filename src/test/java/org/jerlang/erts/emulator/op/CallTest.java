@@ -11,29 +11,24 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class IsGeTest {
+public class CallTest {
 
     @Before
     public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/example1.beam", "." };
+        String[] cmd = { "cp", "src/test/resources/example3.beam", "." };
         Runtime.getRuntime().exec(cmd).waitFor();
     }
 
     @Test
     public void test_is_ge() {
-        // Positive
-        List params1 = List.of(Integer.of(1));
-        Term result1 = Erlang.apply(Atom.of("example1"), Atom.of("test"), params1);
-        assertEquals(Atom.of("positive"), result1);
-        // Negative
-        List params2 = List.of(Integer.of(-1));
-        Term result2 = Erlang.apply(Atom.of("example1"), Atom.of("test"), params2);
-        assertEquals(Atom.of("negative"), result2);
+        List params = List.of(Integer.of(2));
+        Term result = Erlang.apply(Atom.of("example3"), Atom.of("stacktest"), params);
+        assertEquals(Integer.of(2 * 2), result);
     }
 
     @After
     public void cleanup() throws Exception {
-        String[] cmd = { "rm", "example1.beam" };
+        String[] cmd = { "rm", "example3.beam" };
         Runtime.getRuntime().exec(cmd).waitFor();
     }
 

@@ -28,6 +28,20 @@ public class Tuple extends Term {
         return elements[index - 1];
     }
 
+    @Override
+    public boolean isXRegister() {
+        return arity() == 2
+            && element(1).equals(Atom.of("x"))
+            && element(2) instanceof Integer;
+    }
+
+    @Override
+    public boolean isYRegister() {
+        return arity() == 2
+            && element(1).equals(Atom.of("y"))
+            && element(2) instanceof Integer;
+    }
+
     public void set(int index, Term term) {
         if (index < 1) {
             throw new Error("tuple index starts at 1, not 0");

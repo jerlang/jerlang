@@ -24,7 +24,8 @@ public class CodeChunkReader extends AbstractChunkReader<CodeChunk> {
         checkMaxOpcode(read4Bytes());
         codeChunk.setInfo(read4Bytes(), read4Bytes());
 
-        while (codeChunk.add(nextInstruction()));
+        int count = 0;
+        while (codeChunk.add(nextInstruction(count++)));
 
         return codeChunk;
     }
@@ -47,9 +48,9 @@ public class CodeChunkReader extends AbstractChunkReader<CodeChunk> {
         check(maxOpcode > Opcode.max(), "maxOpcode > " + Opcode.max());
     }
 
-    private Instruction nextInstruction() throws Throwable {
+    private Instruction nextInstruction(int count) throws Throwable {
         Opcode opcode = Opcode.decode(read1Byte());
-        return instructionReader.read(opcode);
+        return instructionReader.read(count, opcode);
     }
 
 }

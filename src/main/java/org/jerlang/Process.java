@@ -1,9 +1,12 @@
 package org.jerlang;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jerlang.type.Fun;
+import org.jerlang.type.Integer;
+import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 
@@ -28,6 +31,13 @@ public class Process implements ProcessOrPort {
     private Scheduler scheduler = null;
     private Term[] registers = null;
 
+    // Continuation Pointer
+    private int cp = 0;
+
+    // Stack / Y register
+    private Term[] stack = new Term[10];
+    private int sp = 0;
+
     public Process() {
         pid = new PID(1);
         dictionary = new ProcessDictionary();
@@ -38,12 +48,81 @@ public class Process implements ProcessOrPort {
         this();
     }
 
+    public void allocate(int size, int keep) {
+        Term[] newStack = new Term[stack.length + size];
+        if (stack.length > 0) {
+            System.arraycopy(stack, 0, newStack, 0, stack.length);
+        }
+        stack = newStack;
+    }
+
+    public void allocate_zero(int size, int keep) {
+        allocate(size, keep);
+        Arrays.fill(stack, stack.length - size, stack.length, List.nil);
+        sp += size;
+    }
+
+    public void deallocate(int size) {
+        Term[] newStack = new Term[stack.length - size];
+        System.arraycopy(stack, 0, newStack, 0, newStack.length);
+        stack = newStack;
+        sp -= size;
+    }
+
+    public int getCP() {
+        return cp;
+    }
+
+    public Term getX(int index) {
+        return registers[index];
+    }
+
+    public Term getX(Integer index) {
+        return getX(index.toInt());
+    }
+
+    public Term getY(int index) {
+        return stack[sp - index];
+    }
+
+    public Term getY(Integer index) {
+        return getY(index.toInt());
+    }
+
+    public Term popStack() {
+        return stack[--sp];
+    }
+
+    public void pushStack(Term term) {
+        stack[sp++] = term;
+    }
+
     public void send(Term message) {
         try {
             mailbox.put(message);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setCP(int cp) {
+        this.cp = cp;
+    }
+
+    public void setX(Integer index, Term term) {
+        registers[index.toInt()] = term;
+    }
+
+    public void setY(Integer index, Term term) {
+        stack[sp - index.toInt()] = term;
+    }
+
+    public void restoreCP() {
+        cp = popStack().toInteger().toInt();
+    }
+
+    public void storeCP() {
+        pushStack(Integer.of(cp));
     }
 
     public ProcessDictionary dictionary() {

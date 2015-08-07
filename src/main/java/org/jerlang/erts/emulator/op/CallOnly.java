@@ -7,17 +7,16 @@ import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
- * Call the function at Label.
- * Save the next instruction as the return address in the CP register.
+ * Do a tail recursive call to the function at Label.
+ * Do not update the CP register.
  *
  * Arguments:
  * 1. Arity
  * 2. Label
  */
-public class Call {
+public class CallOnly {
 
     public static Term execute(Process process, Module m, Instruction i, List params) {
-        process.setCP(i.index() + 1);
         return i.arg(1);
     }
 

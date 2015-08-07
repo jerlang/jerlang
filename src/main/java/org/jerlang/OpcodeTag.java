@@ -12,7 +12,7 @@ public enum OpcodeTag {
     i, // 1
     a, // 2: atom
     x, // 3: X register
-    y, // 4: Y register
+    y, // 4: Y register (Stack)
     f, // 5: Label
     h, // 6
     z; // 7: extended

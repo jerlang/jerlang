@@ -29,6 +29,14 @@ public class Term {
         throw new Error("Cannot convert to boolean: " + this);
     }
 
+    public boolean isXRegister() {
+        return false;
+    }
+
+    public boolean isYRegister() {
+        return false;
+    }
+
     public Atom toAtom() {
         throw new Error("Cannot convert to atom: " + this);
     }

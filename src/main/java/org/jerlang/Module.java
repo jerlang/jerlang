@@ -40,6 +40,7 @@ import org.jerlang.util.StringUtil;
 public class Module {
 
     private static final MethodType METHOD_TYPE = MethodType.methodType(Term.class, List.class);
+    private static final MethodType NAME_METHOD = MethodType.methodType(Atom.class);
 
     private final BeamData beamData;
     private final Class<?> moduleClass;
@@ -122,11 +123,30 @@ public class Module {
             Class<?> c = getClass().getClassLoader().loadClass(cn);
             MethodHandle handle = MethodHandles.lookup()
                 .findStatic(c, "dispatch", METHOD_TYPE);
+            s = maybe_override_name(s, c);
             exported_functions.put(s, new Fun(s, handle));
         } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Can not export: " + s);
         }
         return this;
+    }
+
+    /**
+     * Some functions have names that cannot be expressed in Java.
+     * For example: "erlang:+/2".
+     * If a function implementing class declares a static name() method,
+     * its return value will be used as function name instead.
+     */
+    private FunctionSignature maybe_override_name(FunctionSignature s, Class<?> c) {
+        try {
+            MethodHandle h = MethodHandles.lookup()
+                .findStatic(c, "name", NAME_METHOD);
+            Atom newName = (Atom) h.invoke();
+            s = new FunctionSignature(s.module(), newName, s.element(3).toInteger());
+        } catch (Throwable e) {
+            // Ignore
+        }
+        return s;
     }
 
     public boolean hasFunction(FunctionSignature functionSignature) {

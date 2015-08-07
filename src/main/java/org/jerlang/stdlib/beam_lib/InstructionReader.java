@@ -18,13 +18,13 @@ public class InstructionReader extends AbstractReader {
         this.literalTableChunk = literalTableChunk;
     }
 
-    public Instruction read(Opcode opcode)
+    public Instruction read(int index, Opcode opcode)
         throws IOException {
         Term[] args = new Term[opcode.arity()];
-        for (int index = 0; index < opcode.arity(); index++) {
-            args[index] = decodeArg(atomChunk, literalTableChunk);
+        for (int i = 0; i < opcode.arity(); i++) {
+            args[i] = decodeArg(atomChunk, literalTableChunk);
         }
-        return new Instruction(opcode, args);
+        return new Instruction(index, opcode, args);
     }
 
 }

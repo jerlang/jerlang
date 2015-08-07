@@ -3,6 +3,7 @@ package org.jerlang;
 import java.util.Map;
 
 import org.jerlang.erts.emulator.Instruction;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.beam_lib.BeamData;
 import org.jerlang.stdlib.beam_lib.CodeChunk;
 import org.jerlang.type.Atom;
@@ -33,8 +34,10 @@ public class Interpreter {
         params_to_register(params, process.registers());
 
         Term result = List.nil;
+
         for (int index = start; index < maxInstructions; index++) {
             Instruction i = instructions.get(index);
+
             if (line.equals(i.element(1))) {
                 continue;
             }
@@ -43,10 +46,18 @@ public class Interpreter {
                 if (i.opcode().methodHandle() != null) {
                     Term r = (Term) i.opcode().methodHandle().invoke(process, m, i, params);
                     if (r != null) {
-                        // this must be a label jump
-                        int lbl = r.toTuple().element(2).toInteger().toInt();
-                        index = labels.get(lbl);
-                        continue;
+                        if (r instanceof org.jerlang.type.Integer) {
+                            // CP
+                            index = r.toInteger().toInt();
+                            if (index == 0) {
+                                // Return
+                            }
+                        } else {
+                            // this must be a label jump
+                            int lbl = r.toTuple().element(2).toInteger().toInt();
+                            index = labels.get(lbl);
+                        }
+                        // continue;
                     }
                 } else {
                     System.err.println("Unsupported opcode: " + i.opcode());
@@ -57,7 +68,7 @@ public class Interpreter {
 
             if (i.opcode() == Opcode.call_last
                 || i.opcode() == Opcode.call_ext_last
-                || i.opcode() == Opcode._return) {
+                || (i.opcode() == Opcode._return && index == 0)) {
                 // The result of the call or return
                 // is stored in the x0 register
                 result = process.registers()[0];
