@@ -33,6 +33,10 @@ public class List extends Term {
         return head;
     }
 
+    public boolean isList() {
+        return true;
+    }
+
     public List tail() {
         return tail;
     }

@@ -27,6 +27,7 @@ import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangRegister;
+import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
 import org.jerlang.erts.erlang.ErlangSpawn;
 import org.jerlang.erts.erlang.ErlangTupleSize;
@@ -181,6 +182,10 @@ public class Erlang {
 
     public static Term register(Atom regName, PID pid) {
         return ErlangRegister.register_2(regName, pid);
+    }
+
+    public static Integer rem(Integer a, Integer b) {
+        return ErlangRem.rem_2(a, b);
     }
 
     public static PID self() {

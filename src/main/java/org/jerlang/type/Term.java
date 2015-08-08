@@ -25,6 +25,10 @@ public class Term {
         throw new Error("Cannot convert to boolean: " + this);
     }
 
+    public boolean isList() {
+        return false;
+    }
+
     public boolean isTrue() {
         throw new Error("Cannot convert to boolean: " + this);
     }
@@ -43,6 +47,10 @@ public class Term {
 
     public Binary toBinary() {
         throw new Error("Cannot convert to binary: " + this);
+    }
+
+    public BinMatchState toBinMatchState() {
+        throw new Error("Cannot convert to bin_match_state: " + this);
     }
 
     public Fun toFun() {

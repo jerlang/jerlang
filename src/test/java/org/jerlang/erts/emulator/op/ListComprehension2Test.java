@@ -11,25 +11,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ListComprehensionTest {
+public class ListComprehension2Test {
 
     @Before
     public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/example5.beam", "." };
+        String[] cmd = { "cp", "src/test/resources/example6.beam", "." };
         Runtime.getRuntime().exec(cmd).waitFor();
     }
 
     @Test
-    public void test_list_length() {
-        List expected = List.of(Integer.of(2), Integer.of(4), Integer.of(6));
+    public void test_list_comprehension() {
+        List expected = List.of(Integer.of(2));
         List params = List.nil;
-        Term result = Erlang.apply(Atom.of("example5"), Atom.of("test"), params);
+        Term result = Erlang.apply(Atom.of("example6"), Atom.of("test"), params);
         assertEquals(expected, result);
     }
 
     @After
     public void cleanup() throws Exception {
-        String[] cmd = { "rm", "example5.beam" };
+        String[] cmd = { "rm", "example6.beam" };
         Runtime.getRuntime().exec(cmd).waitFor();
     }
 

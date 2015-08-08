@@ -8,6 +8,7 @@ import java.util.Collections;
 
 import org.jerlang.erts.ExternalTermFormatTag;
 import org.jerlang.type.Atom;
+import org.jerlang.type.Binary;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -33,6 +34,8 @@ public class ExternalTermReader extends AbstractReader {
         switch (tag) {
         case ATOM_EXT:
             return readAtom();
+        case BINARY_EXT:
+            return readBinary();
         case BIT_BINARY_INTERNAL_REF:
             read4Bytes(); // offset
             read4Bytes(); // size
@@ -60,6 +63,12 @@ public class ExternalTermReader extends AbstractReader {
         byte[] bytes = new byte[read2Bytes()];
         readBytes(bytes);
         return Atom.of(bytes);
+    }
+
+    private Binary readBinary() throws IOException {
+        byte[] bytes = new byte[read4Bytes()];
+        readBytes(bytes);
+        return new Binary(bytes);
     }
 
     private List readList() throws Throwable {

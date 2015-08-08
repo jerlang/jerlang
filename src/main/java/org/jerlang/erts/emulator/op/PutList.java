@@ -13,9 +13,9 @@ import org.jerlang.type.Term;
  * Head and Tail.
  *
  * Arguments:
- * 1. Source
- * 2. Head
- * 3. Tail
+ * 1. Head
+ * 2. Tail
+ * 3. Destination
  */
 public class PutList {
 
@@ -27,8 +27,20 @@ public class PutList {
         if (arg1.isYRegister() && arg2.isXRegister() && arg3.isXRegister()) {
             Term head = proc.getY(arg1.toTuple().element(2).toInteger());
             Term tail = proc.getX(arg2.toTuple().element(2).toInteger());
-            Integer r = arg3.toTuple().element(2).toInteger();
             List list = new List(head, tail.toList());
+            Integer r = arg3.toTuple().element(2).toInteger();
+            proc.setX(r, list);
+        } else if (arg1.isXRegister() && arg2.isXRegister() && arg3.isXRegister()) {
+            Term head = proc.getX(arg1.toTuple().element(2).toInteger());
+            Term tail = proc.getX(arg2.toTuple().element(2).toInteger());
+            List list = new List(head, tail.toList());
+            Integer r = arg3.toTuple().element(2).toInteger();
+            proc.setX(r, list);
+        } else if (arg1.isXRegister() && arg2.isList() && arg3.isXRegister()) {
+            Term head = proc.getX(arg1.toTuple().element(2).toInteger());
+            List tail = arg2.toList();
+            List list = new List(head, tail);
+            Integer r = arg3.toTuple().element(2).toInteger();
             proc.setX(r, list);
         } else {
             throw new Error("Unsupported: " + i);
