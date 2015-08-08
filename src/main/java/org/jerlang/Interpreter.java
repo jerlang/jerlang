@@ -38,6 +38,9 @@ public class Interpreter {
         for (int index = start; index < maxInstructions; index++) {
             Instruction i = instructions.get(index);
 
+            // process.printStack();
+            // System.out.println(i);
+
             if (line.equals(i.element(1))) {
                 continue;
             }

@@ -50,6 +50,11 @@ public class Str extends List {
 
     @Override
     public String toString() {
+        for (char c : string.toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
+                return super.toString();
+            }
+        }
         return "\"" + string.replace("\n", "\\n") + "\"";
     }
 

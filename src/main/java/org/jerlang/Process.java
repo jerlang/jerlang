@@ -163,4 +163,16 @@ public class Process implements ProcessOrPort {
         this.scheduler = scheduler;
     }
 
+    // TODO: Only for debugging, should be removed before 1.0
+    public void printStack() {
+        System.out.print("REG: [" + registers()[0] + ", ");
+        System.out.print("" + registers()[1] + ", ");
+        System.out.print("" + registers()[2] + "] ");
+        System.out.print("STACK: ");
+        for (Term t : stack) {
+            System.out.print("" + t + ", ");
+        }
+        System.out.println();
+    }
+
 }

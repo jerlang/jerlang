@@ -65,8 +65,14 @@ public class GcBif2 {
         Term result = Erlang.apply(s.module(), s.function(), args);
 
         // Store result in register
-        int registerIndex = reg.toTuple().element(2).toInteger().toInt();
-        process.registers()[registerIndex] = result;
+        Integer registerIndex = reg.toTuple().element(2).toInteger();
+        if (reg.isXRegister()) {
+            process.setX(registerIndex, result);
+        } else if (reg.isYRegister()) {
+            process.setY(registerIndex, result);
+        } else {
+            throw new Error("Unsupported destination: " + reg);
+        }
         return null;
     }
 
