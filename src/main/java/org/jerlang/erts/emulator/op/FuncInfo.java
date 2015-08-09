@@ -6,6 +6,9 @@ import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
+/**
+ * Define a function M:F/A
+ */
 public class FuncInfo {
 
     public static Term execute(Process process, Module m, Instruction instruction, List params) {

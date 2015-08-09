@@ -45,16 +45,16 @@ public class GcBif2 {
         if (arg2 instanceof Integer) {
             args = new List(arg2, args);
         } else if (arg2.isXRegister()) {
-            args = new List(process.getX(arg2.toTuple().element(2).toInteger()), args);
+            args = new List(process.getX(arg2.toRegisterIndex()), args);
         } else {
             throw new Error("Unsupported ARG2: " + arg2);
         }
 
         if (arg1.isXRegister()) {
-            Integer index = arg1.toTuple().element(2).toInteger();
+            Integer index = arg1.toRegisterIndex();
             args = new List(process.getX(index), args);
         } else if (arg1.isYRegister()) {
-            Integer index = arg1.toTuple().element(2).toInteger();
+            Integer index = arg1.toRegisterIndex();
             args = new List(process.getY(index), args);
         } else if (arg1 instanceof Integer) {
             args = new List(arg1, args);
@@ -65,7 +65,7 @@ public class GcBif2 {
         Term result = Erlang.apply(s.module(), s.function(), args);
 
         // Store result in register
-        Integer registerIndex = reg.toTuple().element(2).toInteger();
+        Integer registerIndex = reg.toRegisterIndex();
         if (reg.isXRegister()) {
             process.setX(registerIndex, result);
         } else if (reg.isYRegister()) {

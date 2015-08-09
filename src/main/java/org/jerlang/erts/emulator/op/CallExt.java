@@ -9,6 +9,13 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
+/**
+ * Call the function of arity Arity pointed to by Destination.
+ * Save the next instruction as the return address in the CP register.
+ *
+ * First argument is the arity.
+ * Second argument is the index of the function in import chunk.
+ */
 public class CallExt {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {

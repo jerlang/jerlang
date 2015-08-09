@@ -7,8 +7,8 @@ import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
- * This opcode just indicates the end of a code chunk.
- * Just skip this instruction.
+ * Marker for end of code.
+ * This is the last opcode in a code chunk.
  */
 public class IntCodeEnd {
 

@@ -77,6 +77,10 @@ public class Term {
         throw new Error("Cannot convert to pid: " + this);
     }
 
+    public Integer toRegisterIndex() {
+        throw new Error("Cannot convert to register index: " + this);
+    }
+
     public Str toStr() {
         throw new Error("Cannot convert to str: " + this);
     }

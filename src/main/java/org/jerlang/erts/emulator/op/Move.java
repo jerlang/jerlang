@@ -9,6 +9,10 @@ import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
+/**
+ * Move the source Source (a literal or a register) to
+ * the destination register Destination.
+ */
 public class Move {
 
     private final static Atom x = Atom.of("x");

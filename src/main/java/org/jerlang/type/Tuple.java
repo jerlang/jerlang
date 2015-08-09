@@ -91,6 +91,11 @@ public class Tuple extends Term {
     }
 
     @Override
+    public Integer toRegisterIndex() {
+        return element(2).toInteger();
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
         for (int index = 0; index < elements.length; index++) {
