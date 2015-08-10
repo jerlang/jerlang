@@ -4,7 +4,7 @@
 
 [![Build Status](https://img.shields.io/travis/jerlang/jerlang.svg?branch=master&style=flat)](https://travis-ci.org/jerlang/jerlang)
 [![Dependency Status](https://www.versioneye.com/user/projects/55acc9853065350023000481/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55acc9853065350023000481)
-[![Bountrysource](https://img.shields.io/bountysource/team/jerlang/activity.svg?style=flat)](https://www.bountysource.com/teams/jerlang)
+[![Bountysource](https://img.shields.io/bountysource/team/jerlang/activity.svg?style=flat)](https://www.bountysource.com/teams/jerlang)
 
 
 
