@@ -1,6 +1,7 @@
 package org.jerlang.type;
 
 import org.jerlang.FunctionSignature;
+import org.jerlang.Process;
 
 /**
  * A piece of data of any data type is called a term.
@@ -39,6 +40,16 @@ public class Term {
 
     public boolean isYRegister() {
         return false;
+    }
+
+    public Term toArg(Process p) {
+        if (isXRegister()) {
+            return p.getX(toRegisterIndex());
+        } else if (isYRegister()) {
+            return p.getY(toRegisterIndex());
+        } else {
+            return this;
+        }
     }
 
     public Atom toAtom() {
