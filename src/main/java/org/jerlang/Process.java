@@ -10,6 +10,7 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * Erlang is designed for massive concurrency.
@@ -40,6 +41,10 @@ public class Process implements ProcessOrPort {
     // Stack / Y register
     private Term[] stack = new Term[10];
     private int sp = 0;
+
+    // Used by `put_tuple/2` and `put/1`:
+    private Tuple tuple;
+    private int tupleIndex;
 
     public Process() {
         pid = new PID(1);
@@ -84,6 +89,14 @@ public class Process implements ProcessOrPort {
         return fregisters[index];
     }
 
+    public Tuple getTuple() {
+        return tuple;
+    }
+
+    public int getTupleIndex() {
+        return tupleIndex;
+    }
+
     public Term getX(int index) {
         return registers[index];
     }
@@ -98,6 +111,10 @@ public class Process implements ProcessOrPort {
 
     public Term getY(Integer index) {
         return getY(index.toInt());
+    }
+
+    public void incrementTupleIndex() {
+        tupleIndex++;
     }
 
     public Term popStack() {
@@ -122,6 +139,11 @@ public class Process implements ProcessOrPort {
 
     public void setFR(Integer index, Float value) {
         fregisters[index.toInt()] = value;
+    }
+
+    public void setTuple(Tuple tuple) {
+        this.tuple = tuple;
+        this.tupleIndex = 0;
     }
 
     public void setX(Integer index, Term term) {
