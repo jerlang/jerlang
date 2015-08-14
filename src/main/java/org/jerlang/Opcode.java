@@ -545,10 +545,12 @@ public enum Opcode {
     private Opcode(int code, int arity) {
         this.code = code;
         this.arity = arity;
+        this.methodHandle = lookupMethodHandle();
+    }
 
+    private MethodHandle lookupMethodHandle() {
         if (name().startsWith("deprecated")) {
-            this.methodHandle = null;
-            return;
+            return null;
         }
 
         String m = StringUtil.snakeToCamelCase(name());
@@ -564,11 +566,12 @@ public enum Opcode {
                 List.class);
             Class<?> clazz = getClass().getClassLoader().loadClass(c);
             mh = MethodHandles.lookup().findStatic(clazz, "execute", METHOD_TYPE);
+
         } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {
             System.err.println("Can not export: " + c);
         }
 
-        this.methodHandle = mh;
+        return mh;
     }
 
     public Integer arity() {
@@ -598,6 +601,14 @@ public enum Opcode {
 
     public static int max() {
         return values().length;
+    }
+
+    public static void main(String[] args) {
+        for (Opcode o : values()) {
+            if (o.toString().startsWith("deprecated"))
+                continue;
+            System.out.println("- [ ] " + o.toString());
+        }
     }
 
 }

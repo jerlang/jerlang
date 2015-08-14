@@ -29,6 +29,13 @@ public class Tuple extends Term {
     }
 
     @Override
+    public boolean isFRegister() {
+        return arity() == 2
+            && element(1).equals(Atom.of("fr"))
+            && element(2) instanceof Integer;
+    }
+
+    @Override
     public boolean isXRegister() {
         return arity() == 2
             && element(1).equals(Atom.of("x"))

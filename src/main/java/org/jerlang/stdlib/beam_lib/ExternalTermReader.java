@@ -9,6 +9,7 @@ import java.util.Collections;
 import org.jerlang.erts.ExternalTermFormatTag;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -44,6 +45,8 @@ public class ExternalTermReader extends AbstractReader {
             return Integer.of(read4Bytes());
         case LIST_EXT:
             return readList();
+        case NEW_FLOAT_EXT:
+            return readNewFloat();
         case NIL_EXT:
             return List.nil;
         case SMALL_BIG_EXT:
@@ -57,6 +60,10 @@ public class ExternalTermReader extends AbstractReader {
         default:
             throw new Error("Tag " + tag + " not supported yet");
         }
+    }
+
+    private Term readNewFloat() throws IOException {
+        return new Float(Double.longBitsToDouble(read8Bytes()));
     }
 
     private Atom readAtom() throws IOException {
@@ -83,7 +90,7 @@ public class ExternalTermReader extends AbstractReader {
 
     private Term readSmallBig() throws IOException {
         int n = read1Byte();
-        int sign = read1Byte();
+        read1Byte(); // TODO: int sign = read1Byte();
         byte[] d = new byte[n];
         readBytes(d);
         Collections.reverse(Arrays.asList(d));

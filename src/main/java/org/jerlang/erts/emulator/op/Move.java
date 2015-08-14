@@ -15,6 +15,7 @@ import org.jerlang.type.Tuple;
  */
 public class Move {
 
+    private final static Atom fr = Atom.of("fr");
     private final static Atom x = Atom.of("x");
     private final static Atom y = Atom.of("y");
 
@@ -32,7 +33,8 @@ public class Move {
                 source = proc.registers()[registerIndex.toInt()];
             } else if (y.equals(sourceTuple.element(1))) {
                 source = proc.getY(registerIndex);
-                // source = proc.popStack();
+            } else if (fr.equals(sourceTuple.element(1))) {
+                source = proc.getFR(registerIndex.toInt());
             } else {
                 throw new Error("Unsupported destination: " + destination);
             }

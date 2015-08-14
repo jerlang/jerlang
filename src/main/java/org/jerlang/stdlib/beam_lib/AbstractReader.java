@@ -12,8 +12,6 @@ import org.jerlang.type.Tuple;
 
 public class AbstractReader {
 
-    private static final Atom atom = Atom.of("atom");
-
     private DataInputStream inputStream;
 
     public AbstractReader(DataInputStream inputStream) {
@@ -34,6 +32,10 @@ public class AbstractReader {
 
     protected int read4Bytes() throws IOException {
         return inputStream.readInt();
+    }
+
+    protected long read8Bytes() throws IOException {
+        return inputStream.readLong();
     }
 
     protected int readBytes(byte[] bytes) throws IOException {
@@ -69,9 +71,10 @@ public class AbstractReader {
             case 1:
                 throw new Error("decode list not implemented yet");
             case 2:
-                throw new Error("decode fr not implemented yet");
+                // float register
+                return Tuple.of(Atom.of("fr"), Integer.of(read1Byte()));
             case 3:
-                throw new Error("decode allocation list not implemented yet");
+                return decodeAllocationList();
             case 4:
                 Term litIndex = decodeArg(atomChunk, literalTableChunk);
                 return literalTableChunk.literals().get(litIndex.toInteger().toInt());
@@ -81,6 +84,27 @@ public class AbstractReader {
         default:
             return Tuple.of(tag.toAtom(), Integer.of(decodeInt(b)));
         }
+    }
+
+    private Term decodeAllocationList() throws IOException {
+        List allocationList = List.nil;
+        int elements = decodeInt(read1Byte());
+        while (elements-- > 0) {
+            int typ = decodeInt(read1Byte());
+            int val = decodeInt(read1Byte());
+            switch (typ) {
+            case 0:
+                allocationList = new List(Tuple.of(Atom.of("words"), Integer.of(val)), allocationList);
+                break;
+            case 1:
+                allocationList = new List(Tuple.of(Atom.of("floats"), Integer.of(val)), allocationList);
+                break;
+            case 2:
+                allocationList = new List(Tuple.of(Atom.of("literal"), Integer.of(val)), allocationList);
+                break;
+            }
+        }
+        return allocationList;
     }
 
     protected int decodeInt(int b) throws IOException {

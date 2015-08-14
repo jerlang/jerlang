@@ -34,6 +34,10 @@ public class Term {
         throw new Error("Cannot convert to boolean: " + this);
     }
 
+    public boolean isFRegister() {
+        return false;
+    }
+
     public boolean isXRegister() {
         return false;
     }
@@ -62,6 +66,10 @@ public class Term {
 
     public BinMatchState toBinMatchState() {
         throw new Error("Cannot convert to bin_match_state: " + this);
+    }
+
+    public Float toFloat() {
+        throw new Error("Cannot convert to float: " + this);
     }
 
     public Fun toFun() {

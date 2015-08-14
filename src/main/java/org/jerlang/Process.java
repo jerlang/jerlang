@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.jerlang.type.Float;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -23,6 +24,7 @@ public class Process implements ProcessOrPort {
 
     // See "erts/emulator/beam/erl_vm.h":
     private final int MAX_REG = 1024;
+    private final int MAX_FREG = 32;
 
     private final PID pid;
     private final LinkedBlockingQueue<Term> mailbox;
@@ -30,6 +32,7 @@ public class Process implements ProcessOrPort {
     private ProcessPriority priority = ProcessPriority.NORMAL;
     private Scheduler scheduler = null;
     private Term[] registers = null;
+    private Float[] fregisters = new Float[MAX_FREG];
 
     // Continuation Pointer
     private int cp = 0;
@@ -77,6 +80,10 @@ public class Process implements ProcessOrPort {
         return cp;
     }
 
+    public Float getFR(int index) {
+        return fregisters[index];
+    }
+
     public Term getX(int index) {
         return registers[index];
     }
@@ -111,6 +118,10 @@ public class Process implements ProcessOrPort {
 
     public void setCP(int cp) {
         this.cp = cp;
+    }
+
+    public void setFR(Integer index, Float value) {
+        fregisters[index.toInt()] = value;
     }
 
     public void setX(Integer index, Term term) {
