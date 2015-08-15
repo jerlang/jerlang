@@ -3,6 +3,7 @@ package org.jerlang.erts.emulator.op;
 import static org.junit.Assert.assertEquals;
 
 import org.jerlang.erts.Erlang;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Boolean;
 import org.jerlang.type.Integer;
@@ -21,7 +22,7 @@ public class IsListTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws ThrowException {
         List params1 = List.of(Integer.of(1));
         Term result1 = Erlang.apply(Atom.of("test_functions"), Atom.of("test_is_list"), params1);
         assertEquals(Boolean.am_false, result1);

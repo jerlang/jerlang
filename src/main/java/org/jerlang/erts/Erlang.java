@@ -30,8 +30,10 @@ import org.jerlang.erts.erlang.ErlangRegister;
 import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
 import org.jerlang.erts.erlang.ErlangSpawn;
+import org.jerlang.erts.erlang.ErlangThrow;
 import org.jerlang.erts.erlang.ErlangTupleSize;
 import org.jerlang.erts.erlang.ErlangTupleToList;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Fun;
@@ -64,7 +66,7 @@ public class Erlang {
         return ErlangAbs.abs_1(integer);
     }
 
-    public static Term apply(Term m, Term f, Term a) {
+    public static Term apply(Term m, Term f, Term a) throws ThrowException {
         return ErlangApply.apply_3(m, f, a);
     }
 
@@ -194,6 +196,10 @@ public class Erlang {
 
     public static PID spawn(Fun fun) {
         return ErlangSpawn.spawn_1(fun);
+    }
+
+    public static void _throw(Term reason) throws ThrowException {
+        ErlangThrow.throw_1(reason);
     }
 
     public static Integer tuple_size(Tuple tuple) {

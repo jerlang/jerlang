@@ -7,6 +7,7 @@ import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
 import org.jerlang.erts.Erlang;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -18,7 +19,7 @@ import org.junit.Test;
 public class ErlangTest {
 
     @Test
-    public void testAbs() {
+    public void testAbs() throws ThrowException {
         Module m = ModuleRegistry.get(Atom.of("erlang"));
         FunctionSignature s = new FunctionSignature(m, "abs", 1);
         Integer negative = Integer.of(-1);

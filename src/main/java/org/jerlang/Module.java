@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jerlang.erts.erlang.Error;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.stdlib.beam_lib.BeamData;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
@@ -64,7 +65,7 @@ public class Module {
         this.name = name;
     }
 
-    public Term apply(FunctionSignature signature, Term params) {
+    public Term apply(FunctionSignature signature, Term params) throws ThrowException {
         if (!hasFunction(signature)) {
             throw new Error("Unknown function: " + signature);
         }
@@ -102,7 +103,15 @@ public class Module {
         } else {
             // The module is included in JErlang
             for (Method method : moduleClass.getDeclaredMethods()) {
-                export(method.getName(), method.getParameterCount());
+                int arity = method.getParameterCount();
+                if (method.getName().startsWith("_")) {
+                    // If the method name is a reserved Java keyword,
+                    // the method is prefixed by an underscore.
+                    // For example: `throw`
+                    export(method.getName().substring(1), arity);
+                } else {
+                    export(method.getName(), arity);
+                }
             }
         }
     }

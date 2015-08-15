@@ -2,6 +2,8 @@ package org.jerlang.type;
 
 import org.jerlang.FunctionSignature;
 import org.jerlang.Process;
+import org.jerlang.type.stack.BinMatchState;
+import org.jerlang.type.stack.ExceptionHandler;
 
 /**
  * A piece of data of any data type is called a term.
@@ -66,6 +68,10 @@ public class Term {
 
     public BinMatchState toBinMatchState() {
         throw new Error("Cannot convert to bin_match_state: " + this);
+    }
+
+    public ExceptionHandler toExceptionHandler() {
+        throw new Error("Cannot convert to exception handler: " + this);
     }
 
     public Float toFloat() {

@@ -67,8 +67,15 @@ public class Interpreter {
                     break;
                 }
             } catch (Throwable e) {
-                e.printStackTrace();
-                break;
+                if (process.exceptionHandler() != null) {
+                    Term label = process.exceptionHandler().label();
+                    int lbl = label.toRegisterIndex().toInt();
+                    index = labels.get(lbl);
+                    process.setExceptionHandler(null);
+                } else {
+                    e.printStackTrace();
+                    break;
+                }
             }
 
             if (i.opcode() == Opcode.call_last

@@ -7,6 +7,7 @@ import org.jerlang.Module;
 import org.jerlang.Process;
 import org.jerlang.erts.Erlang;
 import org.jerlang.erts.emulator.Instruction;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -28,7 +29,7 @@ import org.jerlang.type.Term;
  */
 public class GcBif2 {
 
-    public static Term execute(Process process, Module m, Instruction i, List params) {
+    public static Term execute(Process process, Module m, Instruction i, List params) throws ThrowException {
         Term lbl = i.arg(0); // {f,0}
         Term live = i.arg(1); // 1
         Term bif = i.arg(2); // 1

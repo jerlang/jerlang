@@ -25,18 +25,15 @@ public class Move {
 
         if (source instanceof Tuple) {
             Tuple sourceTuple = source.toTuple();
-            if (sourceTuple.arity() != 2) {
-                throw new Error("Unsupported source: " + source);
-            }
-            Integer registerIndex = sourceTuple.element(2).toInteger();
-            if (x.equals(sourceTuple.element(1))) {
-                source = proc.registers()[registerIndex.toInt()];
-            } else if (y.equals(sourceTuple.element(1))) {
-                source = proc.getY(registerIndex);
-            } else if (fr.equals(sourceTuple.element(1))) {
-                source = proc.getFR(registerIndex.toInt());
-            } else {
-                throw new Error("Unsupported destination: " + destination);
+            if (sourceTuple.arity() == 2) {
+                Integer registerIndex = sourceTuple.element(2).toInteger();
+                if (x.equals(sourceTuple.element(1))) {
+                    source = proc.registers()[registerIndex.toInt()];
+                } else if (y.equals(sourceTuple.element(1))) {
+                    source = proc.getY(registerIndex);
+                } else if (fr.equals(sourceTuple.element(1))) {
+                    source = proc.getFR(registerIndex.toInt());
+                }
             }
         }
 

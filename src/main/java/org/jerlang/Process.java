@@ -11,6 +11,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
+import org.jerlang.type.stack.ExceptionHandler;
 
 /**
  * Erlang is designed for massive concurrency.
@@ -45,6 +46,9 @@ public class Process implements ProcessOrPort {
     // Used by `put_tuple/2` and `put/1`:
     private Tuple tuple;
     private int tupleIndex;
+
+    // Exception handling
+    private ExceptionHandler exceptionHandler = null;
 
     public Process() {
         pid = new PID(1);
@@ -166,6 +170,10 @@ public class Process implements ProcessOrPort {
         return dictionary;
     }
 
+    public ExceptionHandler exceptionHandler() {
+        return exceptionHandler;
+    }
+
     public void execute() {
     }
 
@@ -186,6 +194,10 @@ public class Process implements ProcessOrPort {
 
     public Scheduler scheduler() {
         return scheduler;
+    }
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
     public void setPriority(ProcessPriority priority) {

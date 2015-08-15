@@ -3,6 +3,7 @@ package org.jerlang.erts.emulator.op;
 import static org.junit.Assert.assertEquals;
 
 import org.jerlang.erts.Erlang;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -20,7 +21,7 @@ public class IsGeTest {
     }
 
     @Test
-    public void test_is_ge() {
+    public void test_is_ge() throws ThrowException {
         // Positive
         List params1 = List.of(Integer.of(1));
         Term result1 = Erlang.apply(Atom.of("example1"), Atom.of("test"), params1);

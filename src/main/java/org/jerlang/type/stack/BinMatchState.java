@@ -1,4 +1,8 @@
-package org.jerlang.type;
+package org.jerlang.type.stack;
+
+import org.jerlang.type.Binary;
+import org.jerlang.type.Integer;
+import org.jerlang.type.Term;
 
 /**
  * See:

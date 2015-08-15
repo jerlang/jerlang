@@ -3,6 +3,7 @@ package org.jerlang.erts.emulator.op;
 import static org.junit.Assert.assertEquals;
 
 import org.jerlang.erts.Erlang;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -20,7 +21,7 @@ public class Bitsyntax2Test {
     }
 
     @Test
-    public void test_bitsyntax1() {
+    public void test_bitsyntax1() throws ThrowException {
         Integer one = Integer.of(1);
         Integer two = Integer.of(2);
         Integer three = Integer.of(3);

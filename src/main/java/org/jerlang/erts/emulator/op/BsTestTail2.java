@@ -3,9 +3,9 @@ package org.jerlang.erts.emulator.op;
 import org.jerlang.Module;
 import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
-import org.jerlang.type.BinMatchState;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
+import org.jerlang.type.stack.BinMatchState;
 
 /**
  * Bitsyntax

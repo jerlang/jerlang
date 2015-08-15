@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.TreeMap;
 
 import org.jerlang.erts.Erlang;
+import org.jerlang.exception.ThrowException;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunk;
 import org.jerlang.stdlib.beam_lib.AbstractSyntaxTreeChunkReader;
@@ -189,7 +190,7 @@ public class ModuleLoader {
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ThrowException {
         Erlang.apply(Atom.of("fun_test"), Atom.of("t1"), List.nil);
     }
 
