@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import org.jerlang.OpcodeTag;
+import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -69,7 +70,7 @@ public class AbstractReader {
             case 0:
                 throw new Error("decode float not implemented yet");
             case 1:
-                throw new Error("decode list not implemented yet");
+                return decodeList(atomChunk, literalTableChunk);
             case 2:
                 // float register
                 return Tuple.of(Atom.of("fr"), Integer.of(read1Byte()));
@@ -84,6 +85,15 @@ public class AbstractReader {
         default:
             return Tuple.of(tag.toAtom(), Integer.of(decodeInt(b)));
         }
+    }
+
+    private Term decodeList(AtomChunk atomChunk, LiteralTableChunk literalTableChunk) throws IOException {
+        List list = List.nil;
+        int elements = decodeInt(read1Byte());
+        while (elements-- > 0) {
+            list = new List(decodeArg(atomChunk, literalTableChunk), list);
+        }
+        return Lists.reverse(list);
     }
 
     private Term decodeAllocationList() throws IOException {

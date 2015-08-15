@@ -3,7 +3,6 @@ package org.jerlang.erts.emulator.op;
 import org.jerlang.Module;
 import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
-import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
@@ -15,24 +14,12 @@ public class IsTuple {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
         Term lbl = i.arg(0);
-        Term arg = i.arg(1);
+        Term arg = i.arg(1).toArg(proc);
 
-        if (arg.isXRegister()) {
-            Term a = proc.getX(arg.toRegisterIndex());
-            if (a instanceof Tuple) {
-                return null;
-            } else {
-                return lbl;
-            }
-        } else if (arg.isYRegister()) {
-            Term a = proc.getY(arg.toRegisterIndex());
-            if (a instanceof Tuple) {
-                return null;
-            } else {
-                return lbl;
-            }
+        if (arg instanceof Tuple) {
+            return null;
         } else {
-            throw new Error("Can not test arg: " + i);
+            return lbl;
         }
     }
 

@@ -12,6 +12,7 @@ import org.jerlang.type.Binary;
 import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Map;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
@@ -45,6 +46,8 @@ public class ExternalTermReader extends AbstractReader {
             return Integer.of(read4Bytes());
         case LIST_EXT:
             return readList();
+        case MAP_EXT:
+            return readMap();
         case NEW_FLOAT_EXT:
             return readNewFloat();
         case NIL_EXT:
@@ -60,6 +63,15 @@ public class ExternalTermReader extends AbstractReader {
         default:
             throw new Error("Tag " + tag + " not supported yet");
         }
+    }
+
+    private Term readMap() throws Throwable {
+        int pairs = read4Bytes();
+        Map map = new Map();
+        while (pairs-- > 0) {
+            map.set(read(), read());
+        }
+        return map;
     }
 
     private Term readNewFloat() throws IOException {

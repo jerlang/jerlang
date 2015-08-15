@@ -3,10 +3,10 @@ package org.jerlang.erts.emulator.op;
 import org.jerlang.Module;
 import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
+import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.jerlang.type.Tuple;
 
 /**
  * is equal
@@ -25,9 +25,9 @@ public class IsEqExact {
         Term arg1 = i.arg(1);
         Term arg2 = i.arg(2);
 
-        if (arg1 instanceof Tuple && arg2 instanceof Integer) {
-            int registerIndex = arg1.toTuple().element(2).toInteger().toInt();
-            Term a = proc.registers()[registerIndex];
+        if (arg1.isXRegister() &&
+            (arg2 instanceof Integer | arg2 instanceof Atom)) {
+            Term a = arg1.toArg(proc);
             Term b = arg2;
 
             if (a.equals(b)) {

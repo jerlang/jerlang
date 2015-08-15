@@ -24,15 +24,15 @@ public class CallExt {
         List parameters = parameters(proc, arity);
         Integer exportTableIndex = i.arg(1).toInteger();
         FunctionSignature s = resolve(m, exportTableIndex);
-        Erlang.apply(s.module(), s.function(), parameters);
-        // TODO: store result in register
+        Term result = Erlang.apply(s.module(), s.function(), parameters);
+        proc.setX(Integer.of(0), result);
         return null;
     }
 
     private static List parameters(Process proc, Integer arity) {
         List params = List.nil;
         int maxIndex = arity.toInt();
-        for (int index = 0; index < maxIndex; index++) {
+        for (int index = maxIndex - 1; index >= 0; index--) {
             params = new List(proc.registers()[index], params);
         }
         return params;
