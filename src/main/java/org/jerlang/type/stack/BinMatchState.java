@@ -1,6 +1,7 @@
 package org.jerlang.type.stack;
 
 import org.jerlang.type.Binary;
+import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
 import org.jerlang.type.Term;
 
@@ -32,9 +33,15 @@ public class BinMatchState extends Term {
         return "BinMatchState";
     }
 
+    public Float get_float(int size, int unit, int flag) {
+        // TODO: This assumes size = 64, unit = 1 and flag = 0.
+        Integer integer = get_integer(size, unit, flag);
+        return new Float(Double.longBitsToDouble(integer.toLong()));
+    }
+
     public Integer get_integer(int size, int unit, int flag) {
         // TODO: This assumes that unit is 1 and flag is 0.
-        Integer result = new Integer(binary.extraxt_bits(offset, size));
+        Integer result = new Integer(binary.extract_bits(offset, size));
         offset += size;
         return result;
     }

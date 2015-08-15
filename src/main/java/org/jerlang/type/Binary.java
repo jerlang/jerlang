@@ -44,7 +44,7 @@ public class Binary extends Term {
      * The bits are converted to a BigInteger.
      * Used by BinMatchState.
      */
-    public BigInteger extraxt_bits(int offset, int length) {
+    public BigInteger extract_bits(int offset, int length) {
 
         if (length == 0) {
             return BigInteger.ZERO;
@@ -81,6 +81,16 @@ public class Binary extends Term {
                 case 8:
                     return BigInteger.valueOf(b);
                 }
+            } else if (length % 8 == 0) {
+                // byte-aligned and n-byte-length
+                int n = length / 8;
+                BigInteger result = BigInteger.ZERO;
+                while (n-- > 0) {
+                    int bv = bytes[byteIndex++] & 0xFF;
+                    result = result.shiftLeft(8);
+                    result = result.add(BigInteger.valueOf(bv));
+                }
+                return result;
             }
         } else if (offsetMod8 + length <= 8) {
             int b = bytes[byteIndex];

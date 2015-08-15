@@ -32,7 +32,7 @@ public class BsGetInteger2 {
         Term arg2 = i.arg(1);
 
         if (arg2.isXRegister()) {
-            bms = proc.getX(arg2.toTuple().element(2).toInteger()).toBinMatchState();
+            bms = arg2.toArg(proc).toBinMatchState();
         } else {
             throw new Error("Unsupported arg2: " + i);
         }
