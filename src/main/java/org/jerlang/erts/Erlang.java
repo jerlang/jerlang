@@ -23,8 +23,10 @@ import org.jerlang.erts.erlang.ErlangIsList;
 import org.jerlang.erts.erlang.ErlangIsMap;
 import org.jerlang.erts.erlang.ErlangIsNumber;
 import org.jerlang.erts.erlang.ErlangIsPid;
+import org.jerlang.erts.erlang.ErlangIsReference;
 import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
+import org.jerlang.erts.erlang.ErlangMakeRef;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangRegister;
 import org.jerlang.erts.erlang.ErlangRem;
@@ -40,6 +42,7 @@ import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
+import org.jerlang.type.Reference;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -170,12 +173,20 @@ public class Erlang {
         return ErlangIsPid.is_pid_1(term);
     }
 
+    public static Term is_reference(Term term) {
+        return ErlangIsReference.is_reference_1(term);
+    }
+
     public static Term is_tuple(Term term) {
         return ErlangIsTuple.is_tuple_1(term);
     }
 
     public static Integer length(List list) {
         return ErlangLength.length_1(list);
+    }
+
+    public static Reference make_ref() {
+        return ErlangMakeRef.make_ref_0();
     }
 
     public static Term process_flag(Atom flag, Term value) {

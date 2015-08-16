@@ -102,6 +102,10 @@ public class Term {
         throw new Error("Cannot convert to pid: " + this);
     }
 
+    public Reference toReference() {
+        throw new Error("Cannot convert to reference: " + this);
+    }
+
     public Integer toRegisterIndex() {
         throw new Error("Cannot convert to register index: " + this);
     }

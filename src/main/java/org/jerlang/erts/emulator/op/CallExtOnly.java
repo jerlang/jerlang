@@ -13,8 +13,8 @@ import org.jerlang.type.Term;
  */
 public class CallExtOnly {
 
-    public static Term execute(Process process, Module m, Instruction i, List params) throws ThrowException {
-        return CallExt.execute(process, m, i, params);
+    public static Term execute(Process proc, Module m, Instruction i, List params) throws ThrowException {
+        return CallExt.execute(proc, m, i, params);
     }
 
 }
