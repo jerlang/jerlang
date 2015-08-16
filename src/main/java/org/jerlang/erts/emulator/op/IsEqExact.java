@@ -6,6 +6,7 @@ import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 
 /**
@@ -26,7 +27,7 @@ public class IsEqExact {
         Term arg2 = i.arg(2);
 
         if (arg1.isXRegister() &&
-            (arg2 instanceof Integer | arg2 instanceof Atom)) {
+            (arg2 instanceof Integer | arg2 instanceof Atom | arg2 instanceof Str)) {
             Term a = arg1.toArg(proc);
             Term b = arg2;
 

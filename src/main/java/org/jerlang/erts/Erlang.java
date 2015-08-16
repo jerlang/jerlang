@@ -33,6 +33,7 @@ import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
 import org.jerlang.erts.erlang.ErlangSpawn;
 import org.jerlang.erts.erlang.ErlangThrow;
+import org.jerlang.erts.erlang.ErlangTl;
 import org.jerlang.erts.erlang.ErlangTupleSize;
 import org.jerlang.erts.erlang.ErlangTupleToList;
 import org.jerlang.exception.ThrowException;
@@ -211,6 +212,10 @@ public class Erlang {
 
     public static void _throw(Term reason) throws ThrowException {
         ErlangThrow.throw_1(reason);
+    }
+
+    public static Term tl(List list) {
+        return ErlangTl.tl_1(list);
     }
 
     public static Integer tuple_size(Tuple tuple) {
