@@ -1,25 +1,47 @@
 package org.jerlang.type;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Objects;
+
+import org.jerlang.erts.erlang.Error;
 
 public class Binary extends Term {
 
     private final int[] bytes;
 
+    // The number of bits in the last byte
+    // that are not used for this binary.
+    // See BIT_BINARY_EXT external term reader.
+    private final int unusedBits;
+
     public Binary(byte[] bytes) {
+        this(bytes, 0);
+    }
+
+    public Binary(byte[] bytes, int unusedBits) {
         this.bytes = new int[bytes.length];
+        this.unusedBits = unusedBits;
         for (int index = 0; index < bytes.length; index++) {
             this.bytes[index] = bytes[index] & 0xFF;
         }
     }
 
     public Binary(int[] bytes) {
+        this(bytes, 0);
+    }
+
+    public Binary(int[] bytes, int unusedBits) {
         this.bytes = bytes.clone();
+        this.unusedBits = unusedBits;
     }
 
     public int bits() {
-        return bytes.length * 8;
+        return (bytes.length * 8) - unusedBits;
+    }
+
+    public int byte_length() {
+        return bytes.length;
     }
 
     @Override
@@ -29,9 +51,20 @@ public class Binary extends Term {
             if (bytes.length != other.bytes.length) {
                 return false;
             }
+            if (unusedBits != other.unusedBits) {
+                return false;
+            }
             for (int index = 0; index < bytes.length; index++) {
-                if (bytes[index] != other.bytes[index]) {
-                    return false;
+                if (index == (bytes.length - 1) && (unusedBits > 0)) {
+                    int a = (bytes[index] >> unusedBits) & 0xFF;
+                    int b = (other.bytes[index] >> unusedBits) & 0xFF;
+                    if (a != b) {
+                        return false;
+                    }
+                } else {
+                    if (bytes[index] != other.bytes[index]) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -118,6 +151,19 @@ public class Binary extends Term {
         throw new Error("Cannot extract " + length + " bits at offset " + offset);
     }
 
+    /**
+     * Return a binary with all remaining bits
+     */
+    public Binary get_rest(int offset) {
+        if (offset % 8 == 0) {
+            int skipBytes = offset / 8;
+            int[] newBytes = Arrays.copyOfRange(bytes, skipBytes, bytes.length);
+            return new Binary(newBytes, unusedBits);
+        } else {
+            throw new Error("Not supported offset: " + offset);
+        }
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(bytes);
@@ -135,8 +181,17 @@ public class Binary extends Term {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("<<");
         for (int index = 0; index < bytes.length; index++) {
-            stringBuilder.append(bytes[index]);
-            if (index != bytes.length - 1) {
+            if (index == (bytes.length - 1)) {
+                if (unusedBits == 0) {
+                    stringBuilder.append(bytes[index]);
+                } else {
+                    int byteValue = (bytes[index] >> unusedBits) & 0xFF;
+                    stringBuilder.append(byteValue);
+                    stringBuilder.append(':');
+                    stringBuilder.append(8 - unusedBits);
+                }
+            } else {
+                stringBuilder.append(bytes[index]);
                 stringBuilder.append(',');
             }
         }

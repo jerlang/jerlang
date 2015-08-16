@@ -38,6 +38,8 @@ public class ExternalTermReader extends AbstractReader {
             return readAtom();
         case BINARY_EXT:
             return readBinary();
+        case BIT_BINARY_EXT:
+            return readBitBinary();
         case BIT_BINARY_INTERNAL_REF:
             read4Bytes(); // offset
             read4Bytes(); // size
@@ -63,6 +65,13 @@ public class ExternalTermReader extends AbstractReader {
         default:
             throw new Error("Tag " + tag + " not supported yet");
         }
+    }
+
+    private Term readBitBinary() throws IOException {
+        byte[] bytes = new byte[read4Bytes()];
+        int usedBits = read1Byte();
+        readBytes(bytes);
+        return new Binary(bytes, 8 - usedBits);
     }
 
     private Term readMap() throws Throwable {

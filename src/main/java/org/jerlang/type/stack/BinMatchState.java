@@ -33,6 +33,13 @@ public class BinMatchState extends Term {
         return "BinMatchState";
     }
 
+    public Binary get_all_binary(int unit, int flag) {
+        // TODO This assumes that unit = 1 and flag = 0
+        Binary result = binary.get_rest(offset);
+        offset = binary.bits();
+        return result;
+    }
+
     public Float get_float(int size, int unit, int flag) {
         // TODO: This assumes size = 64, unit = 1 and flag = 0.
         Integer integer = get_integer(size, unit, flag);
