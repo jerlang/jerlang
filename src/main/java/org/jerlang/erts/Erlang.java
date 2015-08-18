@@ -31,6 +31,7 @@ import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangRegister;
 import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
+import org.jerlang.erts.erlang.ErlangSendAfter;
 import org.jerlang.erts.erlang.ErlangSpawn;
 import org.jerlang.erts.erlang.ErlangThrow;
 import org.jerlang.erts.erlang.ErlangTl;
@@ -45,6 +46,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Reference;
 import org.jerlang.type.Term;
+import org.jerlang.type.TimerReference;
 import org.jerlang.type.Tuple;
 
 /**
@@ -206,8 +208,16 @@ public class Erlang {
         return ErlangSelf.self_0();
     }
 
+    public static TimerReference send_after(Integer time, PID pid, Term msg) {
+        return ErlangSendAfter.send_after_3(time, pid, msg);
+    }
+
     public static PID spawn(Fun fun) {
         return ErlangSpawn.spawn_1(fun);
+    }
+
+    public static PID spawn(Atom m, Atom f, List a) {
+        return ErlangSpawn.spawn_3(m, f, a);
     }
 
     public static void _throw(Term reason) throws ThrowException {

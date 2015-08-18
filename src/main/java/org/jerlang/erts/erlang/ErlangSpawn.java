@@ -1,7 +1,7 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.Process;
 import org.jerlang.VirtualMachine;
+import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
@@ -16,6 +16,13 @@ public class ErlangSpawn {
         switch (params.length()) {
         case 1:
             return spawn_1(params.head().toFun());
+        case 3:
+            Atom m = params.head().toAtom();
+            params = params.tail();
+            Atom f = params.head().toAtom();
+            params = params.tail();
+            List a = params.head().toList();
+            return spawn_3(m, f, a);
         default:
             throw new Error("badarg");
         }
@@ -28,7 +35,11 @@ public class ErlangSpawn {
      * http://www.erlang.org/doc/man/erlang.html#spawn-1
      */
     public static PID spawn_1(Fun fun) {
-        return VirtualMachine.instance().spawn(new Process(fun));
+        return VirtualMachine.instance().spawn(fun);
+    }
+
+    public static PID spawn_3(Atom module, Atom fun, List args) {
+        return VirtualMachine.instance().spawn(module, fun, args);
     }
 
 }

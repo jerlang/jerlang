@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.jerlang.type.Atom;
 import org.jerlang.type.Float;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
@@ -23,6 +24,12 @@ import org.jerlang.type.stack.ExceptionHandler;
  * http://www.erlang.org/doc/reference_manual/processes.html
  */
 public class Process implements ProcessOrPort {
+
+    public enum State {
+        RUNNING, WAITING
+    };
+
+    private State state = State.RUNNING;
 
     // See "erts/emulator/beam/erl_vm.h":
     private final int MAX_REG = 1024;
@@ -50,14 +57,18 @@ public class Process implements ProcessOrPort {
     // Exception handling
     private ExceptionHandler exceptionHandler = null;
 
-    public Process() {
-        pid = new PID(1);
+    public Process(PID pid) {
+        this.pid = pid;
         dictionary = new ProcessDictionary();
         mailbox = new LinkedBlockingQueue<>();
     }
 
-    public Process(Fun fun) {
-        this();
+    public Process(PID pid, Fun fun) {
+        this(pid);
+    }
+
+    public Process(PID pid, Atom module, Atom fun, List args) {
+        this(pid);
     }
 
     public void allocate(int size, int keep) {
@@ -66,6 +77,12 @@ public class Process implements ProcessOrPort {
             System.arraycopy(stack, 0, newStack, 0, stack.length);
         }
         stack = newStack;
+    }
+
+    public void allocate_heap(int stack, int heap, int live) {
+        if (stack > 0) {
+            allocate(stack, live);
+        }
     }
 
     public void allocate_zero(int size, int keep) {
@@ -85,12 +102,20 @@ public class Process implements ProcessOrPort {
         }
     }
 
+    public boolean hasMessage() {
+        return !mailbox.isEmpty();
+    }
+
     public int getCP() {
         return cp;
     }
 
     public Float getFR(int index) {
         return fregisters[index];
+    }
+
+    public Term nextMessage() {
+        return mailbox.poll();
     }
 
     public Tuple getTuple() {
@@ -145,6 +170,10 @@ public class Process implements ProcessOrPort {
         fregisters[index.toInt()] = value;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public void setTuple(Tuple tuple) {
         this.tuple = tuple;
         this.tupleIndex = 0;
@@ -156,6 +185,10 @@ public class Process implements ProcessOrPort {
 
     public void setY(Integer index, Term term) {
         stack[sp - index.toInt()] = term;
+    }
+
+    public State state() {
+        return state;
     }
 
     public void restoreCP() {

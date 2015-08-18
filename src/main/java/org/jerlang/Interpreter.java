@@ -2,6 +2,7 @@ package org.jerlang;
 
 import java.util.Map;
 
+import org.jerlang.Process.State;
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.beam_lib.BeamData;
@@ -60,7 +61,6 @@ public class Interpreter {
                             int lbl = r.toTuple().element(2).toInteger().toInt();
                             index = labels.get(lbl);
                         }
-                        // continue;
                     }
                 } else {
                     System.err.println("Unsupported opcode: " + i.opcode());
@@ -76,6 +76,11 @@ public class Interpreter {
                     e.printStackTrace();
                     break;
                 }
+            }
+
+            if (process.state() == State.WAITING) {
+                // Set process was set to waiting mode.
+                break;
             }
 
             if (i.opcode() == Opcode.call_last

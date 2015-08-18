@@ -36,7 +36,7 @@ public class Scheduler extends Thread {
             runQueueLow.push(process);
             break;
         }
-        return new PID(1); // TODO
+        return process.pid();
     }
 
     /**
