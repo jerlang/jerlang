@@ -9,7 +9,8 @@ import org.jerlang.type.Term;
 
 /**
  * Unlink the current message from the message queue and store a
- * pointer to the message in x(0). Remove any timeout.
+ * pointer to the message in x(0).
+ * Remove any timeout.
  */
 public class RemoveMessage {
 

@@ -5,10 +5,14 @@ the organization of the source code.
 
 ## Erlang Terms
 
-All Erlang terms are defined in `org.jerlang-type`.
+All Erlang terms are defined in `org.jerlang.type`.
 
 When implementing Erlang/OTP in Java,
 using these Erlang types is recommended.
+
+There are some types which are not Erlang terms,
+but can be pushed to the stack.
+Those types are defined in `org.jerlang.type.stack`.
 
 ## Erlang Modules
 
@@ -38,4 +42,6 @@ Using brackets make code blocks obvious to the reader.
 
 ### Asciidoc comments
 
-Comments, where necessary, must be in Asciidoc format.
+* Comments, where necessary, must be in Asciidoc format.
+
+* Javadoc (`@params` etc.) format shall be avoided.
