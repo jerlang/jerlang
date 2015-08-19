@@ -1,12 +1,10 @@
 # JErlang
 
-[Erlang/OTP](https://github.com/erlang/otp) on the [Java Virtual Machine](https://en.wikipedia.org/wiki/Java_virtual_machine) (JVM)
+JErlang (_pronounce J-Erlang_) is an implementation of [Erlang/OTP](https://github.com/erlang/otp) atop the [Java Virtual Machine](https://en.wikipedia.org/wiki/Java_virtual_machine) (JVM).
 
 [![Build Status](https://img.shields.io/travis/jerlang/jerlang.svg?branch=master&style=flat)](https://travis-ci.org/jerlang/jerlang)
 [![Dependency Status](https://www.versioneye.com/user/projects/55acc9853065350023000481/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55acc9853065350023000481)
 [![Bountysource](https://img.shields.io/bountysource/team/jerlang/activity.svg?style=flat)](https://www.bountysource.com/teams/jerlang)
-
-
 
 ## Roadmap
 
