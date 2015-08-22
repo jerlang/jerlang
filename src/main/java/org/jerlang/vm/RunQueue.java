@@ -1,6 +1,8 @@
-package org.jerlang;
+package org.jerlang.vm;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+
+import org.jerlang.ProcessOrPort;
 
 public class RunQueue<T extends ProcessOrPort> {
 

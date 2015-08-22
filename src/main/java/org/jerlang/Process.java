@@ -13,6 +13,7 @@ import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 import org.jerlang.type.stack.ExceptionHandler;
+import org.jerlang.vm.Scheduler;
 
 /**
  * Erlang is designed for massive concurrency.
@@ -25,11 +26,7 @@ import org.jerlang.type.stack.ExceptionHandler;
  */
 public class Process implements ProcessOrPort {
 
-    public enum State {
-        RUNNING, WAITING
-    };
-
-    private State state = State.RUNNING;
+    private ProcessState state = ProcessState.RUNNING;
 
     // See "erts/emulator/beam/erl_vm.h":
     private final int MAX_REG = 1024;
@@ -102,6 +99,10 @@ public class Process implements ProcessOrPort {
         }
     }
 
+    public ProcessDictionary dictionary() {
+        return dictionary;
+    }
+
     public boolean hasMessage() {
         return !mailbox.isEmpty();
     }
@@ -170,7 +171,7 @@ public class Process implements ProcessOrPort {
         fregisters[index.toInt()] = value;
     }
 
-    public void setState(State state) {
+    public void setState(ProcessState state) {
         this.state = state;
     }
 
@@ -187,7 +188,7 @@ public class Process implements ProcessOrPort {
         stack[sp - index.toInt()] = term;
     }
 
-    public State state() {
+    public ProcessState state() {
         return state;
     }
 
@@ -197,10 +198,6 @@ public class Process implements ProcessOrPort {
 
     public void storeCP() {
         pushStack(Integer.of(cp));
-    }
-
-    public ProcessDictionary dictionary() {
-        return dictionary;
     }
 
     public ExceptionHandler exceptionHandler() {

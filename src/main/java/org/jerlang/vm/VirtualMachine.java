@@ -1,9 +1,11 @@
-package org.jerlang;
+package org.jerlang.vm;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.jerlang.Process;
+import org.jerlang.ProcessRegistry;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
@@ -12,6 +14,9 @@ import org.jerlang.type.Term;
 import org.jerlang.type.TimerReference;
 import org.jerlang.type.Tuple;
 
+/**
+ *
+ */
 public class VirtualMachine {
 
     private Scheduler[] schedulers;

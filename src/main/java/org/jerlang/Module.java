@@ -148,8 +148,7 @@ public class Module {
      */
     private FunctionSignature maybe_override_name(FunctionSignature s, Class<?> c) {
         try {
-            MethodHandle h = MethodHandles.lookup()
-                .findStatic(c, "name", NAME_METHOD);
+            MethodHandle h = MethodHandles.lookup().findStatic(c, "name", NAME_METHOD);
             Atom newName = (Atom) h.invoke();
             s = new FunctionSignature(s.module(), newName, s.element(3).toInteger());
         } catch (Throwable e) {

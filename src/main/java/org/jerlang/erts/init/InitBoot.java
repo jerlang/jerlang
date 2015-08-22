@@ -72,11 +72,11 @@ public class InitBoot {
         /*
         boot(Start,Flags,Args) ->
         BootPid = do_boot(Flags,Start),
-        State = #state{flags = Flags,
+        ProcessState = #state{flags = Flags,
            args = Args,
            start = Start,
            bootpid = BootPid},
-        boot_loop(BootPid,State).
+        boot_loop(BootPid,ProcessState).
         */
     }
 

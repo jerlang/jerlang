@@ -1,11 +1,11 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.VirtualMachine;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 import org.jerlang.type.TimerReference;
+import org.jerlang.vm.VirtualMachine;
 
 public class ErlangSendAfter {
 

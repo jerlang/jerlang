@@ -1,10 +1,10 @@
 package org.jerlang.stdlib.timer;
 
-import org.jerlang.VirtualMachine;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.TimerReference;
+import org.jerlang.vm.VirtualMachine;
 
 public class TimerCancel {
 

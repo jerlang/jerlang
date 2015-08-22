@@ -1,5 +1,6 @@
-package org.jerlang;
+package org.jerlang.vm;
 
+import org.jerlang.Process;
 import org.jerlang.type.PID;
 
 /**

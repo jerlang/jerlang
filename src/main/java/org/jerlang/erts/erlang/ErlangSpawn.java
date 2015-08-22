@@ -1,11 +1,11 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.VirtualMachine;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
+import org.jerlang.vm.VirtualMachine;
 
 public class ErlangSpawn {
 

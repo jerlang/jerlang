@@ -1,12 +1,12 @@
 package org.jerlang.stdlib.timer;
 
 import org.jerlang.ProcessRegistry;
-import org.jerlang.VirtualMachine;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
+import org.jerlang.vm.VirtualMachine;
 
 public class TimerSendAfter {
 

@@ -17,13 +17,6 @@ public class ProcessDictionary {
         map = new HashMap<>();
     }
 
-    /**
-     * Adds a new Key to the process dictionary, associated with the value Val,
-     * and returns undefined. If Key already exists, the old value is deleted
-     * and replaced by Val and the function returns the old value.
-     *
-     * http://www.erlang.org/doc/man/erlang.html#put-2
-     */
     public Term put(Term key, Term value) {
         return value(map.put(key, value));
     }

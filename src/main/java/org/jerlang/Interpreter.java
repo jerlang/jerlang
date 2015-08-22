@@ -2,7 +2,6 @@ package org.jerlang;
 
 import java.util.Map;
 
-import org.jerlang.Process.State;
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.beam_lib.BeamData;
@@ -78,7 +77,7 @@ public class Interpreter {
                 }
             }
 
-            if (process.state() == State.WAITING) {
+            if (process.state() == ProcessState.WAITING) {
                 // Set process was set to waiting mode.
                 break;
             }

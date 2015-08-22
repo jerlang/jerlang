@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.jerlang.type.Atom;
 import org.jerlang.type.PID;
+import org.jerlang.vm.VirtualMachine;
 
 public class ProcessRegistry {
 

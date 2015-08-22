@@ -28,6 +28,7 @@ import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
 import org.jerlang.erts.erlang.ErlangMakeRef;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
+import org.jerlang.erts.erlang.ErlangPut;
 import org.jerlang.erts.erlang.ErlangRegister;
 import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
@@ -194,6 +195,10 @@ public class Erlang {
 
     public static Term process_flag(Atom flag, Term value) {
         return ErlangProcessFlag.process_flag_2(flag, value);
+    }
+
+    public static Term put(Term key, Term val) {
+        return ErlangPut.put_2(key, val);
     }
 
     public static Term register(Atom regName, PID pid) {
