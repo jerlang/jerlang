@@ -1,7 +1,7 @@
 package org.jerlang.vm;
 
 import org.jerlang.Process;
-import org.jerlang.type.PID;
+import org.jerlang.ProcessRegistry;
 
 /**
  * References:
@@ -21,7 +21,7 @@ public class Scheduler extends Thread {
         runQueueLow = new RunQueue<>();
     }
 
-    public PID add(Process process) {
+    public Process add(Process process) {
         process.setScheduler(this);
         switch (process.priority()) {
         case MAX:
@@ -37,7 +37,7 @@ public class Scheduler extends Thread {
             runQueueLow.push(process);
             break;
         }
-        return process.pid();
+        return process;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Scheduler extends Thread {
      */
     @Override
     public void run() {
-        while (true) {
+        while (!isInterrupted()) {
             checkIfTimersShouldBeTriggered();
             maybeCheckBalance();
             migrateProcessesAndPorts();
@@ -90,7 +90,16 @@ public class Scheduler extends Thread {
     private boolean execute(RunQueue<Process> runQueue) {
         Process p = runQueue.poll();
         if (p != null) {
+            ProcessRegistry.self(p);
             p.execute();
+            ProcessRegistry.self(null);
+            switch (p.state()) {
+            case RUNNABLE:
+                runQueue.push(p);
+                break;
+            default:
+                break;
+            }
             return true;
         }
         return false;
@@ -100,7 +109,7 @@ public class Scheduler extends Thread {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            interrupt();
         }
     }
 

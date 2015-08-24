@@ -16,6 +16,7 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.util.StringUtil;
+import org.jerlang.vm.VirtualMachine;
 
 /**
  * = Modules
@@ -69,9 +70,33 @@ public class Module {
         if (!hasFunction(signature)) {
             throw new Error("Unknown function: " + signature);
         }
+        Process process = VirtualMachine.self();
+        System.out.println("CUR PROC: " + process);
         Integer label = labels.get(signature);
+        boolean newProcess = false;
         if (label == null) {
-            return exported_functions.get(signature).apply(params);
+            if (process == null) {
+                // We have been probably invoked from plain Java code,
+                // So we need to spawn a process and execute the function
+                // within this process.
+                process = VirtualMachine.instance().spawn(signature.module(), signature.function(), params.toList());
+                ProcessRegistry.self(process);
+                newProcess = true;
+                System.out.println("NEED NEW PROCESS");
+            }
+            if (newProcess) {
+                exported_functions.get(signature).apply(params);
+                while (process.state() != ProcessState.EXITING) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return process.getX(0);
+            } else {
+                return exported_functions.get(signature).apply(params);
+            }
         } else {
             FunctionSignature s = new FunctionSignature(
                 signature.element(1).toAtom(),
@@ -79,7 +104,28 @@ public class Module {
                 signature.element(3).toInteger(),
                 label);
             List extendedParams = new List(s, params.toList());
-            return exported_functions.get(signature).apply(extendedParams);
+            if (process == null) {
+                // We have been probably invoked from plain Java code,
+                // So we need to spawn a process and execute the function
+                // within this process.
+                process = VirtualMachine.instance().spawn(signature.module(), signature.function(), extendedParams);
+                ProcessRegistry.self(process);
+                newProcess = true;
+                System.out.println("NEED NEW PROCESS2");
+            }
+            if (newProcess) {
+                exported_functions.get(signature).apply(extendedParams);
+                while (process.state() != ProcessState.EXITING) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return process.getX(0);
+            } else {
+                return exported_functions.get(signature).apply(extendedParams);
+            }
         }
     }
 

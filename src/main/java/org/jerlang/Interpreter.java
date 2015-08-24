@@ -15,25 +15,38 @@ import org.jerlang.type.Term;
  */
 public class Interpreter {
 
+    private static final Atom LINE = Atom.of("line");
+
     public static Term dispatch(List params) {
         // A call to a function defined in a BEAM file
         // has always the signature as first parameter.
         FunctionSignature s = params.head().toFunctionSignature();
         params = params.tail();
-        // Lookup the module to get the code
-        Module m = ModuleRegistry.get(s.module());
-        Atom line = Atom.of("line");
+
         Process process = ProcessRegistry.self();
+        params_to_register(params, process.registers());
+
+        Module m = ModuleRegistry.get(s.module());
+        int start = find_start(s, m.beamData());
+
+        return continueExecution(s.module(), start);
+    }
+
+    public static Term continueExecution(Atom module, int start) {
+        Process process = ProcessRegistry.self();
+
+        Module m = ModuleRegistry.get(module);
         CodeChunk code = m.beamData().codeChunk();
         java.util.List<Instruction> instructions = code.instructions();
         Map<Integer, Integer> labels = code.labels();
         int maxInstructions = instructions.size();
 
-        int start = find_start(s, m.beamData());
-
-        params_to_register(params, process.registers());
+        if (start == -1) {
+            start = find_start(process.signature(), m.beamData());
+        }
 
         Term result = List.nil;
+        Term params = List.nil; // TODO: is this correct?
 
         for (int index = start; index < maxInstructions; index++) {
             Instruction i = instructions.get(index);
@@ -41,11 +54,13 @@ public class Interpreter {
             // process.printStack();
             // System.out.println(i);
 
-            if (line.equals(i.element(1))) {
+            if (LINE.equals(i.element(1))) {
                 continue;
             }
 
             try {
+                System.out.println("INTERPRETER " + String.format("%2d", index) + ": " + i.opcode() + " :: " + process);
+
                 if (i.opcode().methodHandle() != null) {
                     Term r = (Term) i.opcode().methodHandle().invoke(process, m, i, params);
                     if (r != null) {
@@ -73,22 +88,35 @@ public class Interpreter {
                     process.setExceptionHandler(null);
                 } else {
                     e.printStackTrace();
+                    System.exit(1);
                     break;
                 }
             }
 
             if (process.state() == ProcessState.WAITING) {
                 // Set process was set to waiting mode.
+                System.out.println("Process " + process + " is now waiting");
+                process.setCP(index);
                 break;
+            }
+
+            if (i.opcode() == Opcode._return) {
+                System.out.println("RETURN: " + index + ", proc: " + process);
             }
 
             if (i.opcode() == Opcode.call_last
                 || i.opcode() == Opcode.call_ext_last
                 || i.opcode() == Opcode.call_ext_only
-                || (i.opcode() == Opcode._return && index == 0)) {
+                || (i.opcode() == Opcode._return && index <= 0)) {
                 // The result of the call or return
                 // is stored in the x0 register
                 result = process.registers()[0];
+
+                if (i.opcode() == Opcode._return && index <= 0) {
+                    System.out.println("Exit " + process);
+                    process.setState(ProcessState.EXITING);
+                }
+
                 break;
             }
         }

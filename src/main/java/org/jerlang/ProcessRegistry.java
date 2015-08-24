@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.jerlang.type.Atom;
 import org.jerlang.type.PID;
-import org.jerlang.vm.VirtualMachine;
 
 public class ProcessRegistry {
 
@@ -13,9 +12,17 @@ public class ProcessRegistry {
     private final Map<Atom, PID> processes;
     private final Map<PID, Process> pid2process;
 
+    private ThreadLocal<Process> process = new ThreadLocal<>();
+
     public ProcessRegistry() {
         processes = new HashMap<>();
         pid2process = new HashMap<>();
+    }
+
+    public void cleanup() {
+        processes.clear();
+        pid2process.clear();
+        process = new ThreadLocal<>();
     }
 
     public PID get(Atom name) {
@@ -39,7 +46,11 @@ public class ProcessRegistry {
     }
 
     public static Process self() {
-        return VirtualMachine.instance().self();
+        return instance.process.get();
+    }
+
+    public static void self(Process process) {
+        instance.process.set(process);
     }
 
 }

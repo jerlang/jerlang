@@ -35,11 +35,11 @@ public class ErlangSpawn {
      * http://www.erlang.org/doc/man/erlang.html#spawn-1
      */
     public static PID spawn_1(Fun fun) {
-        return VirtualMachine.instance().spawn(fun);
+        return VirtualMachine.instance().spawn(fun).pid();
     }
 
     public static PID spawn_3(Atom module, Atom fun, List args) {
-        return VirtualMachine.instance().spawn(module, fun, args);
+        return VirtualMachine.instance().spawn(module, fun, args).pid();
     }
 
 }

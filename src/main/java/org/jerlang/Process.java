@@ -26,7 +26,7 @@ import org.jerlang.vm.Scheduler;
  */
 public class Process implements ProcessOrPort {
 
-    private ProcessState state = ProcessState.RUNNING;
+    private ProcessState state = ProcessState.RUNNABLE;
 
     // See "erts/emulator/beam/erl_vm.h":
     private final int MAX_REG = 1024;
@@ -41,11 +41,13 @@ public class Process implements ProcessOrPort {
     private Float[] fregisters = new Float[MAX_FREG];
 
     // Continuation Pointer
-    private int cp = 0;
+    private int cp = -1;
 
     // Stack / Y register
     private Term[] stack = new Term[10];
     private int sp = 0;
+
+    private FunctionSignature signature; // TODO: make final
 
     // Used by `put_tuple/2` and `put/1`:
     private Tuple tuple;
@@ -66,6 +68,7 @@ public class Process implements ProcessOrPort {
 
     public Process(PID pid, Atom module, Atom fun, List args) {
         this(pid);
+        signature = new FunctionSignature(module, fun, Integer.of(args.length()));
     }
 
     public void allocate(int size, int keep) {
@@ -116,7 +119,7 @@ public class Process implements ProcessOrPort {
     }
 
     public Term nextMessage() {
-        return mailbox.poll();
+        return mailbox.peek();
     }
 
     public Tuple getTuple() {
@@ -157,7 +160,12 @@ public class Process implements ProcessOrPort {
 
     public void send(Term message) {
         try {
+            System.out.println("Put MSG '" + message + "' to " + this + "'s inbox");
             mailbox.put(message);
+            if (state == ProcessState.WAITING) {
+                state = ProcessState.RUNNABLE;
+                scheduler.add(this);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -181,11 +189,15 @@ public class Process implements ProcessOrPort {
     }
 
     public void setX(Integer index, Term term) {
-        registers[index.toInt()] = term;
+        registers()[index.toInt()] = term;
     }
 
     public void setY(Integer index, Term term) {
         stack[sp - index.toInt()] = term;
+    }
+
+    public FunctionSignature signature() {
+        return signature;
     }
 
     public ProcessState state() {
@@ -205,6 +217,24 @@ public class Process implements ProcessOrPort {
     }
 
     public void execute() {
+        switch (state) {
+        case WAITING:
+            if (state == ProcessState.WAITING && hasMessage()) {
+                System.out.println("Executing process " + pid + " in state " + state);
+                state = ProcessState.RUNNING;
+                Term result = Interpreter.continueExecution(signature.module(), cp);
+                System.out.println("RESULT: " + result);
+            }
+            break;
+        case RUNNABLE:
+            System.out.println("Executing process " + pid + " in state " + state);
+            Term result = Interpreter.continueExecution(signature.module(), cp);
+            System.out.println("RESULT: " + result);
+            break;
+        default:
+            System.out.println("Skipping process " + pid + " in state " + state);
+            break;
+        }
     }
 
     public PID pid() {
@@ -248,6 +278,17 @@ public class Process implements ProcessOrPort {
             System.out.print("" + t + ", ");
         }
         System.out.println();
+    }
+
+    @Override
+    public String toString() {
+        return pid.toString();
+    }
+
+    public void removeMessage() {
+        Term message = mailbox.remove();
+        setX(Integer.of(0), message);
+        // TODO: remove timer
     }
 
 }

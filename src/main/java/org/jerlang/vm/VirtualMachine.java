@@ -26,8 +26,6 @@ public class VirtualMachine {
 
     private ScheduledThreadPoolExecutor timerExecutor;
 
-    private final Process baseProcess;
-
     private static final VirtualMachine VIRTUAL_MACHINE = new VirtualMachine();
 
     private VirtualMachine() {
@@ -37,18 +35,47 @@ public class VirtualMachine {
             schedulers[index] = new Scheduler();
         }
         timerExecutor = new ScheduledThreadPoolExecutor(processors);
-
-        PID pid = new PID(nextPID.incrementAndGet());
-        baseProcess = new Process(pid);
-    }
-
-    public Process self() {
-        return baseProcess;
     }
 
     public Term cancel(TimerReference timerReference) {
         timerReference.future().cancel(false);
         return Tuple.of(Atom.of("ok"), Atom.of("cancel"));
+    }
+
+    public static Process self() {
+        return ProcessRegistry.self();
+    }
+
+    public void start() {
+        int processors = Runtime.getRuntime().availableProcessors();
+        schedulers = new Scheduler[processors];
+        for (int index = 0; index < processors; index++) {
+            schedulers[index] = new Scheduler();
+        }
+        for (Scheduler scheduler : schedulers) {
+            if (scheduler.isAlive()) {
+                System.err.println("Scheduler already started: " + scheduler);
+            } else {
+                System.err.println("State: " + scheduler.getState());
+                scheduler.start();
+            }
+        }
+        timerExecutor = new ScheduledThreadPoolExecutor(processors);
+        ProcessRegistry.instance().cleanup();
+    }
+
+    public void shutdown() {
+        for (Scheduler scheduler : schedulers) {
+            scheduler.interrupt();
+        }
+        for (Scheduler scheduler : schedulers) {
+            try {
+                scheduler.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        ProcessRegistry.instance().cleanup();
     }
 
     public static VirtualMachine instance() {
@@ -72,18 +99,20 @@ public class VirtualMachine {
             }, time, TimeUnit.MILLISECONDS));
     }
 
-    public PID spawn(Fun fun) {
+    public Process spawn(Fun fun) {
         PID pid = new PID(nextPID.incrementAndGet());
         Process process = new Process(pid, fun);
         ProcessRegistry.register(process);
+        System.out.println("Spawned1 " + process);
         // Round-robin process assignment
         return schedulers[nextScheduler++ % schedulers.length].add(process);
     }
 
-    public PID spawn(Atom module, Atom fun, List args) {
+    public Process spawn(Atom module, Atom fun, List args) {
         PID pid = new PID(nextPID.incrementAndGet());
         Process process = new Process(pid, module, fun, args);
         ProcessRegistry.register(process);
+        System.out.println("Spawned2 " + process + ": " + module + ":" + fun);
         // Round-robin process assignment
         return schedulers[nextScheduler++ % schedulers.length].add(process);
     }

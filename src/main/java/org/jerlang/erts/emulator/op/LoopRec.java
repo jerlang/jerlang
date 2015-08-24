@@ -17,6 +17,7 @@ import org.jerlang.type.Term;
 public class LoopRec {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
+        System.out.println("LoopRec");
         Term label = i.arg(0);
         Term source = i.arg(1);
         if (proc.hasMessage()) {

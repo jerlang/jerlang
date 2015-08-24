@@ -1,5 +1,6 @@
 package org.jerlang.erts.erlang;
 
+import org.jerlang.ProcessRegistry;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Term;
@@ -22,7 +23,7 @@ public class ErlangSelf {
      * http://www.erlang.org/doc/man/erlang.html#self-0
      */
     public static PID self_0() {
-        return new PID(0); // TODO
+        return ProcessRegistry.self().pid();
     }
 
 }

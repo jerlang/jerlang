@@ -2,12 +2,14 @@ package org.jerlang.erts.emulator.op;
 
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.ProcessRegistry;
 import org.jerlang.erts.Erlang;
 import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
+import org.jerlang.vm.VirtualMachine;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,9 @@ public class ListLengthTest {
     public void prepare() throws Exception {
         String[] cmd = { "cp", "src/test/resources/example4.beam", "." };
         Runtime.getRuntime().exec(cmd).waitFor();
+
+        ProcessRegistry.instance().cleanup();
+        VirtualMachine.instance().start();
     }
 
     @Test
@@ -32,6 +37,8 @@ public class ListLengthTest {
     public void cleanup() throws Exception {
         String[] cmd = { "rm", "example4.beam" };
         Runtime.getRuntime().exec(cmd).waitFor();
+
+        VirtualMachine.instance().shutdown();
     }
 
 }
