@@ -8,16 +8,12 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class CallTest {
+public class CallTest extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/example3.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public CallTest() {
+        super("example3.beam");
     }
 
     @Test
@@ -25,12 +21,6 @@ public class CallTest {
         List params = List.of(Integer.of(2));
         Term result = Erlang.apply(Atom.of("example3"), Atom.of("stacktest"), params);
         assertEquals(Integer.of(2 * 2), result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "example3.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

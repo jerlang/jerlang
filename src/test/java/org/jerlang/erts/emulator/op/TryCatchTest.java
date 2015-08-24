@@ -7,16 +7,12 @@ import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class TryCatchTest {
+public class TryCatchTest extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/trycatch.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public TryCatchTest() {
+        super("trycatch.beam");
     }
 
     @Test
@@ -24,12 +20,6 @@ public class TryCatchTest {
         Atom expected = Atom.of("exception");
         Term result = Erlang.apply(Atom.of("trycatch"), Atom.of("test"), List.nil);
         assertEquals(expected, result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "trycatch.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

@@ -10,16 +10,12 @@ import org.jerlang.type.List;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class SelectTest {
+public class SelectTest extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/select.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public SelectTest() {
+        super("select.beam");
     }
 
     @Test
@@ -41,12 +37,6 @@ public class SelectTest {
         List params = List.of(Tuple.of(Atom.of("a"), Atom.of("b")));
         Term result = Erlang.apply(Atom.of("select"), Atom.of("test"), params);
         assertEquals(Integer.of(2), result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "select.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

@@ -10,16 +10,12 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class BsGetBinary2Test {
+public class BsGetBinary2Test extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/bs_get_binary2.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public BsGetBinary2Test() {
+        super("bs_get_binary2.beam");
     }
 
     @Test
@@ -29,12 +25,6 @@ public class BsGetBinary2Test {
         List params = List.nil;
         Term result = Erlang.apply(Atom.of("bs_get_binary2"), Atom.of("test"), params);
         assertEquals(expected, result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "bs_get_binary2.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

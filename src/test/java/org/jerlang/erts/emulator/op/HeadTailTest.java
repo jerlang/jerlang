@@ -8,16 +8,12 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class HeadTailTest {
+public class HeadTailTest extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/head_tail.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public HeadTailTest() {
+        super("head_tail.beam");
     }
 
     @Test
@@ -34,12 +30,6 @@ public class HeadTailTest {
         List expected = List.of(Integer.of(2));
         Term result = Erlang.apply(Atom.of("head_tail"), Atom.of("t"), params);
         assertEquals(expected, result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "head_tail.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

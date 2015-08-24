@@ -9,16 +9,12 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class TupleTest {
+public class TupleTest extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/tuple.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public TupleTest() {
+        super("tuple.beam");
     }
 
     @Test
@@ -28,12 +24,6 @@ public class TupleTest {
         List params = List.of(Tuple.of(one, List.nil));
         Term result = Erlang.apply(Atom.of("tuple"), Atom.of("test"), params);
         assertEquals(expected, result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "tuple.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

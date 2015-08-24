@@ -8,16 +8,12 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-public class ListComprehension1Test {
+public class ListComprehension1Test extends AbstractOpTest {
 
-    @Before
-    public void prepare() throws Exception {
-        String[] cmd = { "cp", "src/test/resources/example5.beam", "." };
-        Runtime.getRuntime().exec(cmd).waitFor();
+    public ListComprehension1Test() {
+        super("example5.beam");
     }
 
     @Test
@@ -26,12 +22,6 @@ public class ListComprehension1Test {
         List params = List.nil;
         Term result = Erlang.apply(Atom.of("example5"), Atom.of("test"), params);
         assertEquals(expected, result);
-    }
-
-    @After
-    public void cleanup() throws Exception {
-        String[] cmd = { "rm", "example5.beam" };
-        Runtime.getRuntime().exec(cmd).waitFor();
     }
 
 }

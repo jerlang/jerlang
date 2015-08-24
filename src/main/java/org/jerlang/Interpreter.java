@@ -112,10 +112,8 @@ public class Interpreter {
                 // is stored in the x0 register
                 result = process.registers()[0];
 
-                if (i.opcode() == Opcode._return && index <= 0) {
-                    System.out.println("Exit " + process);
-                    process.setState(ProcessState.EXITING);
-                }
+                System.out.println("Exit " + process);
+                process.setState(ProcessState.EXITING);
 
                 break;
             }
