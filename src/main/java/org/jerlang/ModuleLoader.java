@@ -145,7 +145,7 @@ public class ModuleLoader {
                 literalTableChunk,
                 localFunctionTableChunk,
                 stringTableChunk);
-            // System.out.println(bd);
+            System.out.println(bd);
             return bd;
         } catch (Throwable e) {
             e.printStackTrace();

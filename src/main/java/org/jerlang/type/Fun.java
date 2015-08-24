@@ -3,7 +3,7 @@ package org.jerlang.type;
 import java.lang.invoke.MethodHandle;
 
 import org.jerlang.FunctionSignature;
-import org.jerlang.exception.ThrowException;
+import org.jerlang.erts.erlang.Error;
 
 /**
  * http://erlang.org/doc/programming_examples/funs.html
@@ -18,10 +18,10 @@ public class Fun extends Term {
         this.handle = handle;
     }
 
-    public Term apply(Term param) throws ThrowException {
+    public Term apply(Term param) throws Error {
         try {
             return (Term) handle.invoke(param);
-        } catch (ThrowException e) {
+        } catch (Error e) {
             throw e;
         } catch (Throwable e) {
             e.printStackTrace();

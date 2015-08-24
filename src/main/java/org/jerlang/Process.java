@@ -44,7 +44,7 @@ public class Process implements ProcessOrPort {
     private int cp = -1;
 
     // Stack / Y register
-    private Term[] stack = new Term[10];
+    private Term[] stack = new Term[16];
     private int sp = 0;
 
     private FunctionSignature signature; // TODO: make final
@@ -72,11 +72,13 @@ public class Process implements ProcessOrPort {
     }
 
     public void allocate(int size, int keep) {
+        System.out.println("Allocate " + size + ", now " + (stack.length + size));
         Term[] newStack = new Term[stack.length + size];
         if (stack.length > 0) {
             System.arraycopy(stack, 0, newStack, 0, stack.length);
         }
         stack = newStack;
+        sp += size;
     }
 
     public void allocate_heap(int stack, int heap, int live) {
@@ -85,11 +87,16 @@ public class Process implements ProcessOrPort {
         }
     }
 
+    public void allocate_heap_zero(int stack, int heap, int live) {
+        if (stack > 0) {
+            allocate_zero(stack, live);
+        }
+    }
+
     public void allocate_zero(int size, int keep) {
         if (size > 0) {
             allocate(size, keep);
             Arrays.fill(stack, stack.length - size, stack.length, List.nil);
-            sp += size;
         }
     }
 
@@ -188,11 +195,19 @@ public class Process implements ProcessOrPort {
         this.tupleIndex = 0;
     }
 
+    public void setX(int index, Term term) {
+        registers()[index] = term;
+    }
+
     public void setX(Integer index, Term term) {
-        registers()[index.toInt()] = term;
+        setX(index.toInt(), term);
     }
 
     public void setY(Integer index, Term term) {
+        int pos = sp - index.toInt();
+        if (pos < 0 || pos >= stack.length) {
+            System.err.println("setY(" + pos + "," + term + ") failed: " + stack.length);
+        }
         stack[sp - index.toInt()] = term;
     }
 

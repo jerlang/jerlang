@@ -28,6 +28,10 @@ public class Error extends RuntimeException {
         this.args = args;
     }
 
+    public Term reason() {
+        return reason;
+    }
+
     @Override
     public String toString() {
         // TODO: Stack trace

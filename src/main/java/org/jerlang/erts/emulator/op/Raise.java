@@ -8,12 +8,16 @@ import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
- *
+ * Arguments:
+ * 1. Scope
+ * 2. Value
  */
 public class Raise {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        throw new Error("Not implemented: " + i);
+        Term arg1 = i.arg(0).toArg(proc);
+        Term arg2 = i.arg(1).toArg(proc);
+        throw new Error("RAISE: " + arg1 + ", " + arg2);
     }
 
 }

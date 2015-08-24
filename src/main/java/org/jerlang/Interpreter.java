@@ -80,17 +80,24 @@ public class Interpreter {
                     System.err.println("Unsupported opcode: " + i.opcode());
                     break;
                 }
-            } catch (Throwable e) {
+            } catch (Error error) {
+                System.err.println("ERROR HANDLER: " + error);
                 if (process.exceptionHandler() != null) {
                     Term label = process.exceptionHandler().label();
                     int lbl = label.toRegisterIndex().toInt();
                     index = labels.get(lbl);
                     process.setExceptionHandler(null);
+                    process.setX(0, Atom.of("error"));
+                    process.setX(1, error.reason());
                 } else {
-                    e.printStackTrace();
+                    error.printStackTrace();
                     System.exit(1);
                     break;
                 }
+            } catch (Throwable e) {
+                e.printStackTrace();
+                System.exit(1);
+                break;
             }
 
             if (process.state() == ProcessState.WAITING) {

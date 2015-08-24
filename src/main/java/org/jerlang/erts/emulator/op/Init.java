@@ -13,7 +13,14 @@ import org.jerlang.type.Term;
 public class Init {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        throw new Error("Not implemented: " + i);
+        Term arg = i.arg(0);
+
+        if (arg.isYRegister()) {
+            proc.setY(arg.toRegisterIndex(), List.nil);
+            return null;
+        } else {
+            throw new Error("Not implemented: " + i);
+        }
     }
 
 }

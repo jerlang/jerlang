@@ -53,12 +53,7 @@ public class VirtualMachine {
             schedulers[index] = new Scheduler();
         }
         for (Scheduler scheduler : schedulers) {
-            if (scheduler.isAlive()) {
-                System.err.println("Scheduler already started: " + scheduler);
-            } else {
-                System.err.println("State: " + scheduler.getState());
-                scheduler.start();
-            }
+            scheduler.start();
         }
         timerExecutor = new ScheduledThreadPoolExecutor(processors);
         ProcessRegistry.instance().cleanup();

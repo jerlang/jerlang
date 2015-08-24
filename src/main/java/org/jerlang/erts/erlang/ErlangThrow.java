@@ -1,6 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.exception.ThrowException;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
@@ -9,7 +8,7 @@ public class ErlangThrow {
     private ErlangThrow() {
     }
 
-    public static Term dispatch(List params) throws ThrowException {
+    public static Term dispatch(List params) throws Error {
         switch (params.length()) {
         case 1:
             return throw_1(params.head());
@@ -24,8 +23,8 @@ public class ErlangThrow {
      *
      * http://www.erlang.org/doc/man/erlang.html#throw-1
      */
-    public static Term throw_1(Term term) throws ThrowException {
-        throw new ThrowException(term);
+    public static Term throw_1(Term term) throws Error {
+        throw new Error(term);
     }
 
 }

@@ -41,6 +41,9 @@ public class GcBif2 {
 
         ArrayList<FunctionSignature> imports = m.beamData().importTableChunk().imports();
         FunctionSignature s = imports.get(bif.toInteger().toInt());
+
+        System.out.println("gc_bif2: " + s);
+
         List args = List.nil;
 
         if (arg2 instanceof Integer) {

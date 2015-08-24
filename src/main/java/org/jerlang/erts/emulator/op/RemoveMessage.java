@@ -15,6 +15,7 @@ public class RemoveMessage {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
         proc.removeMessage();
+        // TODO: remove timeout
         return null;
     }
 
