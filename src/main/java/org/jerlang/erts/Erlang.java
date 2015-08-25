@@ -33,6 +33,7 @@ import org.jerlang.erts.erlang.ErlangRegister;
 import org.jerlang.erts.erlang.ErlangRem;
 import org.jerlang.erts.erlang.ErlangSelf;
 import org.jerlang.erts.erlang.ErlangSendAfter;
+import org.jerlang.erts.erlang.ErlangSetelement;
 import org.jerlang.erts.erlang.ErlangSpawn;
 import org.jerlang.erts.erlang.ErlangThrow;
 import org.jerlang.erts.erlang.ErlangTl;
@@ -215,6 +216,10 @@ public class Erlang {
 
     public static TimerReference send_after(Integer time, PID pid, Term msg) {
         return ErlangSendAfter.send_after_3(time, pid, msg);
+    }
+
+    public static Tuple setelement(Integer index, Tuple tuple, Term value) {
+        return ErlangSetelement.setelement_3(index, tuple, value);
     }
 
     public static PID spawn(Fun fun) {

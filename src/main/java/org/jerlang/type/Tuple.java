@@ -13,6 +13,14 @@ public class Tuple extends Term {
         elements = new Term[arity];
     }
 
+    /**
+     * Copy constructor
+     */
+    public Tuple(Tuple tuple) {
+        this(tuple.arity());
+        System.arraycopy(tuple.elements, 0, elements, 0, tuple.arity());
+    }
+
     public int arity() {
         return elements.length;
     }
