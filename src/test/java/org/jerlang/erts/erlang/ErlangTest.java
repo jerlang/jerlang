@@ -3,6 +3,7 @@ package org.jerlang.erts.erlang;
 import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import org.jerlang.AbstractVirtualMachineTest;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
@@ -16,7 +17,7 @@ import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 import org.junit.Test;
 
-public class ErlangTest {
+public class ErlangTest extends AbstractVirtualMachineTest {
 
     @Test
     public void testAbs() throws ThrowException {

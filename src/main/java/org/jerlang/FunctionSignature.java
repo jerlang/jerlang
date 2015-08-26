@@ -34,6 +34,10 @@ public class FunctionSignature extends Tuple {
         set(4, label);
     }
 
+    public Integer fun_arity() {
+        return element(3).toInteger();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof Tuple) {

@@ -14,7 +14,6 @@ import org.jerlang.type.Term;
 public class Wait {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        System.out.println("OPCODE: wait/1");
         proc.setState(ProcessState.WAITING);
         return i.arg(0);
     }

@@ -26,19 +26,26 @@ public class IsEqExact {
         Term arg1 = i.arg(1);
         Term arg2 = i.arg(2);
 
-        if (arg1.isXRegister() &&
-            (arg2 instanceof Integer | arg2 instanceof Atom | arg2 instanceof Str)) {
-            Term a = arg1.toArg(proc);
-            Term b = arg2;
-
-            if (a.equals(b)) {
-                return null;
-            } else {
-                return lbl;
+        if (arg1.isXRegister()) {
+            if (arg2 instanceof Integer | arg2 instanceof Atom | arg2 instanceof Str) {
+                Term a = arg1.toArg(proc);
+                Term b = arg2;
+                if (a.equals(b)) {
+                    return null;
+                } else {
+                    return lbl;
+                }
+            } else if (arg2.isYRegister()) {
+                Term a = arg1.toArg(proc);
+                Term b = arg2.toArg(proc);
+                if (a.equals(b)) {
+                    return null;
+                } else {
+                    return lbl;
+                }
             }
-        } else {
-            throw new Error("Can not compare: " + arg1 + " / " + arg2);
         }
+        throw new Error("Can not compare: " + arg1 + " / " + arg2);
     }
 
 }

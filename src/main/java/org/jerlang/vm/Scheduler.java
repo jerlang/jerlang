@@ -1,7 +1,10 @@
 package org.jerlang.vm;
 
+import java.util.HashSet;
+
 import org.jerlang.Process;
 import org.jerlang.ProcessRegistry;
+import org.jerlang.type.PID;
 
 /**
  * References:
@@ -9,12 +12,15 @@ import org.jerlang.ProcessRegistry;
  */
 public class Scheduler extends Thread {
 
+    private final HashSet<PID> pids;
+
     private final RunQueue<Process> runQueueMax;
     private final RunQueue<Process> runQueueHigh;
     private final RunQueue<Process> runQueueNormal;
     private final RunQueue<Process> runQueueLow;
 
     public Scheduler() {
+        pids = new HashSet<>();
         runQueueMax = new RunQueue<>();
         runQueueHigh = new RunQueue<>();
         runQueueNormal = new RunQueue<>();
@@ -22,6 +28,13 @@ public class Scheduler extends Thread {
     }
 
     public Process add(Process process) {
+        if (pids.contains(process.pid())) {
+            System.err.println("Process already scheduled");
+            return process;
+        }
+
+        pids.add(process.pid());
+
         process.setScheduler(this);
         switch (process.priority()) {
         case MAX:
@@ -98,6 +111,7 @@ public class Scheduler extends Thread {
                 runQueue.push(p);
                 break;
             default:
+                pids.remove(p.pid());
                 break;
             }
             return true;

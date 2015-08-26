@@ -2,6 +2,7 @@ package org.jerlang;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jerlang.type.Atom;
@@ -42,12 +43,15 @@ public class Process implements ProcessOrPort {
 
     // Continuation Pointer
     private int cp = -1;
+    private Stack<java.lang.Integer> cpStack = new Stack<>();
 
     // Stack / Y register
     private Term[] stack = new Term[16];
     private int sp = 0;
 
-    private FunctionSignature signature; // TODO: make final
+    // Signatures
+    // We need a stack for the interpreter to find the correct labels
+    private Stack<FunctionSignature> signatures = new Stack<>();
 
     // Used by `put_tuple/2` and `put/1`:
     private Tuple tuple;
@@ -68,11 +72,18 @@ public class Process implements ProcessOrPort {
 
     public Process(PID pid, Atom module, Atom fun, List args) {
         this(pid);
-        signature = new FunctionSignature(module, fun, Integer.of(args.length()));
+
+        FunctionSignature s = new FunctionSignature(module, fun, Integer.of(args.length()));
+        signatures.push(s);
+
+        int index = 0;
+        while (args.length() > 0) {
+            setX(index++, args.head());
+            args = args.tail();
+        }
     }
 
     public void allocate(int size, int keep) {
-        System.out.println("Allocate " + size + ", now " + (stack.length + size));
         Term[] newStack = new Term[stack.length + size];
         if (stack.length > 0) {
             System.arraycopy(stack, 0, newStack, 0, stack.length);
@@ -138,7 +149,7 @@ public class Process implements ProcessOrPort {
     }
 
     public Term getX(int index) {
-        return registers[index];
+        return registers()[index];
     }
 
     public Term getX(Integer index) {
@@ -167,7 +178,6 @@ public class Process implements ProcessOrPort {
 
     public void send(Term message) {
         try {
-            System.out.println("Put MSG '" + message + "' to " + this + "'s inbox");
             mailbox.put(message);
             if (state == ProcessState.WAITING) {
                 state = ProcessState.RUNNABLE;
@@ -196,6 +206,7 @@ public class Process implements ProcessOrPort {
     }
 
     public void setX(int index, Term term) {
+        // System.err.println("" + this + ": X" + index + " = " + term);
         registers()[index] = term;
     }
 
@@ -205,14 +216,16 @@ public class Process implements ProcessOrPort {
 
     public void setY(Integer index, Term term) {
         int pos = sp - index.toInt();
-        if (pos < 0 || pos >= stack.length) {
-            System.err.println("setY(" + pos + "," + term + ") failed: " + stack.length);
-        }
         stack[sp - index.toInt()] = term;
     }
 
     public FunctionSignature signature() {
-        return signature;
+        return signatures.peek();
+    }
+
+    public void signature(FunctionSignature signature) {
+        signatures.pop();
+        signatures.push(signature);
     }
 
     public ProcessState state() {
@@ -220,11 +233,11 @@ public class Process implements ProcessOrPort {
     }
 
     public void restoreCP() {
-        cp = popStack().toInteger().toInt();
+        cp = cpStack.pop();
     }
 
     public void storeCP() {
-        pushStack(Integer.of(cp));
+        cpStack.push(cp);
     }
 
     public ExceptionHandler exceptionHandler() {
@@ -235,16 +248,12 @@ public class Process implements ProcessOrPort {
         switch (state) {
         case WAITING:
             if (state == ProcessState.WAITING && hasMessage()) {
-                System.out.println("Executing process " + pid + " in state " + state);
                 state = ProcessState.RUNNING;
-                Term result = Interpreter.continueExecution(signature.module(), cp);
-                System.out.println("RESULT: " + result);
+                Interpreter.continueExecution(signatures.peek(), cp);
             }
             break;
         case RUNNABLE:
-            System.out.println("Executing process " + pid + " in state " + state);
-            Term result = Interpreter.continueExecution(signature.module(), cp);
-            System.out.println("RESULT: " + result);
+            Interpreter.continueExecution(signatures.peek(), cp);
             break;
         default:
             System.out.println("Skipping process " + pid + " in state " + state);
@@ -288,7 +297,7 @@ public class Process implements ProcessOrPort {
         System.out.print("REG: [" + registers()[0] + ", ");
         System.out.print("" + registers()[1] + ", ");
         System.out.print("" + registers()[2] + "] ");
-        System.out.print("STACK: ");
+        System.out.print("STACK(" + stack.length + "): ");
         for (Term t : stack) {
             System.out.print("" + t + ", ");
         }
@@ -304,6 +313,14 @@ public class Process implements ProcessOrPort {
         Term message = mailbox.remove();
         setX(Integer.of(0), message);
         // TODO: remove timer
+    }
+
+    public void popSignature() {
+        signatures.pop();
+    }
+
+    public void pushSignature(FunctionSignature signature) {
+        signatures.push(signature);
     }
 
 }

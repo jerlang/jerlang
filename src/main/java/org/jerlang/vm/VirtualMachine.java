@@ -51,9 +51,7 @@ public class VirtualMachine {
         schedulers = new Scheduler[processors];
         for (int index = 0; index < processors; index++) {
             schedulers[index] = new Scheduler();
-        }
-        for (Scheduler scheduler : schedulers) {
-            scheduler.start();
+            schedulers[index].start();
         }
         timerExecutor = new ScheduledThreadPoolExecutor(processors);
         ProcessRegistry.instance().cleanup();
@@ -87,7 +85,6 @@ public class VirtualMachine {
 
                 @Override
                 public void run() {
-                    System.out.println("VM.send_after: " + message + " TO " + pid);
                     resolve(pid).send(message);
                 }
 
@@ -98,7 +95,6 @@ public class VirtualMachine {
         PID pid = new PID(nextPID.incrementAndGet());
         Process process = new Process(pid, fun);
         ProcessRegistry.register(process);
-        System.out.println("Spawned1 " + process);
         // Round-robin process assignment
         return schedulers[nextScheduler++ % schedulers.length].add(process);
     }
@@ -107,7 +103,6 @@ public class VirtualMachine {
         PID pid = new PID(nextPID.incrementAndGet());
         Process process = new Process(pid, module, fun, args);
         ProcessRegistry.register(process);
-        System.out.println("Spawned2 " + process + ": " + module + ":" + fun);
         // Round-robin process assignment
         return schedulers[nextScheduler++ % schedulers.length].add(process);
     }

@@ -14,7 +14,6 @@ import org.jerlang.type.Term;
 public class WaitTimeout {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        System.out.println("wait_timeout");
         proc.setState(ProcessState.WAITING);
         // TODO: Set timeout
         return i.arg(0);

@@ -6,7 +6,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
- * The minus operator
+ * The multiply operator
  */
 public class ErlangAtomMultiply {
 

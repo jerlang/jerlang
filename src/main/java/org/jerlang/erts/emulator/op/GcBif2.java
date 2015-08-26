@@ -42,24 +42,18 @@ public class GcBif2 {
         ArrayList<FunctionSignature> imports = m.beamData().importTableChunk().imports();
         FunctionSignature s = imports.get(bif.toInteger().toInt());
 
-        System.out.println("gc_bif2: " + s);
-
         List args = List.nil;
 
         if (arg2 instanceof Integer) {
             args = new List(arg2, args);
         } else if (arg2.isXRegister()) {
-            args = new List(process.getX(arg2.toRegisterIndex()), args);
+            args = new List(arg2.toArg(process), args);
         } else {
             throw new Error("Unsupported ARG2: " + arg2);
         }
 
-        if (arg1.isXRegister()) {
-            Integer index = arg1.toRegisterIndex();
-            args = new List(process.getX(index), args);
-        } else if (arg1.isYRegister()) {
-            Integer index = arg1.toRegisterIndex();
-            args = new List(process.getY(index), args);
+        if (arg1.isXRegister() || arg1.isYRegister()) {
+            args = new List(arg1.toArg(process), args);
         } else if (arg1 instanceof Integer) {
             args = new List(arg1, args);
         } else {

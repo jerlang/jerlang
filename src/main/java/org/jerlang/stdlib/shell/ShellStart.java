@@ -8,7 +8,6 @@ import org.jerlang.ModuleRegistry;
 import org.jerlang.erts.Erlang;
 import org.jerlang.erts.Init;
 import org.jerlang.erts.erlang.Error;
-import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
@@ -77,9 +76,6 @@ public class ShellStart {
             return true;
         } catch (Error e) {
             System.out.println("error");
-            e.printStackTrace();
-            return false;
-        } catch (ThrowException e) {
             e.printStackTrace();
             return false;
         }

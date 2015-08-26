@@ -25,7 +25,7 @@ public class CallExt {
         Integer exportTableIndex = i.arg(1).toInteger();
         FunctionSignature s = resolve(m, exportTableIndex);
         Term result = Erlang.apply(s.module(), s.function(), parameters);
-        proc.setX(Integer.of(0), result);
+        proc.setX(0, result);
         return null;
     }
 

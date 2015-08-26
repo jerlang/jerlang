@@ -18,6 +18,7 @@ import org.jerlang.type.Term;
 public class Send {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
+        Term x = proc.getX(0);
         PID pid = proc.getX(0).toPID();
         Term message = proc.getX(1);
         Process destination = ProcessRegistry.resolve(pid);

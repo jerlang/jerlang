@@ -20,22 +20,35 @@ public class Interpreter {
     public static Term dispatch(List params) {
         // A call to a function defined in a BEAM file
         // has always the signature as first parameter.
-        FunctionSignature s = params.head().toFunctionSignature();
-        params = params.tail();
 
         Process process = ProcessRegistry.self();
+        FunctionSignature s = process.signature();
+
         params_to_register(params, process.registers());
 
         Module m = ModuleRegistry.get(s.module());
         int start = find_start(s, m.beamData());
 
-        return continueExecution(s.module(), start);
+        return continueExecution(s, start);
     }
 
-    public static Term continueExecution(Atom module, int start) {
+    public static Term continueExecution(FunctionSignature signature, int start) {
         Process process = ProcessRegistry.self();
 
-        Module m = ModuleRegistry.get(module);
+        Module m = ModuleRegistry.get(signature.module());
+
+        if (m.isInternal()) {
+            process.setState(ProcessState.EXITING);
+            // We need to fetch params from registers
+            List args = List.nil;
+            for (int index = signature.fun_arity().toInt(); index > 0; index--) {
+                args = new List(process.getX(index - 1), args);
+            }
+            Term res = m.apply(signature, args);
+            process.setX(0, res);
+            return res;
+        }
+
         CodeChunk code = m.beamData().codeChunk();
         java.util.List<Instruction> instructions = code.instructions();
         Map<Integer, Integer> labels = code.labels();
@@ -59,7 +72,7 @@ public class Interpreter {
             }
 
             try {
-                System.out.println("INTERPRETER " + String.format("%2d", index) + ": " + i.opcode() + " :: " + process);
+                // System.out.println("" + process + ": " + String.format("%2d", index) + ": " + i);
 
                 if (i.opcode().methodHandle() != null) {
                     Term r = (Term) i.opcode().methodHandle().invoke(process, m, i, params);
@@ -81,7 +94,6 @@ public class Interpreter {
                     break;
                 }
             } catch (Error error) {
-                System.err.println("ERROR HANDLER: " + error);
                 if (process.exceptionHandler() != null) {
                     Term label = process.exceptionHandler().label();
                     int lbl = label.toRegisterIndex().toInt();
@@ -102,13 +114,8 @@ public class Interpreter {
 
             if (process.state() == ProcessState.WAITING) {
                 // Set process was set to waiting mode.
-                System.out.println("Process " + process + " is now waiting");
                 process.setCP(index);
                 break;
-            }
-
-            if (i.opcode() == Opcode._return) {
-                System.out.println("RETURN: " + index + ", proc: " + process);
             }
 
             if (i.opcode() == Opcode.call_last
@@ -118,10 +125,7 @@ public class Interpreter {
                 // The result of the call or return
                 // is stored in the x0 register
                 result = process.registers()[0];
-
-                System.out.println("Exit " + process);
                 process.setState(ProcessState.EXITING);
-
                 break;
             }
         }
