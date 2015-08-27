@@ -23,6 +23,7 @@ import org.jerlang.erts.erlang.ErlangIsList;
 import org.jerlang.erts.erlang.ErlangIsMap;
 import org.jerlang.erts.erlang.ErlangIsNumber;
 import org.jerlang.erts.erlang.ErlangIsPid;
+import org.jerlang.erts.erlang.ErlangIsRecord;
 import org.jerlang.erts.erlang.ErlangIsReference;
 import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
@@ -176,6 +177,10 @@ public class Erlang {
 
     public static Term is_pid(Term term) {
         return ErlangIsPid.is_pid_1(term);
+    }
+
+    public static Term is_record(Term term, Term recordTag) {
+        return ErlangIsRecord.is_record_2(term, recordTag);
     }
 
     public static Term is_reference(Term term) {
