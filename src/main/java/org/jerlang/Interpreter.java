@@ -38,7 +38,6 @@ public class Interpreter {
         Module m = ModuleRegistry.get(signature.module());
 
         if (m.isInternal()) {
-            process.setState(ProcessState.EXITING);
             // We need to fetch params from registers
             List args = List.nil;
             for (int index = signature.fun_arity().toInt(); index > 0; index--) {
@@ -46,6 +45,11 @@ public class Interpreter {
             }
             Term res = m.apply(signature, args);
             process.setX(0, res);
+            // Setting the EXITING state must be the last
+            // operation before return. Otherwise another
+            // thread waiting for this process might get
+            // wrong result as X0 is not filled yet.
+            process.setState(ProcessState.EXITING);
             return res;
         }
 
