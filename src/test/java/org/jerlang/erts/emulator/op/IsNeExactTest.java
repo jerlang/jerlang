@@ -18,7 +18,7 @@ public class IsNeExactTest extends AbstractOpTest {
     }
 
     @Test
-    public void test_is_ge() throws ThrowException {
+    public void test_is_ne_exact() throws ThrowException {
         List params1 = List.of(Integer.of(1));
         Term result1 = Erlang.apply(Atom.of("is_ne_exact"), Atom.of("test"), params1);
         assertEquals(Boolean.am_true, result1);
