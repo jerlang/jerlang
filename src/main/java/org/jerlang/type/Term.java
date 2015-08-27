@@ -66,6 +66,10 @@ public class Term {
         throw new Error("Cannot convert to binary: " + this);
     }
 
+    public BitString toBitString() {
+        throw new Error("Cannot convert to bitstring: " + this);
+    }
+
     public BinMatchState toBinMatchState() {
         throw new Error("Cannot convert to bin_match_state: " + this);
     }

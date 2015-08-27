@@ -5,6 +5,7 @@ import org.jerlang.erts.erlang.ErlangApply;
 import org.jerlang.erts.erlang.ErlangAtomMinus;
 import org.jerlang.erts.erlang.ErlangAtomMultiply;
 import org.jerlang.erts.erlang.ErlangAtomPlus;
+import org.jerlang.erts.erlang.ErlangByteSize;
 import org.jerlang.erts.erlang.ErlangDisplay;
 import org.jerlang.erts.erlang.ErlangError;
 import org.jerlang.erts.erlang.ErlangFunctionExported;
@@ -16,6 +17,7 @@ import org.jerlang.erts.erlang.ErlangIntegerToBinary;
 import org.jerlang.erts.erlang.ErlangIntegerToList;
 import org.jerlang.erts.erlang.ErlangIsAtom;
 import org.jerlang.erts.erlang.ErlangIsBinary;
+import org.jerlang.erts.erlang.ErlangIsBitstr;
 import org.jerlang.erts.erlang.ErlangIsBoolean;
 import org.jerlang.erts.erlang.ErlangIsFunction;
 import org.jerlang.erts.erlang.ErlangIsInteger;
@@ -43,6 +45,7 @@ import org.jerlang.erts.erlang.ErlangTupleToList;
 import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.BitString;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -75,8 +78,12 @@ public class Erlang {
         return ErlangAbs.abs_1(integer);
     }
 
-    public static Term apply(Term m, Term f, Term a) throws ThrowException {
+    public static Term apply(Term m, Term f, Term a) throws Error {
         return ErlangApply.apply_3(m, f, a);
+    }
+
+    public static Integer byte_size(BitString bitString) {
+        return ErlangByteSize.byte_size_1(bitString);
     }
 
     public static Term display(Term term) {
@@ -149,6 +156,10 @@ public class Erlang {
 
     public static Term is_binary(Term term) {
         return ErlangIsBinary.is_binary_1(term);
+    }
+
+    public static Term is_bitstr(Term term) {
+        return ErlangIsBitstr.is_bitstr_1(term);
     }
 
     public static Term is_boolean(Term term) {

@@ -3,7 +3,6 @@ package org.jerlang.erts.erlang;
 import org.jerlang.FunctionSignature;
 import org.jerlang.Module;
 import org.jerlang.ModuleRegistry;
-import org.jerlang.exception.ThrowException;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Str;
@@ -21,7 +20,7 @@ public class ErlangApply {
     private ErlangApply() {
     }
 
-    public static Term dispatch(List params) throws ThrowException {
+    public static Term dispatch(List params) throws Error {
         switch (params.length()) {
         case 3:
             Term m = params.head();
@@ -35,7 +34,7 @@ public class ErlangApply {
         }
     }
 
-    public static Term apply_3(Term m, Term f, Term a) throws ThrowException {
+    public static Term apply_3(Term m, Term f, Term a) throws Error {
         Module module = ModuleRegistry.get(m.toAtom());
         if (module == null) {
             throw new Error(Str.of("Invalid module: " + m));
