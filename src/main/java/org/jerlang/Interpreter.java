@@ -122,8 +122,7 @@ public class Interpreter {
                 break;
             }
 
-            if (i.opcode() == Opcode.call_last
-                || i.opcode() == Opcode.call_ext_last
+            if (i.opcode() == Opcode.call_ext_last
                 || i.opcode() == Opcode.call_ext_only
                 || (i.opcode() == Opcode._return && index <= 0)) {
                 // The result of the call or return
