@@ -1,5 +1,7 @@
 package org.jerlang.stdlib.beam_lib;
 
+import org.jerlang.FunctionSignature;
+import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.Tuple;
 
@@ -12,13 +14,13 @@ import org.jerlang.type.Tuple;
 public class LambdaInfo extends Tuple {
 
     public LambdaInfo(
-        int oldIndex,
         int functionId,
         int arity,
         int label,
         int index,
         int numFree,
         int oldUnique,
+        int oldIndex,
         AtomChunk atomChunk) {
         super(2);
         set(1, Integer.of(oldIndex));
@@ -28,8 +30,24 @@ public class LambdaInfo extends Tuple {
             Integer.of(label),
             Integer.of(index),
             Integer.of(numFree),
-            Integer.of(oldUnique)
-            ));
+            Integer.of(oldUnique)));
+    }
+
+    public FunctionSignature toFunctionSignature(Atom module) {
+        Tuple tuple = element(2).toTuple();
+        Atom function = tuple.element(1).toAtom();
+        Integer arity = tuple.element(2).toInteger();
+        return new FunctionSignature(module, function, arity);
+    }
+
+    public Integer label() {
+        Tuple tuple = element(2).toTuple();
+        return tuple.element(3).toInteger();
+    }
+
+    public int numFree() {
+        Tuple tuple = element(2).toTuple();
+        return tuple.element(5).toInteger().toInt();
     }
 
 }

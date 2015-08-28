@@ -1,8 +1,7 @@
 package org.jerlang.stdlib.beam_lib;
 
 import java.util.ArrayList;
-
-import org.jerlang.type.List;
+import java.util.List;
 
 /**
  * = The Function Table Chunk
@@ -84,8 +83,21 @@ public class FunctionTableChunk extends Chunk {
         lambdas.add(lambdaInfo);
     }
 
-    public List lambdas() {
-        return List.of(lambdas);
+    public List<LambdaInfo> lambdas() {
+        return lambdas;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{function_table_chunk,[\n    ");
+        for (LambdaInfo li : lambdas) {
+            stringBuilder.append(li).append(",\n    ");
+        }
+        if (lambdas.size() > 0) {
+            stringBuilder.setLength(stringBuilder.length() - 6);
+        }
+        stringBuilder.append("]}");
+        return stringBuilder.toString();
+    }
 }

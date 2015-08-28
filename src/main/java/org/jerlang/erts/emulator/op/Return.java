@@ -13,7 +13,9 @@ import org.jerlang.type.Term;
 public class Return {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        return Integer.of(proc.getCP());
+        Integer cp = Integer.of(proc.getCP());
+        proc.setCP(0); // reset
+        return cp;
     }
 
 }
