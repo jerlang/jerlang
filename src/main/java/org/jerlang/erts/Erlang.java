@@ -11,6 +11,7 @@ import org.jerlang.erts.erlang.ErlangError;
 import org.jerlang.erts.erlang.ErlangFunctionExported;
 import org.jerlang.erts.erlang.ErlangGet;
 import org.jerlang.erts.erlang.ErlangGetKeys;
+import org.jerlang.erts.erlang.ErlangGetModuleInfo;
 import org.jerlang.erts.erlang.ErlangHalt;
 import org.jerlang.erts.erlang.ErlangHd;
 import org.jerlang.erts.erlang.ErlangIntegerToBinary;
@@ -116,6 +117,10 @@ public class Erlang {
 
     public static List get_keys(Term value) {
         return ErlangGetKeys.get_keys_1(value);
+    }
+
+    public static Term get_module_info(Atom module, Atom item) {
+        return ErlangGetModuleInfo.get_module_info_2(module, item);
     }
 
     public static void halt() {

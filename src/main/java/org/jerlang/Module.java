@@ -86,7 +86,8 @@ public class Module {
             return process.getX(0);
         } else {
             process.pushSignature(signature);
-            Term result = exported_functions.get(signature).apply(params);
+            Fun fun = exported_functions.get(signature);
+            Term result = fun.apply(params);
             process.popSignature();
             return result;
         }
