@@ -132,7 +132,7 @@ public class ModuleLoader {
                 }
                 chunkList = chunkList.tail();
             }
-            BeamData bd = new BeamData(
+            BeamData beamData = new BeamData(
                 abstractSyntaxTreeChunk,
                 atomChunk,
                 attributeChunk,
@@ -145,8 +145,8 @@ public class ModuleLoader {
                 literalTableChunk,
                 localFunctionTableChunk,
                 stringTableChunk);
-            // System.out.println(bd);
-            return bd;
+            // System.out.println(beamData);
+            return beamData;
         } catch (Throwable e) {
             e.printStackTrace();
             return null;
