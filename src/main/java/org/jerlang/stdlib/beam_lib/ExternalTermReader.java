@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.jerlang.erts.ExternalTermFormatTag;
+import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
 import org.jerlang.type.Float;
@@ -106,7 +107,7 @@ public class ExternalTermReader extends AbstractReader {
             list = new List(read(), list);
         }
         read(); // Lists are terminated by a NIL, which we skip
-        return list;
+        return Lists.reverse(list);
     }
 
     private Term readSmallBig() throws IOException {

@@ -11,6 +11,22 @@ public class Map extends Term {
         map = new HashMap<>();
     }
 
+    /**
+     * Copy constructor.
+     */
+    public Map(Map map) {
+        this.map = new HashMap<>(map.map);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Map) {
+            Map other = (Map) object;
+            return map.equals(other.map);
+        }
+        return false;
+    }
+
     public boolean is_key(Term key) {
         return map.containsKey(key);
     }
