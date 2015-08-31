@@ -207,4 +207,20 @@ public class BitString extends Term {
         return new BitString(values);
     }
 
+    /**
+     * Put the given integer into (size * unit) bits.
+     */
+    public void put_integer(Integer integer, Integer size, Integer unit) {
+        int bits = size.toInt() * unit.toInt();
+        int num = (bits / 8) + (bits % 8 == 0 ? 0 : 1);
+        byte[] new_bytes = integer.toBigInteger().toByteArray();
+        BitString bs2 = new BitString(new_bytes, unusedBits);
+        System.arraycopy(bs2.bytes, 0, bytes, 0, num);
+
+        if (unusedBits > 0) {
+            bytes[bytes.length - 1] <<= unusedBits;
+            bytes[bytes.length - 1] &= 0xFF;
+        }
+    }
+
 }

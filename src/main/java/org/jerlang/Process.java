@@ -6,6 +6,7 @@ import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.jerlang.type.Atom;
+import org.jerlang.type.BitString;
 import org.jerlang.type.Float;
 import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
@@ -56,6 +57,9 @@ public class Process implements ProcessOrPort {
     // Used by `put_tuple/2` and `put/1`:
     private Tuple tuple;
     private int tupleIndex;
+
+    // BitString, used by `bs_put_integer/5`
+    private BitString bitString;
 
     // Exception handling
     private ExceptionHandler exceptionHandler = null;
@@ -109,6 +113,10 @@ public class Process implements ProcessOrPort {
             allocate(size, keep);
             Arrays.fill(stack, stack.length - size, stack.length, List.nil);
         }
+    }
+
+    public BitString bitString() {
+        return bitString;
     }
 
     public void deallocate(int size) {
@@ -278,6 +286,10 @@ public class Process implements ProcessOrPort {
 
     public Scheduler scheduler() {
         return scheduler;
+    }
+
+    public void setBitString(BitString bitString) {
+        this.bitString = bitString;
     }
 
     public void setExceptionHandler(ExceptionHandler exceptionHandler) {

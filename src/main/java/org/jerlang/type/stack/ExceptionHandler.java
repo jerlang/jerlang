@@ -18,4 +18,9 @@ public class ExceptionHandler extends Term {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "{exception_handler," + label + "}";
+    }
+
 }

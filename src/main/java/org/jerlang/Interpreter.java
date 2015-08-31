@@ -99,6 +99,7 @@ public class Interpreter {
                 }
             } catch (Error error) {
                 if (process.exceptionHandler() != null) {
+                    System.err.println(process.exceptionHandler());
                     Term label = process.exceptionHandler().label();
                     int lbl = label.toRegisterIndex().toInt();
                     index = labels.get(lbl);
@@ -106,6 +107,7 @@ public class Interpreter {
                     process.setX(0, Atom.of("error"));
                     process.setX(1, error.reason());
                 } else {
+                    System.err.println("Raise catched");
                     error.printStackTrace();
                     System.exit(1);
                     break;
