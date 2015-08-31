@@ -6,6 +6,7 @@
   test_is_integer/1,
   test_is_list/1,
   test_is_number/1,
+  test_is_pid/1,
   test_is_tuple/1
   ]).
 
@@ -26,6 +27,9 @@ test_is_list(_) -> false.
 
 test_is_number(X) when is_number(X) -> true;
 test_is_number(_) -> false.
+
+test_is_pid(X) when is_pid(X) -> true;
+test_is_pid(_) -> false.
 
 test_is_tuple(X) when is_tuple(X) -> true;
 test_is_tuple(_) -> false.
