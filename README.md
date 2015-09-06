@@ -1,10 +1,10 @@
 # JErlang
 
-JErlang (_pronounce J-Erlang_) implements [Erlang/OTP](https://github.com/erlang/otp) on the [Java Virtual Machine](https://en.wikipedia.org/wiki/Java_virtual_machine) (JVM).
+[Erlang/OTP](https://github.com/erlang/otp) on the
+[Java Virtual Machine](https://en.wikipedia.org/wiki/Java_virtual_machine) (JVM).
 
-[![Build Status](https://img.shields.io/travis/jerlang/jerlang.svg?branch=master&style=flat)](https://travis-ci.org/jerlang/jerlang)
+[![Build Status](https://travis-ci.org/jerlang/jerlang.svg?branch=master)](https://travis-ci.org/jerlang/jerlang)
 [![Dependency Status](https://www.versioneye.com/user/projects/55acc9853065350023000481/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55acc9853065350023000481)
-[![Bountysource](https://img.shields.io/bountysource/team/jerlang/activity.svg?style=flat)](https://www.bountysource.com/teams/jerlang)
 
 ## Roadmap
 
@@ -23,25 +23,7 @@ JErlang (_pronounce J-Erlang_) implements [Erlang/OTP](https://github.com/erlang
 
 ## Contribution
 
-All contributions are welcome!
-
-This project uses the [C4.1 process](http://rfc.zeromq.org/spec:22)
-for all code changes.
-
-> "Everyone, without distinction or discrimination,
-> SHALL have an equal right to become a Contributor
-> under the terms of this contract."
-
-### tl;dr
-
-1. Check for [open issues](https://github.com/jerlang/jerlang/issues) or
-[open a new issue](https://github.com/jerlang/jerlang/issues/new) to start
-a discussion around a feature idea or a bug
-2. Fork the [JErlang repository on Github](https://github.com/jerlang/jerlang)
-to start making your changes
-3. Write a test which shows that the bug was fixed or that the feature works
-as expected
-4. Send a pull request. If it does not break the build, it will be merged.
+JErlang uses the [C4.1 (Collective Code Construction Contract) process](http://rfc.zeromq.org/spec:22) for contributions.
 
 ## See also
 
