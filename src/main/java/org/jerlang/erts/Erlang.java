@@ -39,6 +39,7 @@ import org.jerlang.erts.erlang.ErlangSelf;
 import org.jerlang.erts.erlang.ErlangSendAfter;
 import org.jerlang.erts.erlang.ErlangSetelement;
 import org.jerlang.erts.erlang.ErlangSpawn;
+import org.jerlang.erts.erlang.ErlangSystemInfo;
 import org.jerlang.erts.erlang.ErlangThrow;
 import org.jerlang.erts.erlang.ErlangTl;
 import org.jerlang.erts.erlang.ErlangTupleSize;
@@ -249,6 +250,10 @@ public class Erlang {
 
     public static PID spawn(Atom m, Atom f, List a) {
         return ErlangSpawn.spawn_3(m, f, a);
+    }
+
+    public static Term system_info(Term term) {
+        return ErlangSystemInfo.system_info_1(term);
     }
 
     public static void _throw(Term reason) throws ThrowException {
