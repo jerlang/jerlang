@@ -3,6 +3,7 @@
   test_is_atom/1,
   test_is_binary/1,
   test_is_boolean/1,
+  test_is_float/1,
   test_is_integer/1,
   test_is_list/1,
   test_is_number/1,
@@ -18,6 +19,9 @@ test_is_binary(_) -> false.
 
 test_is_boolean(X) when is_boolean(X) -> true;
 test_is_boolean(_) -> false.
+
+test_is_float(X) when is_float(X) -> true;
+test_is_float(_) -> false.
 
 test_is_integer(X) when is_integer(X) -> true;
 test_is_integer(_) -> false.
