@@ -25,6 +25,10 @@ public class Integer extends Number {
         return true;
     }
 
+    public Integer multiply(Integer other) {
+        return new Integer(value.multiply(other.value));
+    }
+
     public BigInteger toBigInteger() {
         return value;
     }

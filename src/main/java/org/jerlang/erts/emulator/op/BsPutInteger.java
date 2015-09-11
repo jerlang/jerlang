@@ -28,8 +28,9 @@ public class BsPutInteger {
         BitString bs = proc.bitString();
         Integer size = i.arg(1).toArg(proc).toInteger();
         Integer unit = i.arg(2).toArg(proc).toInteger();
-        Integer integer = i.arg(4).toArg(proc).toInteger();
-        bs.put_integer(integer, size, unit);
+        Integer flags = i.arg(3).toArg(proc).toInteger();
+        Integer source = i.arg(4).toArg(proc).toInteger();
+        bs.put_integer(source, size.multiply(unit), flags);
         return null;
     }
 

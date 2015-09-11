@@ -210,17 +210,29 @@ public class BitString extends Term {
     /**
      * Put the given integer into (size * unit) bits.
      */
-    public void put_integer(Integer integer, Integer size, Integer unit) {
-        int bits = size.toInt() * unit.toInt();
-        int num = (bits / 8) + (bits % 8 == 0 ? 0 : 1);
+    public void put_integer(Integer integer, Integer bits, Integer flags) {
+        int num_bits = bits.toInt();
+
+        if (num_bits == 0) {
+            return;
+        }
+
+        int num = (num_bits / 8) + (num_bits % 8 == 0 ? 0 : 1);
         byte[] new_bytes = integer.toBigInteger().toByteArray();
         BitString bs2 = new BitString(new_bytes, unusedBits);
-        System.arraycopy(bs2.bytes, 0, bytes, 0, num);
+        copy(bs2.bytes, 0, bytes, 0, num);
 
         if (unusedBits > 0) {
             bytes[bytes.length - 1] <<= unusedBits;
             bytes[bytes.length - 1] &= 0xFF;
         }
+    }
+
+    private static void copy(int[] src, int srcPos, int[] dst, int dstPos, int size) {
+        System.out.println("SRC: " + src.length + " / " + srcPos);
+        System.out.println("DST: " + dst.length + " / " + dstPos);
+        System.out.println("LEN: " + size);
+        System.arraycopy(src, srcPos, dst, dstPos, size);
     }
 
 }

@@ -11,6 +11,7 @@ import org.jerlang.erts.OtpRing0;
 import org.jerlang.kernel.File;
 import org.jerlang.kernel.OS;
 import org.jerlang.stdlib.BeamLib;
+import org.jerlang.stdlib.Binary;
 import org.jerlang.stdlib.ErlInternal;
 import org.jerlang.stdlib.IO;
 import org.jerlang.stdlib.Lists;
@@ -28,7 +29,9 @@ public class ModuleRegistry {
 
     public ModuleRegistry() {
         modules = new HashMap<>();
+        // TODO: Auto-register modules by reflection
         init(BeamLib.class).export();
+        init(Binary.class).export();
         init(Erlang.class).export();
         init(ErlInternal.class).export();
         init(File.class).export();

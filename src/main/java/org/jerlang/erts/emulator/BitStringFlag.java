@@ -2,7 +2,7 @@ package org.jerlang.erts.emulator;
 
 /**
  * Flags for bs_get_* / bs_put_* / bs_init* instructions.
- * 
+ *
  * Source:
  * https://github.com/erlang/otp/blob/maint/erts/emulator/beam/erl_bits.h
  */

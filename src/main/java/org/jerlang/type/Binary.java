@@ -36,6 +36,10 @@ public class Binary extends Term {
         this.unusedBits = unusedBits;
     }
 
+    public Integer at(int pos) {
+        return Integer.of(bytes[pos]);
+    }
+
     public int bits() {
         return (bytes.length * 8) - unusedBits;
     }
