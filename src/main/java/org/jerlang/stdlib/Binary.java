@@ -3,6 +3,8 @@ package org.jerlang.stdlib;
 import org.jerlang.stdlib.binary.BinaryAt;
 import org.jerlang.stdlib.binary.BinaryBinToList;
 import org.jerlang.stdlib.binary.BinaryCopy;
+import org.jerlang.stdlib.binary.BinaryDecodeUnsigned;
+import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Tuple;
@@ -51,6 +53,16 @@ public class Binary {
 
     public org.jerlang.type.Binary copy(org.jerlang.type.Binary subject, Integer n) {
         return BinaryCopy.copy_2(subject, n);
+    }
+
+    // TODO: compile_pattern/1
+
+    public Integer decode_unsigned(org.jerlang.type.Binary subject) {
+        return BinaryDecodeUnsigned.decode_unsigned_1(subject);
+    }
+
+    public Integer decode_unsigned(org.jerlang.type.Binary subject, Atom endianness) {
+        return BinaryDecodeUnsigned.decode_unsigned_2(subject, endianness);
     }
 
 }

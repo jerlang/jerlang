@@ -1,5 +1,7 @@
 package org.jerlang.type;
 
+import java.math.BigInteger;
+
 /**
  * See:
  * Per Gustafsson:
@@ -28,6 +30,22 @@ public class Binary extends BitString {
             System.arraycopy(bytes, 0, new_bytes, pos, bytes_len);
         }
         return new Binary(new_bytes);
+    }
+
+    public Integer decode_unsigned_big() {
+        byte[] b = new byte[bytes.length];
+        for (int index = 0; index < bytes.length; index++) {
+            b[index] = (byte) (bytes[index] & 0xFF);
+        }
+        return new Integer(new BigInteger(b));
+    }
+
+    public Integer decode_unsigned_little() {
+        byte[] b = new byte[bytes.length];
+        for (int index = 0; index < bytes.length; index++) {
+            b[bytes.length - index - 1] = (byte) (bytes[index] & 0xFF);
+        }
+        return new Integer(new BigInteger(b));
     }
 
     @Override
