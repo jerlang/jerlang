@@ -1,6 +1,5 @@
 package org.jerlang.type.stack;
 
-import org.jerlang.type.Binary;
 import org.jerlang.type.BitString;
 import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
@@ -12,17 +11,17 @@ import org.jerlang.type.Term;
  */
 public class BinMatchState extends Term {
 
-    private final Binary binary;
+    private final BitString bitString;
     private final int slots;
     private int offset = 0; // bit-offset
 
-    public BinMatchState(Binary binary, int slots) {
-        this.binary = binary;
+    public BinMatchState(BitString binary, int slots) {
+        this.bitString = binary;
         this.slots = slots;
     }
 
     public int tail() {
-        return binary.bits() - offset;
+        return bitString.bits() - offset;
     }
 
     public BinMatchState toBinMatchState() {
@@ -36,8 +35,8 @@ public class BinMatchState extends Term {
 
     public BitString get_all_binary(int unit, int flag) {
         // TODO This assumes that unit = 1 and flag = 0
-        BitString result = binary.get_rest(offset);
-        offset = binary.bits();
+        BitString result = bitString.get_rest(offset);
+        offset = bitString.bits();
         return result;
     }
 
@@ -49,7 +48,7 @@ public class BinMatchState extends Term {
 
     public Integer get_integer(int size, int unit, int flag) {
         // TODO: This assumes that unit is 1 and flag is 0.
-        Integer result = new Integer(binary.extract_bits(offset, size));
+        Integer result = new Integer(bitString.extract_bits(offset, size));
         offset += size;
         return result;
     }

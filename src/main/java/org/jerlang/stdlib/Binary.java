@@ -2,6 +2,7 @@ package org.jerlang.stdlib;
 
 import org.jerlang.stdlib.binary.BinaryAt;
 import org.jerlang.stdlib.binary.BinaryBinToList;
+import org.jerlang.stdlib.binary.BinaryCopy;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.Tuple;
@@ -42,6 +43,14 @@ public class Binary {
 
     public List bin_to_list(org.jerlang.type.Binary subject, Integer pos, Integer len) {
         return BinaryBinToList.bin_to_list_3(subject, pos, len);
+    }
+
+    public org.jerlang.type.Binary copy(org.jerlang.type.Binary subject) {
+        return BinaryCopy.copy_1(subject);
+    }
+
+    public org.jerlang.type.Binary copy(org.jerlang.type.Binary subject, Integer n) {
+        return BinaryCopy.copy_2(subject, n);
     }
 
 }

@@ -20,6 +20,16 @@ public class Binary extends BitString {
         return Integer.of(bytes[pos]);
     }
 
+    public Binary copy(int n) {
+        int bytes_len = bytes.length;
+        int total_len = n * bytes_len;
+        int[] new_bytes = new int[total_len];
+        for (int pos = 0; pos < total_len; pos += bytes_len) {
+            System.arraycopy(bytes, 0, new_bytes, pos, bytes_len);
+        }
+        return new Binary(new_bytes);
+    }
+
     @Override
     public boolean equals(Object object) {
         return super.equals(object);
