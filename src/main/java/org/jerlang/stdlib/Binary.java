@@ -4,6 +4,8 @@ import org.jerlang.stdlib.binary.BinaryAt;
 import org.jerlang.stdlib.binary.BinaryBinToList;
 import org.jerlang.stdlib.binary.BinaryCopy;
 import org.jerlang.stdlib.binary.BinaryDecodeUnsigned;
+import org.jerlang.stdlib.binary.BinaryFirst;
+import org.jerlang.stdlib.binary.BinaryLast;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -63,6 +65,17 @@ public class Binary {
 
     public Integer decode_unsigned(org.jerlang.type.Binary subject, Atom endianness) {
         return BinaryDecodeUnsigned.decode_unsigned_2(subject, endianness);
+    }
+
+    // TODO: encode_unsigned/1
+    // TODO: encode_unsigned/2
+
+    public Integer first(org.jerlang.type.Binary subject) {
+        return BinaryFirst.first_1(subject);
+    }
+
+    public Integer last(org.jerlang.type.Binary subject) {
+        return BinaryLast.last_1(subject);
     }
 
 }
