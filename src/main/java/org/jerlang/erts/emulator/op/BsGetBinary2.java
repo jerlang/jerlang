@@ -5,7 +5,7 @@ import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
-import org.jerlang.type.Binary;
+import org.jerlang.type.BitString;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.stack.BinMatchState;
@@ -40,7 +40,7 @@ public class BsGetBinary2 {
             int unit = i.arg(4).toInteger().toInt();
             int flag = i.arg(5).toInteger().toInt();
 
-            Binary result = bms.get_all_binary(unit, flag);
+            BitString result = bms.get_all_binary(unit, flag);
 
             Term destination = i.arg(6);
             if (destination.isXRegister()) {
