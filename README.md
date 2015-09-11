@@ -21,9 +21,14 @@
 |0.9    |Performance     |Performance is comparable to native Erlang/OTP    ||
 |1.0    |Stability       |JErlang is production ready                       ||
 
-## Contribution
+## Contribute
 
 JErlang uses the [C4.1 (Collective Code Construction Contract) process](http://rfc.zeromq.org/spec:22) for contributions.
+
+## Discuss
+
+* **#jerlang** on [Freenode](http://www.freenode.net/) [IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat)
+* [Issue tracker](https://github.com/jerlang/jerlang/issues)
 
 ## See also
 
