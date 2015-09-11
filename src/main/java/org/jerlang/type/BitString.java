@@ -6,9 +6,15 @@ import java.util.Objects;
 
 import org.jerlang.erts.erlang.Error;
 
+/**
+ * See:
+ * Per Gustafsson:
+ * "Programming Efficiently with Binaries and Bit Strings"
+ * http://www.erlang.org/euc/07/papers/1700Gustafsson.pdf
+ */
 public class BitString extends Term {
 
-    private final int[] bytes;
+    protected final int[] bytes;
 
     // The number of bits in the last byte
     // that are not used for this binary.

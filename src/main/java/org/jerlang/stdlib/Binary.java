@@ -1,7 +1,10 @@
 package org.jerlang.stdlib;
 
 import org.jerlang.stdlib.binary.BinaryAt;
+import org.jerlang.stdlib.binary.BinaryBinToList;
 import org.jerlang.type.Integer;
+import org.jerlang.type.List;
+import org.jerlang.type.Tuple;
 
 /**
  * = binary
@@ -25,8 +28,20 @@ import org.jerlang.type.Integer;
  */
 public class Binary {
 
-    public Integer find(org.jerlang.type.Binary key, Integer pos) {
+    public Integer at(org.jerlang.type.Binary key, Integer pos) {
         return BinaryAt.at_2(key, pos);
+    }
+
+    public List bin_to_list(org.jerlang.type.Binary subject) {
+        return BinaryBinToList.bin_to_list_1(subject);
+    }
+
+    public List bin_to_list(org.jerlang.type.Binary subject, Tuple part) {
+        return BinaryBinToList.bin_to_list_2(subject, part);
+    }
+
+    public List bin_to_list(org.jerlang.type.Binary subject, Integer pos, Integer len) {
+        return BinaryBinToList.bin_to_list_3(subject, pos, len);
     }
 
 }

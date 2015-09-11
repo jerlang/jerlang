@@ -10,6 +10,7 @@ import org.jerlang.erts.ExternalTermFormatTag;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Binary;
+import org.jerlang.type.BitString;
 import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -72,7 +73,8 @@ public class ExternalTermReader extends AbstractReader {
         byte[] bytes = new byte[read4Bytes()];
         int usedBits = read1Byte();
         readBytes(bytes);
-        return new Binary(bytes, 8 - usedBits);
+        // TODO: return Binary if usedBits % 8 = 0
+        return new BitString(bytes, 8 - usedBits);
     }
 
     private Term readMap() throws Throwable {
