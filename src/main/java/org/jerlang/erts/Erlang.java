@@ -5,6 +5,7 @@ import org.jerlang.erts.erlang.ErlangApply;
 import org.jerlang.erts.erlang.ErlangAtomMinus;
 import org.jerlang.erts.erlang.ErlangAtomMultiply;
 import org.jerlang.erts.erlang.ErlangAtomPlus;
+import org.jerlang.erts.erlang.ErlangAtomPlusPlus;
 import org.jerlang.erts.erlang.ErlangByteSize;
 import org.jerlang.erts.erlang.ErlangDisplay;
 import org.jerlang.erts.erlang.ErlangError;
@@ -72,6 +73,10 @@ public class Erlang {
 
     public static Integer atom_plus(Integer a, Integer b) {
         return ErlangAtomPlus.atom_plus_2(a, b);
+    }
+
+    public static List atom_plus_plus(List a, List b) {
+        return ErlangAtomPlusPlus.atom_plus_plus_2(a, b);
     }
 
     // --------------------------------------------------------------
