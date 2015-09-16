@@ -29,6 +29,11 @@ public class BinMatchState extends Term {
     }
 
     @Override
+    public BitString toBitString() {
+        return bitString;
+    }
+
+    @Override
     public String toString() {
         return "BinMatchState";
     }
