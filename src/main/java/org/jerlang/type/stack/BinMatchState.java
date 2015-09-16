@@ -62,4 +62,25 @@ public class BinMatchState extends Term {
         offset += size * unit;
     }
 
+    public boolean skip_utf8(int size, int flag) {
+        // TODO: Implement UTF8 decoding
+        offset += 8;
+        return true;
+    }
+
+    public boolean skip_utf16(int size, int flag) {
+        // TODO: Implement UTF16 decoding
+        offset += 16;
+        return true;
+    }
+
+    public boolean skip_utf32(int size, int flag) {
+        if (tail() - 32 < 0) {
+            return false;
+        } else {
+            offset += 32;
+            return true;
+        }
+    }
+
 }
