@@ -53,4 +53,8 @@ public class BinMatchState extends Term {
         return result;
     }
 
+    public void skip(int size, int unit, int flag) {
+        offset += size * unit;
+    }
+
 }
