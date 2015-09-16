@@ -3,6 +3,7 @@ package org.jerlang.type.stack;
 import org.jerlang.type.BitString;
 import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
+import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
 /**
@@ -64,14 +65,22 @@ public class BinMatchState extends Term {
 
     public boolean skip_utf8(int size, int flag) {
         // TODO: Implement UTF8 decoding
-        offset += 8;
-        return true;
+        if (tail() - 8 < 0) {
+            return false;
+        } else {
+            offset += 8;
+            return true;
+        }
     }
 
     public boolean skip_utf16(int size, int flag) {
         // TODO: Implement UTF16 decoding
-        offset += 16;
-        return true;
+        if (tail() - 16 < 0) {
+            return false;
+        } else {
+            offset += 16;
+            return true;
+        }
     }
 
     public boolean skip_utf32(int size, int flag) {
@@ -81,6 +90,43 @@ public class BinMatchState extends Term {
             offset += 32;
             return true;
         }
+    }
+
+    public Term get_utf8(int size, int flag) {
+        // TODO: Implement UTF8 decoding
+        if (tail() - 8 < 0) {
+            return List.nil;
+        } else {
+            int value = bitString.extract_bits(offset, 8).intValue() & 0xFF;
+            offset += 8;
+            return Integer.of(value);
+        }
+    }
+
+    public Term get_utf16(int size, int flag) {
+        // TODO: Implement UTF16 decoding
+        if (tail() - 16 < 0) {
+            return List.nil;
+        } else {
+            int value = bitString.extract_bits(offset, 16).intValue() & 0xFFFF;
+            offset += 16;
+            return Integer.of(value);
+        }
+    }
+
+    public Term get_utf32(int size, int flag) {
+        // TODO: Implement UTF32 decoding
+        if (tail() - 32 < 0) {
+            return List.nil;
+        } else {
+            long value = bitString.extract_bits(offset, 32).longValue() & 0xFFFFFFFF;
+            offset += 32;
+            return new Integer(value);
+        }
+    }
+
+    public boolean test_unit(int unit) {
+        return (tail() % unit) == 0;
     }
 
 }
