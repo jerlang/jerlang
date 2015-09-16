@@ -15,6 +15,7 @@ import org.jerlang.erts.erlang.Error;
 public class BitString extends Term {
 
     protected final int[] bytes;
+    protected int writeOffset = 0;
 
     // The number of bits in the last byte
     // that are not used for this binary.
@@ -46,8 +47,29 @@ public class BitString extends Term {
         return (bytes.length * 8) - unusedBits;
     }
 
+    public int[] bytes() {
+        return bytes;
+    }
+
     public int byte_length() {
         return bytes.length;
+    }
+
+    public List convert_to_list() {
+        List list = List.nil;
+        if (unusedBits == 0) {
+            for (int index = bytes.length - 1; index >= 0; index--) {
+                list = new List(Integer.of(bytes[index]), list);
+            }
+        } else {
+            int[] rest = new int[1];
+            rest[0] = bytes[bytes.length - 1];
+            list = new List(new BitString(rest, unusedBits), list);
+            for (int index = bytes.length - 2; index >= 0; index--) {
+                list = new List(Integer.of(bytes[index]), list);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -225,8 +247,10 @@ public class BitString extends Term {
 
         int num = (num_bits / 8) + (num_bits % 8 == 0 ? 0 : 1);
         byte[] new_bytes = integer.toBigInteger().toByteArray();
+        new_bytes = maybe_expand(new_bytes, num);
         BitString bs2 = new BitString(new_bytes, unusedBits);
-        copy(bs2.bytes, 0, bytes, 0, num);
+        copy(bs2.bytes, 0, bytes, writeOffset, num);
+        writeOffset += num;
 
         if (unusedBits > 0) {
             bytes[bytes.length - 1] <<= unusedBits;
@@ -234,10 +258,29 @@ public class BitString extends Term {
         }
     }
 
+    public void put_string(Binary string, int index, int length) {
+        System.arraycopy(string.bytes, index, bytes, writeOffset, length);
+        writeOffset += length;
+    }
+
+    /**
+     * We want to copy new_bytes to this bitstring, covering num bytes.
+     * But {@link BigInteger#toByteArray()} returns sometimes smaller
+     * byte arrays, so we need to expand the array before copying.
+     * TODO: find a more efficient way and avoid copying the data
+     */
+    private byte[] maybe_expand(byte[] new_bytes, int num) {
+        int srclen = new_bytes.length;
+        if (srclen < num) {
+            byte[] bytes = new byte[num];
+            System.arraycopy(new_bytes, 0, bytes, num - srclen, srclen);
+            return bytes;
+        } else {
+            return new_bytes;
+        }
+    }
+
     private static void copy(int[] src, int srcPos, int[] dst, int dstPos, int size) {
-        System.out.println("SRC: " + src.length + " / " + srcPos);
-        System.out.println("DST: " + dst.length + " / " + dstPos);
-        System.out.println("LEN: " + size);
         System.arraycopy(src, srcPos, dst, dstPos, size);
     }
 

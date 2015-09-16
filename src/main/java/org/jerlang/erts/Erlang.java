@@ -6,6 +6,7 @@ import org.jerlang.erts.erlang.ErlangAtomMinus;
 import org.jerlang.erts.erlang.ErlangAtomMultiply;
 import org.jerlang.erts.erlang.ErlangAtomPlus;
 import org.jerlang.erts.erlang.ErlangAtomPlusPlus;
+import org.jerlang.erts.erlang.ErlangBitstringToList;
 import org.jerlang.erts.erlang.ErlangByteSize;
 import org.jerlang.erts.erlang.ErlangDisplay;
 import org.jerlang.erts.erlang.ErlangError;
@@ -31,6 +32,7 @@ import org.jerlang.erts.erlang.ErlangIsRecord;
 import org.jerlang.erts.erlang.ErlangIsReference;
 import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
+import org.jerlang.erts.erlang.ErlangListToBitstring;
 import org.jerlang.erts.erlang.ErlangMakeRef;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangPut;
@@ -87,6 +89,10 @@ public class Erlang {
 
     public static Term apply(Term m, Term f, Term a) throws Error {
         return ErlangApply.apply_3(m, f, a);
+    }
+
+    public static List bitstring_to_list(BitString bitString) {
+        return ErlangBitstringToList.bitstring_to_list_1(bitString);
     }
 
     public static Integer byte_size(BitString bitString) {
@@ -215,6 +221,10 @@ public class Erlang {
 
     public static Integer length(List list) {
         return ErlangLength.length_1(list);
+    }
+
+    public static BitString list_to_bitstring(List list) {
+        return ErlangListToBitstring.list_to_bitstring_1(list);
     }
 
     public static Reference make_ref() {
