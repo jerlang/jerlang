@@ -6,6 +6,7 @@ import org.jerlang.erts.erlang.ErlangAtomMinus;
 import org.jerlang.erts.erlang.ErlangAtomMultiply;
 import org.jerlang.erts.erlang.ErlangAtomPlus;
 import org.jerlang.erts.erlang.ErlangAtomPlusPlus;
+import org.jerlang.erts.erlang.ErlangBinaryPart;
 import org.jerlang.erts.erlang.ErlangBitstringToList;
 import org.jerlang.erts.erlang.ErlangByteSize;
 import org.jerlang.erts.erlang.ErlangDisplay;
@@ -89,6 +90,14 @@ public class Erlang {
 
     public static Term apply(Term m, Term f, Term a) throws Error {
         return ErlangApply.apply_3(m, f, a);
+    }
+
+    public static Binary binary_part(Binary subject, Tuple posLen) {
+        return ErlangBinaryPart.binary_part_2(subject, posLen);
+    }
+
+    public static Binary binary_part(Binary subject, Integer start, Integer length) {
+        return ErlangBinaryPart.binary_part_3(subject, start, length);
     }
 
     public static List bitstring_to_list(BitString bitString) {

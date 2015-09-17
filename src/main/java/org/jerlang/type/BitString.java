@@ -333,4 +333,23 @@ public class BitString extends Term {
         put_integer(value, Integer.of(32), Integer.of(0));
     }
 
+    public BitString append(int bits) {
+        int[] new_bytes = new int[bytes.length + (bits / 8)];
+        copy(bytes, 0, new_bytes, 0, bytes.length);
+        BitString result = new BitString(new_bytes);
+        result.writeOffset = bytes.length;
+        return result;
+    }
+
+    public Binary part(int start, int length) {
+        int end = Math.max(start, start + length);
+        start = Math.min(start, start + length);
+        if (start < 0 || end >= bytes.length) {
+            throw new Error("badarg");
+        }
+        int[] new_bytes = new int[end - start];
+        copy(bytes, start, new_bytes, 0, end - start);
+        return new Binary(new_bytes);
+    }
+
 }
