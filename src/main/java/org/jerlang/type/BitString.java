@@ -284,6 +284,33 @@ public class BitString extends Term {
         System.arraycopy(src, srcPos, dst, dstPos, size);
     }
 
+    public void put_binary(Binary binary) {
+        System.arraycopy(binary.bytes, 0, bytes, writeOffset, binary.bytes.length);
+        writeOffset += binary.bytes.length;
+    }
+
+    public void put_float(Float value, int size, int flag) {
+        if (size == 32 && flag == 0) {
+            int f = java.lang.Float.floatToIntBits(value.toBigDecimal().floatValue());
+            bytes[writeOffset++] = ((f >> 24) & 0xFF);
+            bytes[writeOffset++] = ((f >> 16) & 0xFF);
+            bytes[writeOffset++] = ((f >> 8) & 0xFF);
+            bytes[writeOffset++] = ((f >> 0) & 0xFF);
+        } else if (size == 64 && flag == 0) {
+            long d = Double.doubleToLongBits(value.toBigDecimal().doubleValue());
+            bytes[writeOffset++] = (int) ((d >> 56) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 48) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 40) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 32) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 24) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 16) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 8) & 0xFF);
+            bytes[writeOffset++] = (int) ((d >> 0) & 0xFF);
+        } else {
+            throw new Error("Not implemented: put_float(" + value + ", " + size + ", " + flag + ")");
+        }
+    }
+
     public void put_utf8(Integer value) {
         // TODO: Implement UTF8 encoding
         if (value.toBigInteger().longValue() <= 0x7F) {
