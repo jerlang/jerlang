@@ -15,6 +15,10 @@ public class Integer extends Number {
         this.value = value;
     }
 
+    public Integer add(Integer other) {
+        return new Integer(value.add(other.value));
+    }
+
     @Override
     public boolean isFloat() {
         return false;
