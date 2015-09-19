@@ -14,12 +14,12 @@ import org.jerlang.type.Term;
 public class BinMatchState extends Term {
 
     private final BitString bitString;
-    private final int slots;
     private int offset = 0; // bit-offset
+    private final int[] save_offset;
 
     public BinMatchState(BitString binary, int slots) {
         this.bitString = binary;
-        this.slots = slots;
+        this.save_offset = new int[slots + 1];
     }
 
     /**
@@ -27,8 +27,9 @@ public class BinMatchState extends Term {
      */
     public BinMatchState(BinMatchState bms) {
         this.bitString = new BitString(bms.bitString.bytes(), bms.bitString.unusedBits());
-        this.slots = bms.slots;
         this.offset = bms.offset;
+        this.save_offset = new int[bms.save_offset.length];
+        System.arraycopy(bms.save_offset, 0, this.save_offset, 0, bms.save_offset.length);
     }
 
     public int tail() {
@@ -168,8 +169,12 @@ public class BinMatchState extends Term {
         return true;
     }
 
-    public void restore(int offset) {
-        this.offset = offset;
+    public void restore(int index) {
+        offset = save_offset[index];
+    }
+
+    public void save(int index) {
+        save_offset[index] = offset;
     }
 
 }
