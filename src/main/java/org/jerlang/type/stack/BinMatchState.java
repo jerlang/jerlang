@@ -21,6 +21,15 @@ public class BinMatchState extends Term {
         this.slots = slots;
     }
 
+    /**
+     * Copy constructor
+     */
+    public BinMatchState(BinMatchState bms) {
+        this.bitString = new BitString(bms.bitString.bytes(), bms.bitString.unusedBits());
+        this.slots = bms.slots;
+        this.offset = bms.offset;
+    }
+
     public int tail() {
         return bitString.bits() - offset;
     }
@@ -54,6 +63,11 @@ public class BinMatchState extends Term {
 
     public Integer get_integer(int size, int unit, int flag) {
         // TODO: This assumes that unit is 1 and flag is 0.
+
+        if (tail() - size < 0) {
+            return null;
+        }
+
         Integer result = new Integer(bitString.extract_bits(offset, size));
         offset += size;
         return result;

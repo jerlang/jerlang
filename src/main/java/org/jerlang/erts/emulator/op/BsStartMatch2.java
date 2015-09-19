@@ -12,6 +12,8 @@ import org.jerlang.type.stack.BinMatchState;
  * Bitsyntax
  *
  * Takes a binary and stores a BinMatchState object on the destination.
+ * Instead of a binary, Arg2 can also be already a BinMatchState;
+ * in that case, copy the BinMatchState.
  *
  * Example:
  * {bs_start_match2,{f,3},{x,0},1,0,{x,1}}
@@ -20,29 +22,28 @@ import org.jerlang.type.stack.BinMatchState;
  * Arg2: Binary
  * Arg3: X (Live)
  * Arg4: Y (Slots)
- * Arg5: D
+ * Arg5: Destination
  */
 public class BsStartMatch2 {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        BitString bitString;
-        Term arg2 = i.arg(1);
-
-        if (arg2.isXRegister()) {
-            bitString = proc.getX(arg2.toTuple().element(2).toInteger()).toBitString();
-        } else {
-            throw new Error("Unsupported arg2: " + i);
-        }
-
-        int slots = i.arg(3).toInteger().toInt();
+        Term bmsOrBitString = i.arg(1).toArg(proc);
         Term destination = i.arg(4);
-        if (destination.isXRegister()) {
-            BinMatchState bms = new BinMatchState(bitString, slots);
-            proc.setX(destination.toTuple().element(2).toInteger(), bms);
-            return null;
-        } else {
-            throw new Error("Unsupported destination: " + i);
+        if (bmsOrBitString instanceof BinMatchState) {
+            if (destination.isXRegister()) {
+                BinMatchState bms = new BinMatchState(bmsOrBitString.toBinMatchState());
+                proc.setX(destination.toRegisterIndex(), bms);
+                return null;
+            }
+        } else if (bmsOrBitString instanceof BitString) {
+            int slots = i.arg(3).toInteger().toInt();
+            if (destination.isXRegister()) {
+                BinMatchState bms = new BinMatchState(bmsOrBitString.toBitString(), slots);
+                proc.setX(destination.toRegisterIndex(), bms);
+                return null;
+            }
         }
+        throw new Error("Unsupported instruction: " + i);
     }
 
 }

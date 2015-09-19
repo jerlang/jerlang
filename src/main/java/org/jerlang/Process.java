@@ -308,7 +308,9 @@ public class Process implements ProcessOrPort {
     public void printStack() {
         System.out.print("REG: [" + registers()[0] + ", ");
         System.out.print("" + registers()[1] + ", ");
-        System.out.print("" + registers()[2] + "] ");
+        System.out.print("" + registers()[2] + ", ");
+        System.out.print("" + registers()[3] + "] ");
+
         System.out.print("STACK(" + stack.length + "): ");
         for (Term t : stack) {
             System.out.print("" + t + ", ");

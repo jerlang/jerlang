@@ -16,6 +16,7 @@ public class BitString extends Term {
 
     protected final int[] bytes;
     protected int writeOffset = 0;
+    protected boolean writable = false;
 
     // The number of bits in the last byte
     // that are not used for this binary.
@@ -43,8 +44,18 @@ public class BitString extends Term {
         this.unusedBits = unusedBits;
     }
 
+    public BitString(int size, boolean writable) {
+        this(new int[size]);
+        this.writable = writable;
+        // TODO: Keep track of allocated and written byte size
+    }
+
     public int bits() {
         return (bytes.length * 8) - unusedBits;
+    }
+
+    public int unusedBits() {
+        return unusedBits;
     }
 
     public int[] bytes() {

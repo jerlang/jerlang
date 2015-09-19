@@ -9,7 +9,7 @@ import org.jerlang.type.Term;
 import org.jerlang.type.stack.BinMatchState;
 
 /**
- * Bitsyntax
+ * BitString
  *
  * Extracts an integer value from a binary.
  * Uses the BinMatchState object to store current offset.
@@ -28,20 +28,16 @@ import org.jerlang.type.stack.BinMatchState;
 public class BsGetInteger2 {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        BinMatchState bms;
-        Term arg2 = i.arg(1);
-
-        if (arg2.isXRegister()) {
-            bms = arg2.toArg(proc).toBinMatchState();
-        } else {
-            throw new Error("Unsupported arg2: " + i);
-        }
-
+        BinMatchState bms = i.arg(1).toArg(proc).toBinMatchState();
         int size = i.arg(3).toInteger().toInt();
         int unit = i.arg(4).toInteger().toInt();
         int flag = i.arg(5).toInteger().toInt();
 
         Integer result = bms.get_integer(size, unit, flag);
+
+        if (result == null) {
+            return i.arg(0);
+        }
 
         Term destination = i.arg(6);
         if (destination.isXRegister()) {
