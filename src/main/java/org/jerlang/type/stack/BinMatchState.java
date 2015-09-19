@@ -168,4 +168,8 @@ public class BinMatchState extends Term {
         return true;
     }
 
+    public void restore(int offset) {
+        this.offset = offset;
+    }
+
 }
