@@ -1,5 +1,6 @@
 package org.jerlang.type;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,6 +14,8 @@ import org.jerlang.erts.erlang.Error;
  * http://www.erlang.org/euc/07/papers/1700Gustafsson.pdf
  */
 public class BitString extends Term {
+
+    public final static BitString EMPTY = new BitString(new int[0]);
 
     protected final int[] bytes;
     protected int writeOffset = 0;
@@ -188,6 +191,40 @@ public class BitString extends Term {
         }
 
         throw new Error("Cannot extract " + length + " bits at offset " + offset);
+    }
+
+    public BitString extract_bitstring(int offset, int bits) {
+        if (bits == 0) {
+            return BitString.EMPTY;
+        }
+
+        if (offset % 8 != 0) {
+            throw new Error("Not implemented yet");
+        }
+
+        if (bits % 8 != 0) {
+            throw new Error("Not implemented yet");
+        }
+
+        // Find first byte
+        int byteIndex = 0;
+        while (offset >= 8) {
+            byteIndex++;
+            offset -= 8;
+        }
+
+        BitStringOutputStream bsos = new BitStringOutputStream();
+
+        while (bits > 0) {
+            try {
+                bsos.write(bytes[byteIndex++]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bits -= 8;
+        }
+
+        return bsos.toBitString();
     }
 
     /**

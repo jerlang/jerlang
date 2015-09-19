@@ -1,5 +1,6 @@
 package org.jerlang.type.stack;
 
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.BitString;
 import org.jerlang.type.Float;
 import org.jerlang.type.Integer;
@@ -141,6 +142,30 @@ public class BinMatchState extends Term {
 
     public boolean test_unit(int unit) {
         return (tail() % unit) == 0;
+    }
+
+    public boolean match(BitString pattern) {
+        if (offset % 8 != 0) {
+            throw new Error("Not implemented");
+        }
+        if (pattern.bits() % 8 != 0) {
+            throw new Error("Not implemented");
+        }
+        if (tail() < pattern.bits()) {
+            return false;
+        }
+        // Compare bytes
+        int nbytes = pattern.bits() / 8;
+        int boffset = offset / 8;
+        for (int i = 0; i < nbytes; i++) {
+            if (bitString.bytes()[boffset + i] != pattern.bytes()[i]) {
+                return false;
+            }
+        }
+        offset += (nbytes * 8);
+        // Bits
+        // TODO: Compare bits
+        return true;
     }
 
 }

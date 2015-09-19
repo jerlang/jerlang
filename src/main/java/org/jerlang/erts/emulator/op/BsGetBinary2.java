@@ -20,8 +20,9 @@ import org.jerlang.type.stack.BinMatchState;
  * 6. Flags
  * 7. Destination
  *
- * Example:
+ * Examples:
  * {bs_get_binary2,{f,3},{x,1},3,all,1,0,{x,1}}
+ * {bs_get_binary2,{f,3},{x,0},1,all,8,0,{x,0}}
  */
 public class BsGetBinary2 {
 
