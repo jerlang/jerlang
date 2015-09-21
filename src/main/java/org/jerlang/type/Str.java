@@ -60,4 +60,13 @@ public class Str extends List {
         return new Str(string);
     }
 
+    public static Str convert(List list) {
+        StringBuilder sb = new StringBuilder(list.length());
+        while (list.length() > 0) {
+            sb.append((char) list.head().toInteger().toInt());
+            list = list.tail();
+        }
+        return new Str(sb.toString());
+    }
+
 }

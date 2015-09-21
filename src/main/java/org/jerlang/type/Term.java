@@ -53,6 +53,8 @@ public class Term {
             return p.getX(toRegisterIndex());
         } else if (isYRegister()) {
             return p.getY(toRegisterIndex());
+        } else if (isFRegister()) {
+            return p.getFR(toRegisterIndex().toInt());
         } else {
             return this;
         }

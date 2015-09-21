@@ -84,7 +84,10 @@ public class BeamLibInfo {
         int offset = 20;
         while (offset < length) {
             Chunk chunk = new Chunk(ChunkId.of(dis.readInt()), offset, dis.readInt());
-            chunks = new List(chunk.asTuple(), chunks);
+            // Unknown chunk tags are ignored
+            if (chunk.id() != null && !chunk.id().skip()) {
+                chunks = new List(chunk.asTuple(), chunks);
+            }
             offset += 8 + ((chunk.length() + 3) & ~3);
             dis.skipBytes((chunk.length() + 3) & ~3);
         }

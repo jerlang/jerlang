@@ -29,7 +29,7 @@ public class ErlangIntegerToList {
      *
      * http://www.erlang.org/doc/man/erlang.html#integer_to_list-1
      */
-    public static List integer_to_list_1(Integer integer) {
+    public static Str integer_to_list_1(Integer integer) {
         return new Str(integer.toString());
     }
 
@@ -40,7 +40,7 @@ public class ErlangIntegerToList {
      * http://www.erlang.org/doc/man/erlang.html#integer_to_list-2
      */
 
-    public static List integer_to_list_2(Integer integer, Integer base) {
+    public static Str integer_to_list_2(Integer integer, Integer base) {
         return new Str(integer.toBigInteger().toString(base.toInt()));
     }
 

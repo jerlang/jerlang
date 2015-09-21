@@ -33,7 +33,9 @@ import org.jerlang.erts.erlang.ErlangIsRecord;
 import org.jerlang.erts.erlang.ErlangIsReference;
 import org.jerlang.erts.erlang.ErlangIsTuple;
 import org.jerlang.erts.erlang.ErlangLength;
+import org.jerlang.erts.erlang.ErlangListToAtom;
 import org.jerlang.erts.erlang.ErlangListToBitstring;
+import org.jerlang.erts.erlang.ErlangListToInteger;
 import org.jerlang.erts.erlang.ErlangMakeRef;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangPut;
@@ -57,6 +59,7 @@ import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
 import org.jerlang.type.Reference;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.TimerReference;
 import org.jerlang.type.Tuple;
@@ -168,7 +171,7 @@ public class Erlang {
         return ErlangIntegerToBinary.integer_to_binary_2(integer, base);
     }
 
-    public static List integer_to_list(Integer integer) {
+    public static Str integer_to_list(Integer integer) {
         return ErlangIntegerToList.integer_to_list_1(integer);
     }
 
@@ -232,8 +235,20 @@ public class Erlang {
         return ErlangLength.length_1(list);
     }
 
+    public static Atom list_to_atom(List string) {
+        return ErlangListToAtom.list_to_atom_1(string);
+    }
+
     public static BitString list_to_bitstring(List list) {
         return ErlangListToBitstring.list_to_bitstring_1(list);
+    }
+
+    public static Integer list_to_integer(List string) {
+        return ErlangListToInteger.list_to_integer_1(string);
+    }
+
+    public static Integer list_to_integer(List string, Integer base) {
+        return ErlangListToInteger.list_to_integer_2(string, base);
     }
 
     public static Reference make_ref() {

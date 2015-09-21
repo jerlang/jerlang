@@ -15,7 +15,14 @@ public enum ChunkId implements Comparable<ChunkId> {
     LINE("Line", 9), // Line Table
     LITT("LitT", 2), // Literal Table
     LOCT("LocT", 7), // Local Table
-    STRT("StrT", 3); // String Table
+    STRT("StrT", 3), // String Table
+    // See lib/kernel/src/hipe_unified_loader.erl:
+    HA64("HA64", -1), // HiPE, x86_64, (implicit: 64-bit, Unix)
+    HARM("HARM", -1), // HiPE, arm, v5 (implicit: 32-bit, Linux)
+    HPPC("HPPC", -1), // HiPE, PowerPC (implicit: 32-bit, Linux)
+    HP64("HP64", -1), // HiPE, ppc64 (implicit: 64-bit, Linux)
+    HS8P("HS8P", -1), // HiPE, SPARC, V8+ (implicit: 32-bit)
+    HX86("HX86", -1); // HiPE, x86, (implicit: Unix)
 
     private final int sortOrder; // ascending
     private final String string;
@@ -29,6 +36,10 @@ public enum ChunkId implements Comparable<ChunkId> {
         this.sortOrder = sortOrder;
         this.string = string;
         this.value = (a << 24) | (b << 16) | (c << 8) | d;
+    }
+
+    public boolean skip() {
+        return sortOrder == -1;
     }
 
     public int sortOrder() {
