@@ -63,7 +63,7 @@ public class FunctionSignature extends Tuple {
         if (arity() == 4) {
             return element(4).toInteger();
         } else {
-            return Integer.of(0);
+            return Integer.ZERO;
         }
     }
 

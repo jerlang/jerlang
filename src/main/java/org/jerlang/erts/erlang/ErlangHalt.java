@@ -32,7 +32,7 @@ public class ErlangHalt {
      * The same as `halt(0, [])`.
      */
     public static void halt_0() {
-        halt_2(Integer.of(0), List.nil);
+        halt_2(Integer.ZERO, List.nil);
     }
 
     /**

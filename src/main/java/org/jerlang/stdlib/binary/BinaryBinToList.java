@@ -39,7 +39,7 @@ public class BinaryBinToList {
      * http://www.erlang.org/doc/man/binary.html#bin_to_list-1
      */
     public static List bin_to_list_1(Binary subject) {
-        return bin_to_list_2(subject, Tuple.of(Integer.of(0), Erlang.byte_size(subject)));
+        return bin_to_list_2(subject, Tuple.of(Integer.ZERO, Erlang.byte_size(subject)));
     }
 
     /**

@@ -89,7 +89,7 @@ public class Emulator {
         Atom func = Atom.of("start");
         if (index < args.length) {
             if (args[index + 1].startsWith("-")) {
-                Runtime.setRunFlag(new FunctionSignature(mod, func, Integer.of(0)));
+                Runtime.setRunFlag(new FunctionSignature(mod, func, Integer.ZERO));
                 return index;
             }
             func = Atom.of(args[++index]);

@@ -30,7 +30,7 @@ public class OtpRing0Start {
     }
 
     private static Term run(Term m, Term f, Term a) throws ThrowException {
-        if (Erlang.function_exported(m.toAtom(), f.toAtom(), Integer.of(1)).isTrue()) {
+        if (Erlang.function_exported(m.toAtom(), f.toAtom(), Integer.ONE).isTrue()) {
             return Erlang.apply(m, f, a);
         } else {
             ErlangDisplay.display_1(Tuple.of(
@@ -41,7 +41,7 @@ public class OtpRing0Start {
                 Str.of("does not export"),
                 f,
                 Str.of("/1")));
-            Erlang.halt(Integer.of(1));
+            Erlang.halt(Integer.ONE);
             return null;
         }
     }

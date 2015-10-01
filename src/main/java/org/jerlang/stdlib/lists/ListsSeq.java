@@ -48,7 +48,7 @@ public class ListsSeq {
      * http://www.erlang.org/doc/man/lists.html#seq-2
      */
     public static List seq_2(Integer from, Integer to) {
-        return seq_3(from, to, Integer.of(1));
+        return seq_3(from, to, Integer.ONE);
     }
 
     /**

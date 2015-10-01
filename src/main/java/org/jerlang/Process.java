@@ -325,7 +325,7 @@ public class Process implements ProcessOrPort {
 
     public void removeMessage() {
         Term message = mailbox.remove();
-        setX(Integer.of(0), message);
+        setX(0, message);
         // TODO: remove timer
     }
 

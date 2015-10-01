@@ -62,7 +62,7 @@ public class BeamLibInfo {
         } catch (FileNotFoundException fileNotFoundException) {
             return Tuple.of(error, beam_lib, Tuple.of(file_error, filename_term, enoent));
         } catch (EOFException eofException) {
-            return Tuple.of(error, beam_lib, Tuple.of(invalid_beam_file, filename_term, Integer.of(0)));
+            return Tuple.of(error, beam_lib, Tuple.of(invalid_beam_file, filename_term, Integer.ZERO));
         } catch (IOException ioException) {
             System.err.println("IOException: " + ioException);
         }

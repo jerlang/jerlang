@@ -5,6 +5,9 @@ import java.util.Objects;
 
 public class Integer extends Number {
 
+    public static final Integer ZERO = Integer.of(0);
+    public static final Integer ONE = Integer.of(1);
+
     private BigInteger value;
 
     public Integer(long value) {
