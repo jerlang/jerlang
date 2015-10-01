@@ -362,7 +362,7 @@ public class BitString extends Term {
     public void put_utf8(Integer value) {
         // TODO: Implement UTF8 encoding
         if (value.toBigInteger().longValue() <= 0x7F) {
-            put_integer(value, Integer.of(8), Integer.of(0));
+            put_integer(value, Integer.of(8), Integer.ZERO);
         } else {
             throw new Error("Not implemented: " + value);
         }
@@ -371,14 +371,14 @@ public class BitString extends Term {
     public void put_utf16(Integer value) {
         // TODO: Implement UTF8 encoding
         if (value.toBigInteger().longValue() <= 0x7F) {
-            put_integer(value, Integer.of(16), Integer.of(0));
+            put_integer(value, Integer.of(16), Integer.ZERO);
         } else {
             throw new Error("Not implemented: " + value);
         }
     }
 
     public void put_utf32(Integer value) {
-        put_integer(value, Integer.of(32), Integer.of(0));
+        put_integer(value, Integer.of(32), Integer.ZERO);
     }
 
     public BitString append(int bits) {

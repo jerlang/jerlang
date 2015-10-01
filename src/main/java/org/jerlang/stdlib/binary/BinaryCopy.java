@@ -31,7 +31,7 @@ public class BinaryCopy {
      * http://www.erlang.org/doc/man/binary.html#copy-1
      */
     public static Binary copy_1(Binary subject) {
-        return copy_2(subject, Integer.of(1));
+        return copy_2(subject, Integer.ONE);
     }
 
     /**
