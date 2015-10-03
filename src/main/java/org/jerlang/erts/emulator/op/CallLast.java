@@ -23,12 +23,9 @@ import org.jerlang.type.Term;
 public class CallLast {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        Integer arity = i.arg(0).toInteger();
-        Term label = i.arg(1);
         Integer deallocate = i.arg(2).toInteger();
-
         proc.deallocate(deallocate.toInt());
-        return label;
+        return i.arg(1);
     }
 
 }

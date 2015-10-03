@@ -34,8 +34,6 @@ import org.jerlang.type.Term;
 public class GcBif3 {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        Term lbl = i.arg(0); // {f,0}
-        Term live = i.arg(1); // 1
         Term bif = i.arg(2); // 1
         Term arg1 = i.arg(3).toArg(proc); // {y,0}
         Term arg2 = i.arg(4).toArg(proc); // {x,0}

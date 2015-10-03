@@ -30,8 +30,6 @@ import org.jerlang.type.Term;
 public class GcBif2 {
 
     public static Term execute(Process process, Module m, Instruction i, List params) throws ThrowException {
-        Term lbl = i.arg(0); // {f,0}
-        Term live = i.arg(1); // 1
         Term bif = i.arg(2); // 1
         Term arg1 = i.arg(3); // {y,0}
         Term arg2 = i.arg(4); // {x,0}
