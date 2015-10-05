@@ -13,9 +13,8 @@ public class CatchExceptionHandler extends ExceptionHandler {
     }
 
     @Override
-    public int handle(Process process, Error error) {
+    public void handle(Process process, Error error) {
         process.setX(0, Tuple.of(Atom.of("EXIT"), error.reason()));
-        return -1;
     }
 
     @Override

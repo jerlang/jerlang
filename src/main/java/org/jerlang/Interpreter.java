@@ -100,10 +100,11 @@ public class Interpreter {
             } catch (Error error) {
                 if (process.exceptionHandler() != null) {
                     // System.err.println(process.exceptionHandler());
-                    int new_index = process.exceptionHandler().handle(process, error);
+                    int new_index = process.exceptionHandler().index();
                     if (new_index >= 0) {
                         index = new_index;
                     }
+                    process.exceptionHandler().handle(process, error);
                     process.setExceptionHandler(null);
                 } else {
                     System.err.println("Raise catched");

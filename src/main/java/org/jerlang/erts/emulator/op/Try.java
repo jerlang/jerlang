@@ -26,7 +26,7 @@ public class Try {
             Map<Integer, Integer> labels = code.labels();
 
             Term label = i.arg(1);
-            int index = labels.get(label);
+            int index = labels.get(label.toRegisterIndex().toInt());
 
             ExceptionHandler eh = new ExceptionHandler(label, index);
             proc.setY(destination.toRegisterIndex(), eh);

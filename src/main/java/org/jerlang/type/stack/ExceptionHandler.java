@@ -1,5 +1,7 @@
 package org.jerlang.type.stack;
 
+import org.jerlang.Process;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Term;
 
@@ -13,10 +15,13 @@ public class ExceptionHandler extends Term {
         this.index = index;
     }
 
-    public int handle(org.jerlang.Process process, org.jerlang.erts.erlang.Error error) {
+    public void handle(Process process, Error error) {
         process.setExceptionHandler(null);
         process.setX(0, Atom.of("error"));
         process.setX(1, error.reason());
+    }
+
+    public int index() {
         return index;
     }
 
