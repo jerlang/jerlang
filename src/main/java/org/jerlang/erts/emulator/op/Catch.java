@@ -10,7 +10,12 @@ import org.jerlang.type.stack.CatchExceptionHandler;
 import org.jerlang.type.stack.ExceptionHandler;
 
 /**
+ * Arguments:
+ * 1. Destination
+ * 2. Label
  *
+ * Example:
+ * {catch,{y,0},{f,3}}
  */
 public class Catch {
 
