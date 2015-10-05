@@ -64,6 +64,9 @@ public class Process implements ProcessOrPort {
     // Exception handling
     private ExceptionHandler exceptionHandler = null;
 
+    // Timeout
+    private long timeout = 0;
+
     public Process(PID pid) {
         this.pid = pid;
         dictionary = new ProcessDictionary();
@@ -269,6 +272,12 @@ public class Process implements ProcessOrPort {
         }
     }
 
+    public void loop_rec_end() {
+        // TODO: this is technically not correct
+        // TODO: we need to advance the message index instead
+        mailbox.remove();
+    }
+
     public PID pid() {
         return pid;
     }
@@ -318,11 +327,6 @@ public class Process implements ProcessOrPort {
         System.out.println();
     }
 
-    @Override
-    public String toString() {
-        return pid.toString();
-    }
-
     public void removeMessage() {
         Term message = mailbox.remove();
         setX(0, message);
@@ -335,6 +339,23 @@ public class Process implements ProcessOrPort {
 
     public void pushSignature(FunctionSignature signature) {
         signatures.push(signature);
+    }
+
+    public void clearTimeout() {
+        timeout = 0;
+    }
+
+    public void setTimeout() {
+        timeout = System.currentTimeMillis();
+    }
+
+    @Override
+    public String toString() {
+        return pid.toString();
+    }
+
+    public void resetMailbox() {
+        // TODO
     }
 
 }

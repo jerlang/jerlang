@@ -88,8 +88,8 @@ public class Interpreter {
                                 // Return
                             }
                         } else {
-                            // this must be a label jump
-                            int lbl = r.toTuple().element(2).toInteger().toInt();
+                            // this must be a label jump (e.g. "{f,1}")
+                            int lbl = r.toRegisterIndex().toInt();
                             index = labels.get(lbl);
                         }
                     }
