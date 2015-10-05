@@ -2,6 +2,7 @@ package org.jerlang.type;
 
 import org.jerlang.FunctionSignature;
 import org.jerlang.Process;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.stack.BinMatchState;
 import org.jerlang.type.stack.ExceptionHandler;
 

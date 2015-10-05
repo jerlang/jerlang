@@ -13,7 +13,17 @@ import org.jerlang.type.Term;
 public class CatchEnd {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        throw new Error("Not implemented: " + i);
+        Term source = i.arg(0);
+        if (source.isYRegister()) {
+            // We could fetch the handler from stack
+            // and compare to current handler to make
+            // sure that everything is ok, but for
+            // now, we just reset the current handler.
+            proc.setExceptionHandler(null);
+            return null;
+        } else {
+            throw new Error("Not implemented: " + i);
+        }
     }
 
 }
