@@ -99,13 +99,12 @@ public class Interpreter {
                 }
             } catch (Error error) {
                 if (process.exceptionHandler() != null) {
-                    System.err.println(process.exceptionHandler());
-                    Term label = process.exceptionHandler().label();
-                    int lbl = label.toRegisterIndex().toInt();
-                    index = labels.get(lbl);
+                    // System.err.println(process.exceptionHandler());
+                    int new_index = process.exceptionHandler().handle(process, error);
+                    if (new_index >= 0) {
+                        index = new_index;
+                    }
                     process.setExceptionHandler(null);
-                    process.setX(0, Atom.of("error"));
-                    process.setX(1, error.reason());
                 } else {
                     System.err.println("Raise catched");
                     error.printStackTrace();
