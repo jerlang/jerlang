@@ -4,7 +4,7 @@
   <groupId>org.jerlang</groupId>
   <artifactId>jerlang</artifactId>
   <name>jerlang</name>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <description>Erlang on the JVM</description>
   <prerequisites>
     <maven>3.0</maven>
