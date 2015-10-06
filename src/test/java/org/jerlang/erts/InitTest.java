@@ -1,6 +1,6 @@
 package org.jerlang.erts;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
@@ -22,8 +22,7 @@ public class InitTest {
         Emulator.parse("-a b c -a d".split(" "));
         List expected = List.of(
             List.of(Str.of("b"), Str.of("c")),
-            List.of(Str.of("d"))
-            );
+            List.of(Str.of("d")));
         Term result = Init.get_argument(Atom.of("a"));
         assertThat(result).isEqualTo(Tuple.of(Atom.of("ok"), expected));
     }

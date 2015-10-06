@@ -1,6 +1,6 @@
 package org.jerlang.util;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.jerlang.util.StringUtil.camelToSnakeCase;
 import static org.jerlang.util.StringUtil.snakeToCamelCase;
 

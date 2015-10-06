@@ -1,6 +1,6 @@
 package org.jerlang;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.jerlang.type.Atom;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package org.jerlang.erts;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.jerlang.FunctionSignature;
 import org.junit.Test;

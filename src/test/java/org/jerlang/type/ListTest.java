@@ -1,6 +1,6 @@
 package org.jerlang.type;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

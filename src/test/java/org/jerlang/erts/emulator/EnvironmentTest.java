@@ -1,6 +1,6 @@
 package org.jerlang.erts.emulator;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.Test;
 
