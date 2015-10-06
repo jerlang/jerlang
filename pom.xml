@@ -18,7 +18,7 @@
     <jdk.version>1.8</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.asciidoclet>1.5.2</version.asciidoclet>
-    <version.assertj>3.1.0</version.assertj>
+    <version.assertj>3.2.0</version.assertj>
     <version.jacoco-maven-plugin>0.7.5.201505241946</version.jacoco-maven-plugin>
     <version.coveralls-maven-plugin>4.0.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
@@ -35,7 +35,7 @@
     <version.maven-shade-plugin>2.4.1</version.maven-shade-plugin>
     <version.maven-site-plugin>3.4</version.maven-site-plugin>
     <version.maven-surefire-report-plugin>2.18.1</version.maven-surefire-report-plugin>
-    <version.pitest-maven>1.1.6</version.pitest-maven>
+    <version.pitest-maven>1.1.7</version.pitest-maven>
   </properties>
   <issueManagement>
     <url>https://github.com/jerlang/jerlang/issues</url>
