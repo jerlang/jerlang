@@ -9,6 +9,9 @@ import org.jerlang.type.Term;
 
 /**
  * Clear the Nth stack word. (By writing NIL.)
+ *
+ * Example:  {init,{y,0}}
+ * Alias:    {kill,{y,0}}
  */
 public class Init {
 
