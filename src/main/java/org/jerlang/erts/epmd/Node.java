@@ -10,6 +10,11 @@ package org.jerlang.erts.epmd;
 public class Node {
 
     /**
+     * A "creation" number between 1 and 3.
+     */
+    private int creation;
+
+    /**
      * The port number on which the node accept connection requests.
      */
     private int portNo;
@@ -45,6 +50,17 @@ public class Node {
      * Extra field.
      */
     private byte[] extra;
+
+    // CREATION ---------------------------------------------------------------
+
+    public int creation() {
+        return creation;
+    }
+
+    public Node creation(int creation) {
+        this.creation = creation;
+        return this;
+    }
 
     // PORT NUMBER ------------------------------------------------------------
 
