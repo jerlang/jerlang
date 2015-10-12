@@ -113,6 +113,7 @@ public class Interpreter {
                     break;
                 }
             } catch (Throwable e) {
+                System.err.println("Index: " + index);
                 e.printStackTrace();
                 System.exit(1);
                 break;

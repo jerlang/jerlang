@@ -17,7 +17,7 @@ import org.jerlang.type.Term;
 public class Call {
 
     public static Term execute(Process process, Module m, Instruction i, List params) {
-        process.setCP(i.index() + 1);
+        process.setCP(i.index() + 0); // In interpreter, +1 is added automatically
         return i.arg(1);
     }
 

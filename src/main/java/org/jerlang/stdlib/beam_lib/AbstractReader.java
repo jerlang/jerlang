@@ -2,6 +2,7 @@ package org.jerlang.stdlib.beam_lib;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.jerlang.OpcodeTag;
 import org.jerlang.stdlib.Lists;
@@ -52,7 +53,7 @@ public class AbstractReader {
         OpcodeTag tag = OpcodeTag.decode(b);
         switch (tag) {
         case a:
-            int atomIndex = decodeInt(b);
+            int atomIndex = decodeInt(b).toInt();
             if (atomIndex == 0) {
                 return List.nil;
             } else {
@@ -61,7 +62,7 @@ public class AbstractReader {
             }
         case i:
         case u:
-            return Integer.of(decodeInt(b));
+            return decodeInt(b, tag);
         case z:
             if ((b & 0x08) != 0) {
                 throw new Error("invalid extended tag: " + b);
@@ -83,13 +84,13 @@ public class AbstractReader {
                 throw new Error("unsupported z value: " + (b >> 4));
             }
         default:
-            return Tuple.of(tag.toAtom(), Integer.of(decodeInt(b)));
+            return Tuple.of(tag.toAtom(), decodeInt(b));
         }
     }
 
     private Term decodeList(AtomChunk atomChunk, LiteralTableChunk literalTableChunk) throws IOException {
         List list = List.nil;
-        int elements = decodeInt(read1Byte());
+        int elements = decodeInt(read1Byte()).toInt();
         while (elements-- > 0) {
             list = new List(decodeArg(atomChunk, literalTableChunk), list);
         }
@@ -98,10 +99,10 @@ public class AbstractReader {
 
     private Term decodeAllocationList() throws IOException {
         List allocationList = List.nil;
-        int elements = decodeInt(read1Byte());
+        int elements = decodeInt(read1Byte()).toInt();
         while (elements-- > 0) {
-            int typ = decodeInt(read1Byte());
-            int val = decodeInt(read1Byte());
+            int typ = decodeInt(read1Byte()).toInt();
+            int val = decodeInt(read1Byte()).toInt();
             switch (typ) {
             case 0:
                 allocationList = new List(Tuple.of(Atom.of("words"), Integer.of(val)), allocationList);
@@ -117,18 +118,52 @@ public class AbstractReader {
         return allocationList;
     }
 
-    protected int decodeInt(int b) throws IOException {
+    protected Integer decodeInt(int b) throws IOException {
+        return decodeInt(b, OpcodeTag.i);
+    }
+
+    protected Integer decodeInt(int b, OpcodeTag opcodeTag) throws IOException {
         // N < 16 = 4 bits, NNNN:0:TTT
         if ((b & 0x08) == 0) {
-            return b >> 4;
+            return Integer.of(b >> 4);
         }
 
         // N < 2048 = 11 bits = 3:8 bits, NNN:01:TTT, NNNNNNNN
         if ((b & 0x10) == 0) {
-            return ((b & 0b11100000) << 3) | read1Byte();
+            return Integer.of(((b & 0b11100000) << 3) | read1Byte());
         }
 
-        throw new Error("Unsupported integer"); // TODO
+        // Bignum
+        int numBytes = decodeIntLength(b);
+        byte[] bytes = new byte[numBytes];
+        readBytes(bytes);
+
+        BigInteger n = BigInteger.ZERO;
+        for (byte x : bytes) {
+            n = n.shiftLeft(8);
+            n = n.or(BigInteger.valueOf(x));
+        }
+
+        // Negative number
+        if (bytes[0] > 127 && opcodeTag == OpcodeTag.i) {
+            n = n.subtract(BigInteger.ONE.shiftLeft(numBytes));
+        }
+
+        return new Integer(n);
+    }
+
+    private int decodeIntLength(int b) throws IOException {
+        int len = b >>> 5;
+        if (len == 7) {
+            Term term = decodeArg(null, null);
+            if (term instanceof Integer) {
+                return term.toInteger().toInt() + 9;
+            } else {
+                throw new Error("Weird bignum sublength");
+            }
+        } else {
+            return len + 2;
+        }
     }
 
 }

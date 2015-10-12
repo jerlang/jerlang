@@ -27,11 +27,11 @@ import org.jerlang.type.Term;
 public class BsInitBits {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        int size = i.arg(1).toInteger().toInt();
+        int size = i.arg(1).toArg(proc).toInteger().toInt();
         int num = (size / 8) + (size % 8 == 0 ? 0 : 1);
         int[] bytes = new int[num];
         Arrays.fill(bytes, 0);
-        int unused = 8 - (size % 8);
+        int unused = (8 - (size % 8)) % 8; // if size = 0, unused must be 0
         BitString bs = new BitString(bytes, unused);
         proc.setBitString(bs);
         Term destination = i.arg(5);
