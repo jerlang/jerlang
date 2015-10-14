@@ -81,6 +81,10 @@ public class Term {
         throw new Error("Cannot convert to exception handler: " + this);
     }
 
+    public byte[] toByteArray() {
+        throw new Error("Cannot convert to byte array: " + this);
+    }
+
     public Float toFloat() {
         throw new Error("Cannot convert to float: " + this);
     }

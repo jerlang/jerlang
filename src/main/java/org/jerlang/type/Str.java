@@ -44,6 +44,11 @@ public class Str extends List {
         return string;
     }
 
+    @Override
+    public byte[] toByteArray() {
+        return string.getBytes();
+    }
+
     public Str toStr() {
         return this;
     }
@@ -58,6 +63,10 @@ public class Str extends List {
 
     public static Str of(String string) {
         return new Str(string);
+    }
+
+    public static Str of(byte[] bytes) {
+        return new Str(new String(bytes));
     }
 
     public static Str convert(List list) {

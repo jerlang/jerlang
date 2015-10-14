@@ -1,5 +1,7 @@
 package org.jerlang.stdlib.base64;
 
+import java.util.Base64;
+
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Binary;
 import org.jerlang.type.List;
@@ -21,7 +23,7 @@ public class Base64Encode {
      * The result will be 33% larger than the data.
      */
     public static Term encode_1(Binary data) {
-        return List.nil;
+        return Binary.of(Base64.getEncoder().encode(data.toByteArray()));
     }
 
 }

@@ -1,8 +1,11 @@
 package org.jerlang.stdlib.base64;
 
+import java.util.Base64;
+
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Binary;
 import org.jerlang.type.List;
+import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 
 public class Base64DecodeToString {
@@ -22,7 +25,7 @@ public class Base64DecodeToString {
      * decode_to_string/1 only strips away whitespace characters.
      */
     public static Term decode_to_string_1(Binary base64) {
-        return List.nil;
+        return Str.of(Base64.getDecoder().decode(base64.toByteArray()));
     }
 
 }

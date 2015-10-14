@@ -1,5 +1,7 @@
 package org.jerlang.stdlib.base64;
 
+import java.util.Base64;
+
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Binary;
 import org.jerlang.type.List;
@@ -22,7 +24,7 @@ public class Base64MimeDecode {
      * mime_decode/1 strips away illegal characters.
      */
     public static Term mime_decode_1(Binary base64) {
-        return List.nil;
+        return Binary.of(Base64.getMimeDecoder().decode(base64.toByteArray()));
     }
 
 }

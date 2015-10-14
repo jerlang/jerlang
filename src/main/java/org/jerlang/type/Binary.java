@@ -74,4 +74,12 @@ public class Binary extends BitString {
         return result;
     }
 
+    public byte[] toByteArray() {
+        byte[] array = new byte[bytes.length];
+        for (int index = 0; index < bytes.length; index++) {
+            array[index] = (byte) bytes[index];
+        }
+        return array;
+    }
+
 }
