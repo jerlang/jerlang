@@ -17,8 +17,14 @@ public enum ProcessPriority {
     NORMAL,
     LOW;
 
+    private final Atom atom;
+
+    private ProcessPriority() {
+        atom = Atom.of(name().toLowerCase());
+    }
+
     public Atom toAtom() {
-        return Atom.of(name().toLowerCase());
+        return atom;
     }
 
 }

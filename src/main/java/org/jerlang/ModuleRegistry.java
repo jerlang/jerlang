@@ -10,6 +10,7 @@ import org.jerlang.erts.Init;
 import org.jerlang.erts.OtpRing0;
 import org.jerlang.kernel.File;
 import org.jerlang.kernel.OS;
+import org.jerlang.stdlib.Base64;
 import org.jerlang.stdlib.BeamLib;
 import org.jerlang.stdlib.Binary;
 import org.jerlang.stdlib.ErlInternal;
@@ -30,6 +31,7 @@ public class ModuleRegistry {
     public ModuleRegistry() {
         modules = new HashMap<>();
         // TODO: Auto-register modules by reflection
+        init(Base64.class).export();
         init(BeamLib.class).export();
         init(Binary.class).export();
         init(Erlang.class).export();

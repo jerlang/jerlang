@@ -19,8 +19,8 @@ public class ErlangPlusPlusTest extends AbstractOpTest {
 
     @Test
     public void testPlusPlus() throws ThrowException {
-        Integer zero = Integer.of(0);
-        Integer one = Integer.of(1);
+        Integer zero = Integer.ZERO;
+        Integer one = Integer.ONE;
         Integer two = Integer.of(2);
         List expected = List.of(one, two, zero);
         List params = List.of(List.of(one, two));
