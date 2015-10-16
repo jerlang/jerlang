@@ -4,6 +4,7 @@ import org.jerlang.Module;
 import org.jerlang.Process;
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.type.List;
+import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
 
 /**
@@ -15,9 +16,12 @@ import org.jerlang.type.Term;
 public class IsPort {
 
     public static Term execute(Process proc, Module m, Instruction i, List params) {
-        // TODO: Ports are not implemented yet,
-        // TODO: so this opcode always returns the fail label
-        return i.arg(0);
+        Term term = i.arg(1).toArg(proc);
+        if (term instanceof PortID) {
+            return null;
+        } else {
+            return i.arg(0);
+        }
     }
 
 }

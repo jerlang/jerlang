@@ -43,7 +43,7 @@ public class VirtualMachine {
     }
 
     public static Process self() {
-        return ProcessRegistry.self();
+        return (Process) ProcessRegistry.self();
     }
 
     public void start() {
@@ -76,7 +76,7 @@ public class VirtualMachine {
     }
 
     public Process resolve(PID pid) {
-        return ProcessRegistry.resolve(pid);
+        return (Process) ProcessRegistry.resolve(pid);
     }
 
     public TimerReference send_after(int time, Term message, PID pid) {
@@ -96,7 +96,8 @@ public class VirtualMachine {
         Process process = new Process(pid, fun);
         ProcessRegistry.register(process);
         // Round-robin process assignment
-        return schedulers[nextScheduler++ % schedulers.length].add(process);
+        schedulers[nextScheduler++ % schedulers.length].add(process);
+        return process;
     }
 
     public Process spawn(Atom module, Atom fun, List args) {
@@ -104,7 +105,8 @@ public class VirtualMachine {
         Process process = new Process(pid, module, fun, args);
         ProcessRegistry.register(process);
         // Round-robin process assignment
-        return schedulers[nextScheduler++ % schedulers.length].add(process);
+        schedulers[nextScheduler++ % schedulers.length].add(process);
+        return process;
     }
 
 }

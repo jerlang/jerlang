@@ -113,6 +113,10 @@ public class Term {
         throw new Error("Cannot convert to pid: " + this);
     }
 
+    public PortID toPortID() {
+        throw new Error("Cannot convert to port: " + this);
+    }
+
     public Reference toReference() {
         throw new Error("Cannot convert to reference: " + this);
     }

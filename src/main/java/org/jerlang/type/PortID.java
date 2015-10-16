@@ -3,23 +3,23 @@ package org.jerlang.type;
 import java.util.Objects;
 
 /**
- * TODO: Work in progress.
+ * The identifier of a port.
  *
- * See also:
- * https://stackoverflow.com/a/262179
+ * See:
+ * http://erlang.org/doc/reference_manual/ports.html
  */
-public class PID extends PidOrPortId {
+public class PortID extends PidOrPortId {
 
     private final int processId;
 
-    public PID(int processId) {
+    public PortID(int processId) {
         this.processId = processId;
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof PID) {
-            PID other = (PID) object;
+        if (object instanceof PortID) {
+            PortID other = (PortID) object;
             return processId == other.processId;
         }
         return false;
@@ -31,13 +31,13 @@ public class PID extends PidOrPortId {
     }
 
     @Override
-    public PID toPID() {
+    public PortID toPortID() {
         return this;
     }
 
     @Override
     public String toString() {
-        return "<0." + processId + ".0>";
+        return "#Port<0." + processId + ">";
     }
 
 }

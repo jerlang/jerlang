@@ -1,7 +1,6 @@
 package org.jerlang;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -15,7 +14,6 @@ import org.jerlang.type.PID;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 import org.jerlang.type.stack.ExceptionHandler;
-import org.jerlang.vm.Scheduler;
 
 /**
  * Erlang is designed for massive concurrency.
@@ -26,19 +24,14 @@ import org.jerlang.vm.Scheduler;
  * Source:
  * http://www.erlang.org/doc/reference_manual/processes.html
  */
-public class Process implements ProcessOrPort {
-
-    private ProcessState state = ProcessState.RUNNABLE;
+public class Process extends ProcessOrPort {
 
     // See "erts/emulator/beam/erl_vm.h":
     private final int MAX_REG = 1024;
     private final int MAX_FREG = 32;
 
-    private final PID pid;
     private final LinkedBlockingQueue<Term> mailbox;
     private final ProcessDictionary dictionary;
-    private ProcessPriority priority = ProcessPriority.NORMAL;
-    private Scheduler scheduler = null;
     private Term[] registers = null;
     private Float[] fregisters = new Float[MAX_FREG];
 
@@ -68,7 +61,7 @@ public class Process implements ProcessOrPort {
     private long timeout = 0;
 
     public Process(PID pid) {
-        this.pid = pid;
+        super(pid);
         dictionary = new ProcessDictionary();
         mailbox = new LinkedBlockingQueue<>();
     }
@@ -190,9 +183,9 @@ public class Process implements ProcessOrPort {
     public void send(Term message) {
         try {
             mailbox.put(message);
-            if (state == ProcessState.WAITING) {
-                state = ProcessState.RUNNABLE;
-                scheduler.add(this);
+            if (state() == ProcessState.WAITING) {
+                setState(ProcessState.RUNNABLE);
+                scheduler().add(this);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -205,10 +198,6 @@ public class Process implements ProcessOrPort {
 
     public void setFR(Integer index, Float value) {
         fregisters[index.toInt()] = value;
-    }
-
-    public void setState(ProcessState state) {
-        this.state = state;
     }
 
     public void setTuple(Tuple tuple) {
@@ -239,10 +228,6 @@ public class Process implements ProcessOrPort {
         signatures.push(signature);
     }
 
-    public ProcessState state() {
-        return state;
-    }
-
     public void restoreCP() {
         cp = cpStack.pop();
     }
@@ -255,11 +240,12 @@ public class Process implements ProcessOrPort {
         return exceptionHandler;
     }
 
+    @Override
     public void execute() {
-        switch (state) {
+        switch (state()) {
         case WAITING:
-            if (state == ProcessState.WAITING && hasMessage()) {
-                state = ProcessState.RUNNING;
+            if (hasMessage()) {
+                setState(ProcessState.RUNNING);
                 Interpreter.continueExecution(signatures.peek(), cp);
             }
             break;
@@ -267,7 +253,7 @@ public class Process implements ProcessOrPort {
             Interpreter.continueExecution(signatures.peek(), cp);
             break;
         default:
-            System.out.println("Skipping process " + pid + " in state " + state);
+            System.out.println("Skipping process " + pid() + " in state " + state());
             break;
         }
     }
@@ -278,23 +264,11 @@ public class Process implements ProcessOrPort {
         mailbox.remove();
     }
 
-    public PID pid() {
-        return pid;
-    }
-
-    public ProcessPriority priority() {
-        return priority;
-    }
-
     public Term[] registers() {
         if (registers == null) {
             registers = new Term[MAX_REG];
         }
         return registers;
-    }
-
-    public Scheduler scheduler() {
-        return scheduler;
     }
 
     public void setBitString(BitString bitString) {
@@ -303,14 +277,6 @@ public class Process implements ProcessOrPort {
 
     public void setExceptionHandler(ExceptionHandler exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
-    }
-
-    public void setPriority(ProcessPriority priority) {
-        this.priority = Objects.requireNonNull(priority);
-    }
-
-    public void setScheduler(Scheduler scheduler) {
-        this.scheduler = scheduler;
     }
 
     // TODO: Only for debugging, should be removed before 1.0
@@ -351,7 +317,7 @@ public class Process implements ProcessOrPort {
 
     @Override
     public String toString() {
-        return pid.toString();
+        return pid().toString();
     }
 
     public void resetMailbox() {

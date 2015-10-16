@@ -10,9 +10,9 @@ public class ProcessRegistry {
 
     private static final ProcessRegistry instance = new ProcessRegistry();
     private final Map<Atom, PID> processes;
-    private final Map<PID, Process> pid2process;
+    private final Map<PID, ProcessOrPort> pid2process;
 
-    private ThreadLocal<Process> process = new ThreadLocal<>();
+    private ThreadLocal<ProcessOrPort> process = new ThreadLocal<>();
 
     public ProcessRegistry() {
         processes = new HashMap<>();
@@ -41,15 +41,15 @@ public class ProcessRegistry {
         instance.pid2process.put(process.pid(), process);
     }
 
-    public static Process resolve(PID pid) {
+    public static ProcessOrPort resolve(PID pid) {
         return instance.pid2process.get(pid);
     }
 
-    public static Process self() {
+    public static ProcessOrPort self() {
         return instance.process.get();
     }
 
-    public static void self(Process process) {
+    public static void self(ProcessOrPort process) {
         instance.process.set(process);
     }
 

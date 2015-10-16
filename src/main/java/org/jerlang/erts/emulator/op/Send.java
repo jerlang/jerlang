@@ -17,7 +17,7 @@ public class Send {
     public static Term execute(Process proc, Module m, Instruction i, List params) {
         PID pid = proc.getX(0).toPID();
         Term message = proc.getX(1);
-        Process destination = ProcessRegistry.resolve(pid);
+        Process destination = (Process) ProcessRegistry.resolve(pid);
         destination.send(message);
         proc.setX(0, message);
         return null;

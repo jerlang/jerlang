@@ -2,9 +2,9 @@ package org.jerlang.vm;
 
 import java.util.HashSet;
 
-import org.jerlang.Process;
+import org.jerlang.ProcessOrPort;
 import org.jerlang.ProcessRegistry;
-import org.jerlang.type.PID;
+import org.jerlang.type.PidOrPortId;
 
 /**
  * References:
@@ -12,45 +12,45 @@ import org.jerlang.type.PID;
  */
 public class Scheduler extends Thread {
 
-    private final HashSet<PID> pids;
+    private final HashSet<PidOrPortId> ids;
 
-    private final RunQueue<Process> runQueueMax;
-    private final RunQueue<Process> runQueueHigh;
-    private final RunQueue<Process> runQueueNormal;
-    private final RunQueue<Process> runQueueLow;
+    private final RunQueue<ProcessOrPort> runQueueMax;
+    private final RunQueue<ProcessOrPort> runQueueHigh;
+    private final RunQueue<ProcessOrPort> runQueueNormal;
+    private final RunQueue<ProcessOrPort> runQueueLow;
 
     public Scheduler() {
-        pids = new HashSet<>();
+        ids = new HashSet<>();
         runQueueMax = new RunQueue<>();
         runQueueHigh = new RunQueue<>();
         runQueueNormal = new RunQueue<>();
         runQueueLow = new RunQueue<>();
     }
 
-    public Process add(Process process) {
-        if (pids.contains(process.pid())) {
-            System.err.println("Process already scheduled");
-            return process;
+    public ProcessOrPort add(ProcessOrPort p) {
+        if (ids.contains(p.id())) {
+            System.err.println("Process or port already scheduled");
+            return p;
         }
 
-        pids.add(process.pid());
+        ids.add(p.id());
 
-        process.setScheduler(this);
-        switch (process.priority()) {
+        p.setScheduler(this);
+        switch (p.priority()) {
         case MAX:
-            runQueueMax.push(process);
+            runQueueMax.push(p);
             break;
         case HIGH:
-            runQueueHigh.push(process);
+            runQueueHigh.push(p);
             break;
         case NORMAL:
-            runQueueNormal.push(process);
+            runQueueNormal.push(p);
             break;
         case LOW:
-            runQueueLow.push(process);
+            runQueueLow.push(p);
             break;
         }
-        return process;
+        return p;
     }
 
     /**
@@ -100,8 +100,8 @@ public class Scheduler extends Thread {
         }
     }
 
-    private boolean execute(RunQueue<Process> runQueue) {
-        Process p = runQueue.poll();
+    private boolean execute(RunQueue<ProcessOrPort> runQueue) {
+        ProcessOrPort p = runQueue.poll();
         if (p != null) {
             ProcessRegistry.self(p);
             p.execute();
@@ -111,7 +111,7 @@ public class Scheduler extends Thread {
                 runQueue.push(p);
                 break;
             default:
-                pids.remove(p.pid());
+                ids.remove(p.pid());
                 break;
             }
             return true;

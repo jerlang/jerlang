@@ -21,7 +21,7 @@ public class Interpreter {
         // A call to a function defined in a BEAM file
         // has always the signature as first parameter.
 
-        Process process = ProcessRegistry.self();
+        Process process = (Process) ProcessRegistry.self();
         FunctionSignature s = process.signature();
 
         params_to_register(params, process.registers());
@@ -33,7 +33,7 @@ public class Interpreter {
     }
 
     public static Term continueExecution(FunctionSignature signature, int start) {
-        Process process = ProcessRegistry.self();
+        Process process = (Process) ProcessRegistry.self();
 
         Module m = ModuleRegistry.get(signature.module());
 
