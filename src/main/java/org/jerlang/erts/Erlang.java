@@ -37,6 +37,7 @@ import org.jerlang.erts.erlang.ErlangListToAtom;
 import org.jerlang.erts.erlang.ErlangListToBitstring;
 import org.jerlang.erts.erlang.ErlangListToInteger;
 import org.jerlang.erts.erlang.ErlangMakeRef;
+import org.jerlang.erts.erlang.ErlangOpenPort;
 import org.jerlang.erts.erlang.ErlangProcessFlag;
 import org.jerlang.erts.erlang.ErlangPut;
 import org.jerlang.erts.erlang.ErlangRegister;
@@ -58,6 +59,7 @@ import org.jerlang.type.Fun;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
+import org.jerlang.type.PortID;
 import org.jerlang.type.Reference;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
@@ -253,6 +255,10 @@ public class Erlang {
 
     public static Reference make_ref() {
         return ErlangMakeRef.make_ref_0();
+    }
+
+    public static PortID open_port(Tuple portName, List portSettings) {
+        return ErlangOpenPort.open_port_2(portName, portSettings);
     }
 
     public static Term process_flag(Atom flag, Term value) {

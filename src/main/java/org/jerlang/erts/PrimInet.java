@@ -1,9 +1,17 @@
 package org.jerlang.erts;
 
 import org.jerlang.erts.erlang.Error;
+import org.jerlang.erts.prim_inet.PrimInetClose;
+import org.jerlang.erts.prim_inet.PrimInetGetopt;
+import org.jerlang.erts.prim_inet.PrimInetGetopts;
+import org.jerlang.erts.prim_inet.PrimInetOpen;
+import org.jerlang.erts.prim_inet.PrimInetSetopt;
+import org.jerlang.erts.prim_inet.PrimInetSetopts;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
+import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
+import org.jerlang.type.Tuple;
 
 /**
  * = prim_inet
@@ -14,12 +22,12 @@ import org.jerlang.type.Term;
  */
 public class PrimInet {
 
-    public static Term open(Term protocol, Term family, Term type) {
-        throw new Error("not implemented");
+    public static Tuple open(Atom protocol, Atom family, Atom type) {
+        return PrimInetOpen.open_3(protocol, family, type);
     }
 
-    public static Term open(Term protocol, Term family, Term type, Term opts) {
-        throw new Error("not implemented");
+    public static Tuple open(Atom protocol, Atom family, Atom type, List opts) {
+        return PrimInetOpen.open_4(protocol, family, type, opts);
     }
 
     public static Term fdopen(Term protocol, Term family, Term type, Term fd) {
@@ -30,8 +38,8 @@ public class PrimInet {
         throw new Error("not implemented");
     }
 
-    public static Term close(Term socket) {
-        throw new Error("not implemented");
+    public static Term close(PortID socket) {
+        return PrimInetClose.close_1(socket);
     }
 
     public static Term bind(Term socket, Term ip, Term port) {
@@ -118,20 +126,20 @@ public class PrimInet {
         throw new Error("not implemented");
     }
 
-    public static Term setopt(Term socket, Term opt, Term value) {
-        throw new Error("not implemented");
+    public static Term setopt(PortID socket, Term opt, Term value) {
+        return PrimInetSetopt.setopt_3(socket, opt, value);
     }
 
-    public static Term setopts(Term socket, Term opts) {
-        throw new Error("not implemented");
+    public static Term setopts(PortID socket, List opts) {
+        return PrimInetSetopts.setopts_2(socket, opts);
     }
 
-    public static Term getopt(Term socket, Atom opt) {
-        throw new Error("not implemented");
+    public static Term getopt(PortID socket, Atom opt) {
+        return PrimInetGetopt.getopt_2(socket, opt);
     }
 
-    public static Term getopts(Term socket, List opts) {
-        throw new Error("not implemented");
+    public static Term getopts(PortID socket, List opts) {
+        return PrimInetGetopts.getopts_2(socket, opts);
     }
 
     public static Term is_sockopt_val(Term opt, Term val) {

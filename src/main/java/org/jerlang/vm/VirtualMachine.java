@@ -6,10 +6,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jerlang.Process;
 import org.jerlang.ProcessRegistry;
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
 import org.jerlang.type.PID;
+import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
 import org.jerlang.type.TimerReference;
 import org.jerlang.type.Tuple;
@@ -107,6 +109,18 @@ public class VirtualMachine {
         // Round-robin process assignment
         schedulers[nextScheduler++ % schedulers.length].add(process);
         return process;
+    }
+
+    public PortID spawn_port(Term command, List portSettings) {
+        throw new Error("not implemented");
+    }
+
+    public PortID spawn_driver_port(Term command, List portSettings) {
+        throw new Error("not implemented");
+    }
+
+    public PortID spawn_executable_port(Term fileName, List portSettings) {
+        throw new Error("not implemented");
     }
 
 }
