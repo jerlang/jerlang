@@ -21,7 +21,7 @@ public class OSGetpid {
         case 0:
             return getpid_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

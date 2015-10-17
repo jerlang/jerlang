@@ -15,7 +15,7 @@ public class ErlangIsInteger {
         case 1:
             return is_integer_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

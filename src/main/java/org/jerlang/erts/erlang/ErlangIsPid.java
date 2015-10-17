@@ -15,7 +15,7 @@ public class ErlangIsPid {
         case 1:
             return is_pid_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

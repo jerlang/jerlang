@@ -21,7 +21,7 @@ public class BinaryCopy {
             Integer n = params.head().toInteger();
             return copy_2(subject, n);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

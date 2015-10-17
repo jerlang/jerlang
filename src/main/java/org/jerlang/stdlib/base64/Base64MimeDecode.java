@@ -14,7 +14,7 @@ public class Base64MimeDecode {
         case 1:
             return mime_decode_1(params.head().toBinary());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

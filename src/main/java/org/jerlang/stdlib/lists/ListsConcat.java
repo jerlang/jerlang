@@ -15,7 +15,7 @@ public class ListsConcat {
         case 1:
             return concat_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -25,7 +25,7 @@ public class ErlangBinaryPart {
             Integer length = params.head().toInteger();
             return binary_part_3(subject, start, length);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -16,7 +16,7 @@ public class ErlangGetKeys {
         case 1:
             return get_keys_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

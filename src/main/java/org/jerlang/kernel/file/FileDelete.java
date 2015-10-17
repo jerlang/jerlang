@@ -26,7 +26,7 @@ public class FileDelete {
         case 1:
             return delete_1(params.head().toStr());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

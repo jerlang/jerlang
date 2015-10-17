@@ -14,7 +14,7 @@ public class Base64Decode {
         case 1:
             return decode_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

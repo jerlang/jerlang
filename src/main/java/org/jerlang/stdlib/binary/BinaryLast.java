@@ -17,7 +17,7 @@ public class BinaryLast {
             Binary subject = params.head().toBinary();
             return last_1(subject);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

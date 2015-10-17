@@ -15,7 +15,7 @@ public class IOWrite {
         case 1:
             return write_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

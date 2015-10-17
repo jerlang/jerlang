@@ -1,7 +1,5 @@
 package org.jerlang.erts.erlang;
 
-import org.jerlang.erts.Erlang;
-import org.jerlang.type.Atom;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
 
@@ -15,7 +13,7 @@ public class ErlangHd {
         case 1:
             return hd_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
@@ -26,7 +24,7 @@ public class ErlangHd {
      */
     public static Term hd_1(List list) {
         if (list.equals(List.nil)) {
-            Erlang.error(Atom.of("badarg"));
+            throw Error.badarg;
         }
         return list.head();
     }

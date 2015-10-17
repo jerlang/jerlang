@@ -19,7 +19,7 @@ public class MapsIsKey {
             Map map = params.head().toMap();
             return Boolean.of(is_key_2(key, map));
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

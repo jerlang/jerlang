@@ -39,7 +39,7 @@ public class ListsSeq {
             return seq_3(from, to, incr);
         }
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

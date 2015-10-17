@@ -20,7 +20,7 @@ public class ErlangSetelement {
             Term value = params.head();
             return setelement_3(index, tuple, value);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

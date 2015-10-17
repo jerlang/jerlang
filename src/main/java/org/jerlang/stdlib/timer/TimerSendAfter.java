@@ -27,7 +27,7 @@ public class TimerSendAfter {
             PID pid3 = ProcessRegistry.self().pid();
             return send_after_3(time3, pid3, message3);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -21,7 +21,7 @@ public class PrimInetGetopt extends AbstractPrimInetFunction {
             Atom opt = params.head().toAtom();
             return getopt_2(socket, opt);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

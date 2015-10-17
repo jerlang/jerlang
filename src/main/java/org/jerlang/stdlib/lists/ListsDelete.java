@@ -18,7 +18,7 @@ public class ListsDelete {
             List list = params.head().toList();
             return delete_2(element, list);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

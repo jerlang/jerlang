@@ -20,7 +20,7 @@ public class ErlangRegister {
             PID pid = params.head().toPID();
             return register_2(regName, pid);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

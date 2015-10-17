@@ -18,12 +18,12 @@ public class PrimInetGetopts extends AbstractPrimInetFunction {
             List opts = params.head().toList();
             return getopts_2(socket, opts);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
     public static Term getopts_2(PortID socket, List opts) {
-        throw new Error("badarg");
+        throw Error.badarg;
     }
 
 }

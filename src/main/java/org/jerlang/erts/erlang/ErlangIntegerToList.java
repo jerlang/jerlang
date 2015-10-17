@@ -20,7 +20,7 @@ public class ErlangIntegerToList {
             Integer base = params.head().toInteger();
             return integer_to_list_2(integer, base);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

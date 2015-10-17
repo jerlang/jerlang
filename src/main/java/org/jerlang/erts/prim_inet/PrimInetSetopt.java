@@ -23,7 +23,7 @@ public class PrimInetSetopt extends AbstractPrimInetFunction {
             Term val = params.head();
             return setopt_3(socket, opt, val);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

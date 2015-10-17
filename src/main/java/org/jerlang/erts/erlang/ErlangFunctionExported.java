@@ -31,7 +31,7 @@ public class ErlangFunctionExported {
             Integer a = params.head().toInteger();
             return function_exported_3(m, f, a);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

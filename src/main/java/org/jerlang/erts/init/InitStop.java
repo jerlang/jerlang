@@ -12,7 +12,7 @@ public class InitStop {
             stop_0();
             return null;
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

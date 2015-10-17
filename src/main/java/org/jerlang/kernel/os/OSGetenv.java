@@ -32,7 +32,7 @@ public class OSGetenv {
             Term defaultValue = params.head();
             return getenv_2(varName, defaultValue);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

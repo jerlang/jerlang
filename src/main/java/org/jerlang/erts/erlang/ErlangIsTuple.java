@@ -15,7 +15,7 @@ public class ErlangIsTuple {
         case 1:
             return is_tuple_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

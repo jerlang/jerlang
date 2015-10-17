@@ -393,7 +393,7 @@ public class BitString extends Term {
         int end = Math.max(start, start + length);
         start = Math.min(start, start + length);
         if (start < 0 || end >= bytes.length) {
-            throw new Error("badarg");
+            throw Error.badarg;
         }
         int[] new_bytes = new int[end - start];
         copy(bytes, start, new_bytes, 0, end - start);

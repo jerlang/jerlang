@@ -15,7 +15,7 @@ public class ErlangTupleToList {
             Tuple tuple = params.head().toTuple();
             return tuple_to_list_1(tuple);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

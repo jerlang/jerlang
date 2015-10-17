@@ -14,7 +14,7 @@ public class ErlangMakeRef {
         case 0:
             return make_ref_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

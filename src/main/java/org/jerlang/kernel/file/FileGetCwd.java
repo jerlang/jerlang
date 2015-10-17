@@ -28,7 +28,7 @@ public class FileGetCwd {
         case 1:
             return get_cwd_1(params.head().toStr());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

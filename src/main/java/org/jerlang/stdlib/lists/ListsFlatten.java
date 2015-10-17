@@ -20,7 +20,7 @@ public class ListsFlatten {
             List tail = params.head().toList();
             return flatten_2(deepList, tail);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

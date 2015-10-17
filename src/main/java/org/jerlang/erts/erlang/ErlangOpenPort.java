@@ -24,7 +24,7 @@ public class ErlangOpenPort {
             List portSettings = params.head().toList();
             return open_port_2(portName, portSettings);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
@@ -46,7 +46,7 @@ public class ErlangOpenPort {
             Term fileName = portName.element(2);
             return VirtualMachine.instance().spawn_executable_port(fileName, portSettings);
         } else {
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

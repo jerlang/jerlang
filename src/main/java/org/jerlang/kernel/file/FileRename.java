@@ -29,7 +29,7 @@ public class FileRename {
             Str dst = params.head().toStr();
             return rename_2(src, dst);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

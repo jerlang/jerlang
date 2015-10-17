@@ -16,7 +16,7 @@ public class ErlangGet {
         case 1:
             return get_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

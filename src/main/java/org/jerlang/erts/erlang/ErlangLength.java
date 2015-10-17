@@ -20,7 +20,7 @@ public class ErlangLength {
             List list = params.head().toList();
             return length_1(list);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

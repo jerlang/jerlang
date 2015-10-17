@@ -17,7 +17,7 @@ public class MapsSize {
             Map map = params.head().toMap();
             return size_1(map);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

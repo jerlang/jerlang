@@ -20,7 +20,7 @@ public class ErlInternalBoolOp {
             Integer arity = params.head().toInteger();
             return bool_op_2(opName, arity);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

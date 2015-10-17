@@ -14,7 +14,7 @@ public class Base64Encode {
         case 1:
             return encode_1(params.head().toBinary());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

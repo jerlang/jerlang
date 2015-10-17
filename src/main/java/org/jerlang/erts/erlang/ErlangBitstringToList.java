@@ -15,7 +15,7 @@ public class ErlangBitstringToList {
             BitString bitString = params.head().toBitString();
             return bitstring_to_list_1(bitString);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

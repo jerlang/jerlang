@@ -28,7 +28,7 @@ public class ErlangPut {
             Term val = params.head();
             return put_2(key, val);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

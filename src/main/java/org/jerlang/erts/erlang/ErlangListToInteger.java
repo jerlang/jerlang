@@ -22,7 +22,7 @@ public class ErlangListToInteger {
             Integer base = params.head().toInteger();
             return list_to_integer_2(string, base);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

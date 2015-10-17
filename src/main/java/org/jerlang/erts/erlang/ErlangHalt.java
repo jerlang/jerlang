@@ -24,7 +24,7 @@ public class ErlangHalt {
             halt_2(status, options);
             return null;
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -16,7 +16,7 @@ public class TimerCancel {
         case 1:
             return cancel_1(params.head().toTimerReference());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

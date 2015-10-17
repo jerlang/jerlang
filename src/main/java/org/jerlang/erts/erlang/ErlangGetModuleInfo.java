@@ -20,7 +20,7 @@ public class ErlangGetModuleInfo {
             Atom item = params.head().toAtom();
             return get_module_info_2(module, item);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

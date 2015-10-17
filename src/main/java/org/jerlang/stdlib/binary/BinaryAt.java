@@ -19,7 +19,7 @@ public class BinaryAt {
             Integer pos = params.head().toInteger();
             return at_2(subject, pos);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

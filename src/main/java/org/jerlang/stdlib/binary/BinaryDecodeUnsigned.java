@@ -25,7 +25,7 @@ public class BinaryDecodeUnsigned {
             Atom endianness = params.head().toAtom();
             return decode_unsigned_2(subject, endianness);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
@@ -50,7 +50,7 @@ public class BinaryDecodeUnsigned {
         } else if (little.equals(endianness)) {
             return subject.decode_unsigned_little();
         } else {
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

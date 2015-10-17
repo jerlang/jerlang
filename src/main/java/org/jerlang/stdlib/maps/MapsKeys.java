@@ -16,7 +16,7 @@ public class MapsKeys {
             Map map = params.head().toMap();
             return keys_1(map);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

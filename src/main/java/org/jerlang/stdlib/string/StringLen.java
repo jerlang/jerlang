@@ -20,7 +20,7 @@ public class StringLen {
             Map map = params.head().toMap();
             return find_2(key, map);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

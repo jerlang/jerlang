@@ -24,7 +24,7 @@ public class InitBoot {
             boot_1(params.head().toList());
             return null;
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

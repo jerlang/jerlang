@@ -19,7 +19,7 @@ public class ErlangProcessFlag {
             Term value = params.head();
             return process_flag_2(flag, value);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

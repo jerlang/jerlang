@@ -19,7 +19,7 @@ public class ErlangDisplay {
         case 1:
             return display_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

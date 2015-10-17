@@ -20,7 +20,7 @@ public class ErlInternalBif {
             Integer arity = params.head().toInteger();
             return bif_2(name, arity);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

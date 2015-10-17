@@ -17,7 +17,7 @@ public class InitGetArgument {
         case 1:
             return get_argument_1(params.head().toAtom());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -14,7 +14,7 @@ public class ListsReverse {
         case 1:
             return reverse_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

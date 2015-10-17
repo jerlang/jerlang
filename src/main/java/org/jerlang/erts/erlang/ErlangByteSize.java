@@ -16,7 +16,7 @@ public class ErlangByteSize {
             BitString bitString = params.head().toBitString();
             return byte_size_1(bitString);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

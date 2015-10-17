@@ -37,7 +37,7 @@ public class BeamLibInfo {
         case 1:
             return info_1(params.head().toStr());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

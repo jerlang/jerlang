@@ -21,7 +21,7 @@ public class ErlangAtomMinus {
             Integer b = params.head().toInteger();
             return atom_minus_2(a, b);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

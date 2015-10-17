@@ -17,7 +17,7 @@ public class BinaryFirst {
             Binary subject = params.head().toBinary();
             return first_1(subject);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

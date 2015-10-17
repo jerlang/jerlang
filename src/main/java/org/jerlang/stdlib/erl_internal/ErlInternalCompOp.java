@@ -20,7 +20,7 @@ public class ErlInternalCompOp {
             Integer arity = params.head().toInteger();
             return comp_op_2(opName, arity);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

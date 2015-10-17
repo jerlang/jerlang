@@ -19,7 +19,7 @@ public class MapsMap {
             Map map = params.head().toMap();
             return map_2(fun, map);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

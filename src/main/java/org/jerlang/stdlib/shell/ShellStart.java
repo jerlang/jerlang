@@ -25,7 +25,7 @@ public class ShellStart {
             start_0();
             return null;
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

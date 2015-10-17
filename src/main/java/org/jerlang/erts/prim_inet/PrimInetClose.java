@@ -29,7 +29,7 @@ public class PrimInetClose {
             PortID socket = params.head().toPortID();
             return close_1(socket);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

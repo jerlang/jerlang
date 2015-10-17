@@ -19,7 +19,7 @@ public class ErlangIsRecord {
             Term recordTag = params.head();
             return is_record_2(term, recordTag);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -18,7 +18,7 @@ public class ListsDuplicate {
             Term elem = params.head();
             return duplicate_2(n, elem);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

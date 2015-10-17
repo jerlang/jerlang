@@ -22,7 +22,7 @@ public class ErlangSendAfter {
             Term msg = params.head();
             return send_after_3(time, pid, msg);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

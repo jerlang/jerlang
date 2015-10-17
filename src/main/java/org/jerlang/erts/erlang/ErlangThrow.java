@@ -13,7 +13,7 @@ public class ErlangThrow {
         case 1:
             return throw_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

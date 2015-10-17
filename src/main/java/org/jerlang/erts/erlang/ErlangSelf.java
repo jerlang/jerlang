@@ -15,7 +15,7 @@ public class ErlangSelf {
         case 0:
             return self_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

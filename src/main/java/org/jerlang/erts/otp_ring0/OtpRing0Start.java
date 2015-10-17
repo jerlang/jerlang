@@ -21,7 +21,7 @@ public class OtpRing0Start {
             Term argv = params.head();
             return start_2(env, argv);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

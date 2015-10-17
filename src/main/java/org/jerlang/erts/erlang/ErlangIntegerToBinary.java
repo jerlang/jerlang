@@ -22,7 +22,7 @@ public class ErlangIntegerToBinary {
             Integer base = params.head().toInteger();
             return integer_to_binary_2(integer, base);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

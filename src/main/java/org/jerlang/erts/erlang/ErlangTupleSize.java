@@ -16,7 +16,7 @@ public class ErlangTupleSize {
             Tuple tuple = params.head().toTuple();
             return tuple_size_1(tuple);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

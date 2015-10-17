@@ -15,7 +15,7 @@ public class ErlangIsFunction {
         case 1:
             return is_function_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -20,7 +20,7 @@ public class ErlInternalArithOp {
             Integer arity = params.head().toInteger();
             return arith_op_2(opName, arity);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

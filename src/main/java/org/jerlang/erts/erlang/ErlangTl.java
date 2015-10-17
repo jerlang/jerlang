@@ -15,7 +15,7 @@ public class ErlangTl {
         case 1:
             return tl_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

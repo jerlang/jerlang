@@ -39,7 +39,7 @@ public class PrimInetOpen extends AbstractPrimInetFunction {
             List opts = params.head().toList();
             return open_4(protocol, family, type, opts);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

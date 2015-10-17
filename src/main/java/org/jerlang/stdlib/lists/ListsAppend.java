@@ -20,7 +20,7 @@ public class ListsAppend {
             List list2 = params.head().toList();
             return append_2(list1, list2);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

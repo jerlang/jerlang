@@ -30,7 +30,7 @@ public class ErlangApply {
             Term a = params.head();
             return apply_3(m, f, a);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

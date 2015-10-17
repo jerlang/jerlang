@@ -32,7 +32,7 @@ public class ErlangAbs {
         case 1:
             return abs_1(params.head().toInteger());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

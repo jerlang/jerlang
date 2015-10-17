@@ -29,7 +29,7 @@ public class BinaryBinToList {
             Integer len = params.head().toInteger();
             return bin_to_list_3(subject, pos, len);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

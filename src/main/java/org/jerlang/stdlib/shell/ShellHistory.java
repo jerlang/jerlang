@@ -16,7 +16,7 @@ public class ShellHistory {
         case 1:
             return history_1(params.head().toInteger());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

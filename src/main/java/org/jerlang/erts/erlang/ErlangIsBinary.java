@@ -15,7 +15,7 @@ public class ErlangIsBinary {
         case 1:
             return is_binary_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

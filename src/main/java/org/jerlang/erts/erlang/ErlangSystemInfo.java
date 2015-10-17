@@ -97,7 +97,7 @@ public class ErlangSystemInfo {
         case 1:
             return system_info_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

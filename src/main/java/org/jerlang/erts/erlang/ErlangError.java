@@ -20,7 +20,7 @@ public class ErlangError {
             error_2(reason, where);
             return null;
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

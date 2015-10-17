@@ -14,7 +14,7 @@ public class ErlangIsList {
         case 1:
             return is_list_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

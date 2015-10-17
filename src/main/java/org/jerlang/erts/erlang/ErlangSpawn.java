@@ -24,7 +24,7 @@ public class ErlangSpawn {
             List a = params.head().toList();
             return spawn_3(m, f, a);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

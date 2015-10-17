@@ -20,7 +20,7 @@ public class ErlangPortClose {
         case 1:
             return port_close_1(params.head());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
@@ -38,7 +38,7 @@ public class ErlangPortClose {
             p.setState(ProcessState.EXITING);
             return am_true;
         } else {
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

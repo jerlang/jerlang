@@ -25,7 +25,7 @@ public class OSPutenv {
             Str value = params.head().toStr();
             return putenv_2(varName, value);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

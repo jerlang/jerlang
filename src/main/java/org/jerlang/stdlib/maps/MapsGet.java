@@ -18,7 +18,7 @@ public class MapsGet {
             Map map = params.head().toMap();
             return get_2(key, map);
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

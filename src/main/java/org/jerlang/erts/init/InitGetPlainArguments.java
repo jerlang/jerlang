@@ -12,7 +12,7 @@ public class InitGetPlainArguments {
         case 0:
             return get_plain_arguments_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

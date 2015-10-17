@@ -15,7 +15,7 @@ public class ErlangListToAtom {
         case 1:
             return list_to_atom_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

@@ -11,7 +11,7 @@ public class InitGetArguments {
         case 0:
             return get_arguments_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

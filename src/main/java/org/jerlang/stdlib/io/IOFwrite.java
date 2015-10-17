@@ -16,7 +16,7 @@ public class IOFwrite {
         case 1:
             return fwrite_1(params.head().toList());
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 

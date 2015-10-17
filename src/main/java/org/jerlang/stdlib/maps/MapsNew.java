@@ -15,7 +15,7 @@ public class MapsNew {
         case 0:
             return new_0();
         default:
-            throw new Error("badarg");
+            throw Error.badarg;
         }
     }
 
