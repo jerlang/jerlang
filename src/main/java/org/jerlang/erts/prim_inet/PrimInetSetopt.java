@@ -8,7 +8,7 @@ import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
-public class PrimInetSetopt {
+public class PrimInetSetopt extends AbstractPrimInetFunction {
 
     private PrimInetSetopt() {
     }

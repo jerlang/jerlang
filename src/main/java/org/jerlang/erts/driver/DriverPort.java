@@ -12,7 +12,7 @@ public class DriverPort extends Port {
     private final Driver driver;
 
     public DriverPort(PortID portId, Driver driver) {
-        super(portId);
+        super(portId, driver);
         this.driver = driver;
     }
 

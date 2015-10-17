@@ -14,7 +14,7 @@ import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
-public class PrimInetOpen {
+public class PrimInetOpen extends AbstractPrimInetFunction {
 
     private static final Atom ok = Atom.of("ok");
 

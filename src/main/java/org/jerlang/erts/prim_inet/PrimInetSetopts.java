@@ -5,7 +5,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
 
-public class PrimInetSetopts {
+public class PrimInetSetopts extends AbstractPrimInetFunction {
 
     private PrimInetSetopts() {
     }

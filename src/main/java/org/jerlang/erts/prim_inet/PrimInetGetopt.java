@@ -8,7 +8,7 @@ import org.jerlang.type.List;
 import org.jerlang.type.PortID;
 import org.jerlang.type.Term;
 
-public class PrimInetGetopt {
+public class PrimInetGetopt extends AbstractPrimInetFunction {
 
     private PrimInetGetopt() {
     }
