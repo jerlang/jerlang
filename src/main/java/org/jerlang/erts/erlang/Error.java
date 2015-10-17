@@ -12,6 +12,8 @@ import org.jerlang.type.Tuple;
  */
 public class Error extends RuntimeException {
 
+    public static final Error badarg = new Error("badarg");
+
     private final Term reason;
     private final List args;
 
