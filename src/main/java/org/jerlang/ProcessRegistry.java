@@ -4,28 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jerlang.type.Atom;
-import org.jerlang.type.PID;
+import org.jerlang.type.PidOrPortId;
 
 public class ProcessRegistry {
 
     private static final ProcessRegistry instance = new ProcessRegistry();
-    private final Map<Atom, PID> processes;
-    private final Map<PID, ProcessOrPort> pid2process;
+    private final Map<Atom, PidOrPortId> processes;
+    private final Map<PidOrPortId, ProcessOrPort> id2process;
 
     private ThreadLocal<ProcessOrPort> process = new ThreadLocal<>();
 
     public ProcessRegistry() {
         processes = new HashMap<>();
-        pid2process = new HashMap<>();
+        id2process = new HashMap<>();
     }
 
     public void cleanup() {
         processes.clear();
-        pid2process.clear();
+        id2process.clear();
         process = new ThreadLocal<>();
     }
 
-    public PID get(Atom name) {
+    public PidOrPortId get(Atom name) {
         return processes.get(name);
     }
 
@@ -33,16 +33,16 @@ public class ProcessRegistry {
         return instance;
     }
 
-    public static void register(Atom name, PID pid) {
-        instance.processes.put(name, pid);
+    public static void register(Atom name, PidOrPortId id) {
+        instance.processes.put(name, id);
     }
 
     public static void register(Process process) {
-        instance.pid2process.put(process.pid(), process);
+        instance.id2process.put(process.id(), process);
     }
 
-    public static ProcessOrPort resolve(PID pid) {
-        return instance.pid2process.get(pid);
+    public static ProcessOrPort resolve(PidOrPortId id) {
+        return instance.id2process.get(id);
     }
 
     public static ProcessOrPort self() {

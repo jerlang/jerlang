@@ -2,6 +2,7 @@ package org.jerlang;
 
 import java.util.Objects;
 
+import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.PID;
 import org.jerlang.type.PidOrPortId;
 import org.jerlang.type.PortID;
@@ -57,6 +58,14 @@ public abstract class ProcessOrPort {
 
     public ProcessState state() {
         return state;
+    }
+
+    public Port toPort() {
+        throw new Error("can not convert to port: " + this);
+    }
+
+    public Process toProcess() {
+        throw new Error("can not convert to process: " + this);
     }
 
 }

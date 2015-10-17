@@ -8,4 +8,9 @@ public abstract class Port extends ProcessOrPort {
         super(portId);
     }
 
+    @Override
+    public Port toPort() {
+        return this;
+    }
+
 }

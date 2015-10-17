@@ -316,6 +316,11 @@ public class Process extends ProcessOrPort {
     }
 
     @Override
+    public Process toProcess() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return pid().toString();
     }
