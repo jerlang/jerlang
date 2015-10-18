@@ -10,6 +10,7 @@ import org.jerlang.erts.Init;
 import org.jerlang.erts.OtpRing0;
 import org.jerlang.erts.PrimInet;
 import org.jerlang.kernel.File;
+import org.jerlang.kernel.NetAdm;
 import org.jerlang.kernel.OS;
 import org.jerlang.stdlib.Base64;
 import org.jerlang.stdlib.BeamLib;
@@ -42,6 +43,7 @@ public class ModuleRegistry {
         init(IO.class).export();
         init(Lists.class).export();
         init(Maps.class).export();
+        init(NetAdm.class).export();
         init(OS.class).export();
         init(OtpRing0.class).export();
         init(PrimInet.class).export();
