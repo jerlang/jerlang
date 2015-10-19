@@ -20,6 +20,7 @@
     <version.asciidoclet>1.5.2</version.asciidoclet>
     <version.assertj>3.2.0</version.assertj>
     <version.jacoco-maven-plugin>0.7.5.201505241946</version.jacoco-maven-plugin>
+    <version.commons-math3>3.5</version.commons-math3>
     <version.coveralls-maven-plugin>4.0.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
     <version.jline>2.13</version.jline>
@@ -207,6 +208,11 @@
     </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+      <version>${version.commons-math3}</version>
+    </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
