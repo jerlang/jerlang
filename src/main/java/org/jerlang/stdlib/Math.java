@@ -1,15 +1,20 @@
 package org.jerlang.stdlib;
 
-import org.jerlang.erts.erlang.Error;
 import org.jerlang.stdlib.math.MathAcos;
+import org.jerlang.stdlib.math.MathAcosh;
 import org.jerlang.stdlib.math.MathAsin;
+import org.jerlang.stdlib.math.MathAsinh;
 import org.jerlang.stdlib.math.MathAtan;
 import org.jerlang.stdlib.math.MathAtan2;
+import org.jerlang.stdlib.math.MathAtanh;
 import org.jerlang.stdlib.math.MathCos;
 import org.jerlang.stdlib.math.MathCosh;
+import org.jerlang.stdlib.math.MathErf;
+import org.jerlang.stdlib.math.MathErfc;
 import org.jerlang.stdlib.math.MathExp;
 import org.jerlang.stdlib.math.MathLog;
 import org.jerlang.stdlib.math.MathLog10;
+import org.jerlang.stdlib.math.MathLog2;
 import org.jerlang.stdlib.math.MathPi;
 import org.jerlang.stdlib.math.MathPow;
 import org.jerlang.stdlib.math.MathSin;
@@ -34,7 +39,7 @@ public class Math {
     }
 
     public static Float acosh(Number x) {
-        throw new Error("not implemented");
+        return MathAcosh.acosh_1(x);
     }
 
     public static Float asin(Number x) {
@@ -42,7 +47,7 @@ public class Math {
     }
 
     public static Float asinh(Number x) {
-        throw new Error("not implemented");
+        return MathAsinh.asinh_1(x);
     }
 
     public static Float atan(Number x) {
@@ -54,7 +59,7 @@ public class Math {
     }
 
     public static Float atanh(Number x) {
-        throw new Error("not implemented");
+        return MathAtanh.atanh_1(x);
     }
 
     public static Float cos(Number x) {
@@ -66,11 +71,11 @@ public class Math {
     }
 
     public static Float erf(Number x) {
-        throw new Error("not implemented");
+        return MathErf.erf_1(x);
     }
 
     public static Float erfc(Number x) {
-        throw new Error("not implemented");
+        return MathErfc.erfc_1(x);
     }
 
     public static Float exp(Number x) {
@@ -86,7 +91,7 @@ public class Math {
     }
 
     public static Float log2(Number x) {
-        throw new Error("not implemented");
+        return MathLog2.log2_1(x);
     }
 
     public static Float pi() {
