@@ -45,6 +45,7 @@ public class Float extends Number {
         return new Float(value.subtract(f.value));
     }
 
+    @Override
     public BigDecimal toBigDecimal() {
         return value;
     }
