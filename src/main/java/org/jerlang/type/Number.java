@@ -10,4 +10,9 @@ public abstract class Number extends Term {
 
     public abstract BigDecimal toBigDecimal();
 
+    @Override
+    public Number toNumber() {
+        return this;
+    }
+
 }

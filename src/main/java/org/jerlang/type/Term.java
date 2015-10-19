@@ -109,6 +109,10 @@ public class Term {
         throw new Error("Cannot convert to map: " + this);
     }
 
+    public Number toNumber() {
+        throw new Error("Cannot convert to number: " + this);
+    }
+
     public PID toPID() {
         throw new Error("Cannot convert to pid: " + this);
     }
