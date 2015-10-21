@@ -37,6 +37,7 @@
     <version.maven-site-plugin>3.4</version.maven-site-plugin>
     <version.maven-surefire-report-plugin>2.19</version.maven-surefire-report-plugin>
     <version.pitest-maven>1.1.7</version.pitest-maven>
+    <version.totallylazy>1.78</version.totallylazy>
   </properties>
   <issueManagement>
     <url>https://github.com/jerlang/jerlang/issues</url>
@@ -206,8 +207,17 @@
       <url>http://download.java.net/maven/2/</url>
       <layout>default</layout>
     </repository>
+    <repository>
+      <id>repo.bodar.com</id>
+      <url>http://repo.bodar.com</url>
+    </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>com.googlecode.totallylazy</groupId>
+      <artifactId>totallylazy</artifactId>
+      <version>${version.totallylazy}</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-math3</artifactId>
