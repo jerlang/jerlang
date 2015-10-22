@@ -11,7 +11,7 @@ import org.jerlang.type.stack.ExceptionHandler;
  *
  * http://www.erlang.org/doc/reference_manual/data_types.html
  */
-public class Term {
+public class Term implements Comparable<Term> {
 
     public static Term of(String string) {
         if (string == null) {
@@ -139,6 +139,12 @@ public class Term {
 
     public Tuple toTuple() {
         throw new Error("Cannot convert to tuple: " + this);
+    }
+
+    @Override
+    public int compareTo(Term o) {
+        // TODO
+        return 0;
     }
 
 }

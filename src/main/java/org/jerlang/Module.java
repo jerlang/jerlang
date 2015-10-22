@@ -117,7 +117,7 @@ public class Module {
                 if (method.getName().startsWith("_")) {
                     // If the method name is a reserved Java keyword,
                     // the method is prefixed by an underscore.
-                    // For example: `throw`
+                    // For example: `erlang:throw` or `ets:new`
                     export(method.getName().substring(1), arity);
                 } else {
                     export(method.getName(), arity);
