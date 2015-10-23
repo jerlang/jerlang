@@ -18,6 +18,14 @@ public class TableRegistry {
         name2table = new ConcurrentHashMap<>();
     }
 
+    public static Table lookup(Term tab) {
+        if (tab instanceof Atom) {
+            return INSTANCE.name2table.get(tab);
+        } else {
+            return INSTANCE.id2table.get(tab);
+        }
+    }
+
     public static void register(Table table) {
         INSTANCE.id2table.put(table.id(), table);
         if (table.named_table()) {

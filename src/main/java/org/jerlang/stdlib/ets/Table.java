@@ -4,6 +4,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
+import org.jerlang.type.List;
+import org.jerlang.type.Term;
 
 /**
  * Base class for all ETS tables.
@@ -40,6 +42,8 @@ public abstract class Table {
     public Integer id() {
         return id;
     }
+
+    public abstract List lookup(Term key);
 
     public Atom name() {
         return name;

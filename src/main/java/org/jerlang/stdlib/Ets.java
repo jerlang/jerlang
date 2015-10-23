@@ -1,6 +1,7 @@
 package org.jerlang.stdlib;
 
 import org.jerlang.stdlib.ets.EtsAll;
+import org.jerlang.stdlib.ets.EtsLookup;
 import org.jerlang.stdlib.ets.EtsNew;
 import org.jerlang.type.Atom;
 import org.jerlang.type.List;
@@ -115,8 +116,8 @@ public class Ets {
         return null;
     }
 
-    public static Term lookup(Term a, Term b) {
-        return null;
+    public static List lookup(Term tab, Term key) {
+        return EtsLookup.lookup_2(tab, key);
     }
 
     public static Term lookup_element(Term a, Term b, Term c) {
