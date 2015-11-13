@@ -1,5 +1,7 @@
 package org.jerlang.kernel;
 
+import org.jerlang.kernel.net_adm.NetAdmPing;
+import org.jerlang.type.Atom;
 import org.jerlang.type.Term;
 
 /**
@@ -34,8 +36,8 @@ public class NetAdm {
         return null;
     }
 
-    public static Term ping(Term node) {
-        return null;
+    public static Atom ping(Atom node) {
+        return NetAdmPing.ping_1(node);
     }
 
     public static Term world() {
