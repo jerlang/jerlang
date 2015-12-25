@@ -31,7 +31,7 @@
     <version.maven-compiler-plugin>3.3</version.maven-compiler-plugin>
     <version.maven-javadoc-plugin>2.10.3</version.maven-javadoc-plugin>
     <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
-    <version.maven-pmd-plugin>3.5</version.maven-pmd-plugin>
+    <version.maven-pmd-plugin>3.6</version.maven-pmd-plugin>
     <version.maven-project-info-reports-plugin>2.8.1</version.maven-project-info-reports-plugin>
     <version.maven-shade-plugin>2.4.2</version.maven-shade-plugin>
     <version.maven-site-plugin>3.4</version.maven-site-plugin>
