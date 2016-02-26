@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.asciidoclet>1.5.2</version.asciidoclet>
     <version.assertj>3.3.0</version.assertj>
-    <version.jacoco-maven-plugin>0.7.5.201505241946</version.jacoco-maven-plugin>
+    <version.jacoco-maven-plugin>0.7.6.201602180812</version.jacoco-maven-plugin>
     <version.commons-math3>3.6</version.commons-math3>
     <version.coveralls-maven-plugin>4.1.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
@@ -34,7 +34,7 @@
     <version.maven-pmd-plugin>3.6</version.maven-pmd-plugin>
     <version.maven-project-info-reports-plugin>2.8.1</version.maven-project-info-reports-plugin>
     <version.maven-shade-plugin>2.4.3</version.maven-shade-plugin>
-    <version.maven-site-plugin>3.4</version.maven-site-plugin>
+    <version.maven-site-plugin>3.5</version.maven-site-plugin>
     <version.maven-surefire-report-plugin>2.19.1</version.maven-surefire-report-plugin>
     <version.pitest-maven>1.1.9</version.pitest-maven>
     <version.totallylazy>1.78</version.totallylazy>
