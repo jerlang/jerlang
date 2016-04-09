@@ -18,7 +18,7 @@
     <jdk.version>1.8</jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.asciidoclet>1.5.2</version.asciidoclet>
-    <version.assertj>3.3.0</version.assertj>
+    <version.assertj>3.4.0</version.assertj>
     <version.jacoco-maven-plugin>0.7.6.201602180812</version.jacoco-maven-plugin>
     <version.commons-math3>3.6.1</version.commons-math3>
     <version.coveralls-maven-plugin>4.1.0</version.coveralls-maven-plugin>
