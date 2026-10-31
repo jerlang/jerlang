@@ -7,6 +7,7 @@ import org.jerlang.ProcessOrPort;
 import org.jerlang.ProcessRegistry;
 import org.jerlang.Tracing;
 import org.jerlang.erts.erlang.Error;
+import org.jerlang.jvm.HandleTable;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
@@ -28,6 +29,13 @@ public class VirtualMachine {
 
     /** One wheel owns every timer in this VM. */
     private volatile TimerWheel timerWheel;
+
+    /**
+     * The Java objects Erlang code holds through object handles. The table
+     * belongs to this VM, not to the bridge, so a handle can not outlive its
+     * node.
+     */
+    private final HandleTable handleTable = new HandleTable();
 
     // Identity of this node. A node starts out unnamed, exactly like an
     // Erlang node that was not started with -name or -sname.
@@ -87,6 +95,7 @@ public class VirtualMachine {
         if (count < 1) {
             throw new IllegalArgumentException("scheduler count must be positive");
         }
+        handleTable.clear();
         schedulers = new Scheduler[count];
         for (int index = 0; index < count; index++) {
             schedulers[index] = new Scheduler();
@@ -120,6 +129,15 @@ public class VirtualMachine {
             wheel.awaitStop();
         }
         ProcessRegistry.instance().cleanup();
+        handleTable.clear();
+    }
+
+    /**
+     * The object handles of this node. A handle is only valid while the node
+     * that created it is running; start and shutdown both drain the table.
+     */
+    public HandleTable handleTable() {
+        return handleTable;
     }
 
     public static VirtualMachine instance() {

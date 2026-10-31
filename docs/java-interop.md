@@ -60,35 +60,35 @@ Java exceptions surface as an Erlang `error` with reason
 ## Object handles
 
 `java:new/2` and any Java value that has no value mapping above are returned as
-an object handle. One handle exists per Java object identity, and
-`java:release/1` drops it; a call on a released handle raises an error.
-Handles are node-local and are not Erlang terms that can be sent to another
-node.
+an object handle. One handle exists per Java object identity: asking again for
+the same object returns the same reference. Handles are node-local and are not
+Erlang terms that can be sent to another node.
 
-The handle table currently has no owner and is not bounded: a program that
-never releases handles keeps its Java objects alive. Ownership and a release
-policy are decided but not implemented; see
-[Decided but not yet implemented](#decided-but-not-yet-implemented).
+The table belongs to the virtual machine, not to the bridge, so a handle lives
+exactly as long as the node that created it. It starts empty when the node
+starts and is drained when the node shuts down. It is bounded by
+`NodeOptions.maxHandles`, default 100 000; creating a handle past the cap
+raises `system_limit`, the reason Erlang already uses for an exhausted runtime
+resource. `{java_exception, _, _}` stays reserved for exceptions thrown by
+Java code.
+
+### Release policy
+
+* `java:release/1` releases early. A call on a released handle raises an
+error, and the reference is never reused for another object.
+* `Node.close()`, and any VM shutdown, drains the whole table, so it is the
+  catch-all for handles a caller forgot.
+* There is no finalizer and no `Cleaner`: release happens explicitly or at
+  shutdown, never because the garbage collector ran. An unreleased handle
+  keeps its Java object reachable for the lifetime of the node.
+* Raising `NodeOptions.maxHandles` does not make forgetting a release safe; it
+  only moves the `system_limit` further away.
 
 ## Decided but not yet implemented
 
 These decisions are recorded before the code lands, so the contract can be
 reviewed on its own. Everything above describes what the code does today; this
 section describes what 0.8 must make it do.
-
-### Handle ownership and lifetime
-
-The handle table moves off the static fields in `JavaBridge` and onto the
-`VirtualMachine` instance, so a handle lives exactly as long as its node.
-
-* No owner argument is threaded through `java:*`. Erlang code running inside a
-  node is already inside its scope, so the arities do not change.
-* `java:release/1` becomes early release. `Node.close()` drains the table, so
-  shutdown releases every handle without a finalizer or a `Cleaner`.
-* The table is bounded by `NodeOptions.maxHandles`, default 100 000. Creating a
-  handle past the cap raises `system_limit`, the reason Erlang already uses for
-  an exhausted runtime resource. `{java_exception, _, _}` stays reserved for
-  exceptions thrown by Java code.
 
 ### Reflection is opt-in
 

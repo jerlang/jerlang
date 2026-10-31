@@ -10,10 +10,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
@@ -25,6 +23,7 @@ import org.jerlang.type.Reference;
 import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
+import org.jerlang.vm.VirtualMachine;
 
 /**
  * = Java bridge
@@ -34,23 +33,23 @@ import org.jerlang.type.Tuple;
  * Because the Erlang runtime runs on the JVM itself, a call is a plain
  * reflective invocation: no external term format, no sockets, no separate
  * process. References handed out by this class keep the Java object alive
- * until it is released with java:release/1.
+ * until it is released with java:release/1 or the node shuts down; the table
+ * itself belongs to the virtual machine.
  */
 public final class JavaBridge {
 
     private static final Object NO_MATCH = new Object();
 
-    /**
-     * Handles handed to Erlang, mapped to the Java objects they denote.
-     */
-    private static final Map<Reference, Object> HANDLES = new ConcurrentHashMap<>();
-
-    /**
-     * Reverse lookup, so the same Java object always yields the same handle.
-     */
-    private static final Map<Object, Reference> IDENTITIES = new IdentityHashMap<>();
-
     private JavaBridge() {
+    }
+
+    /**
+     * The handle table of the running node. There is always a VM instance, so
+     * a bridge call outside a started node still has a table; it is simply
+     * empty and is drained again when the node shuts down.
+     */
+    private static HandleTable handles() {
+        return VirtualMachine.instance().handleTable();
     }
 
     // ----------------------------------------------------------------
@@ -119,12 +118,7 @@ public final class JavaBridge {
 
     public static Term release(Term handle) {
         if (handle instanceof Reference) {
-            synchronized (HANDLES) {
-                Object object = HANDLES.remove(handle);
-                if (object != null) {
-                    IDENTITIES.remove(object);
-                }
-            }
+            handles().remove((Reference) handle);
         }
         return Atom.of("true");
     }
@@ -265,7 +259,7 @@ public final class JavaBridge {
             return toJava(term);
         }
         if (term instanceof Reference) {
-            Object object = HANDLES.get(term);
+            Object object = handles().lookup((Reference) term);
             return object != null && target.isInstance(object) ? object : NO_MATCH;
         }
         if (target == String.class || target == CharSequence.class) {
@@ -421,7 +415,7 @@ public final class JavaBridge {
      */
     public static Object toJava(Term term) {
         if (term instanceof Reference) {
-            Object object = HANDLES.get(term);
+            Object object = handles().lookup((Reference) term);
             return object == null ? term : object;
         }
         if (term instanceof Str) {
@@ -558,7 +552,7 @@ public final class JavaBridge {
     // ----------------------------------------------------------------
 
     private static Object resolve(Term handle) {
-        Object object = handle instanceof Reference ? HANDLES.get(handle) : null;
+        Object object = handle instanceof Reference ? handles().lookup((Reference) handle) : null;
         if (object == null) {
             throw new Error(Str.of("java: not a live object handle: " + handle));
         }
@@ -566,16 +560,7 @@ public final class JavaBridge {
     }
 
     private static Reference register(Object object) {
-        synchronized (HANDLES) {
-            Reference existing = IDENTITIES.get(object);
-            if (existing != null && HANDLES.containsKey(existing)) {
-                return existing;
-            }
-            Reference reference = new Reference();
-            HANDLES.put(reference, object);
-            IDENTITIES.put(object, reference);
-            return reference;
-        }
+        return handles().register(object);
     }
 
     private static Class<?> resolveClass(Term name) {
