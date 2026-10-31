@@ -188,7 +188,7 @@ Erlang.
 ```
 mvn test
 mvn package
-java -jar target/jerlang-0.3.0.jar
+java -jar target/jerlang-0.8.0.jar
 ```
 
 The live interoperability tests are opt-in because they need a peer node. Start

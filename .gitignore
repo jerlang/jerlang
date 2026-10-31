@@ -5,6 +5,8 @@
 
 # Package Files #
 *.jar
+# The japicmp baseline is a build input, not a build output.
+!src/api-baseline/*.jar
 *.war
 *.ear
 

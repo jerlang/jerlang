@@ -4,7 +4,7 @@
   <groupId>org.jerlang</groupId>
   <artifactId>jerlang</artifactId>
   <name>jerlang</name>
-  <version>0.3.0</version>
+  <version>0.8.0</version>
   <description>Erlang on the JVM</description>
   <prerequisites>
     <maven>3.0</maven>
@@ -19,6 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.assertj>3.8.0</version.assertj>
     <version.jacoco-maven-plugin>0.8.16</version.jacoco-maven-plugin>
+    <version.japicmp-maven-plugin>0.26.5</version.japicmp-maven-plugin>
     <version.commons-math3>3.6.1</version.commons-math3>
     <version.coveralls-maven-plugin>4.3.0</version.coveralls-maven-plugin>
     <version.findbugs-maven-plugin>3.0.1</version.findbugs-maven-plugin>
@@ -95,6 +96,52 @@
                 </transformer>
               </transformers>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!--
+          The API gate. src/api-baseline holds the 0.3.0 jar, so every public
+          change since then is compared against a real artifact instead of a
+          description of one. The baseline is refreshed only when the version
+          is bumped.
+        -->
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <version>${version.japicmp-maven-plugin}</version>
+        <configuration>
+          <oldVersion>
+            <file>
+              <path>${project.basedir}/src/api-baseline/jerlang-0.3.0.jar</path>
+            </file>
+          </oldVersion>
+          <newVersion>
+            <!-- The unshaded artifact: the shaded jar carries the bundled
+                 dependencies, whose API is not this project's to keep. -->
+            <file>
+              <path>${project.build.directory}/original-${project.build.finalName}.jar</path>
+            </file>
+          </newVersion>
+          <parameter>
+            <onlyModified>true</onlyModified>
+            <accessModifier>public</accessModifier>
+            <!-- jnr-posix reaches hawtjni at runtime; it is not on the
+                 compile classpath japicmp builds, and no public API of this
+                 project refers to it. -->
+            <ignoreMissingClasses>true</ignoreMissingClasses>
+            <breakBuildOnBinaryIncompatibleModifications>true</breakBuildOnBinaryIncompatibleModifications>
+            <breakBuildOnSourceIncompatibleModifications>true</breakBuildOnSourceIncompatibleModifications>
+            <breakBuildBasedOnSemanticVersioning>true</breakBuildBasedOnSemanticVersioning>
+            <!-- 0.x: a minor bump may break the API, a patch bump may not. -->
+            <breakBuildBasedOnSemanticVersioningForMajorVersionZero>true</breakBuildBasedOnSemanticVersioningForMajorVersionZero>
+          </parameter>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>cmp</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

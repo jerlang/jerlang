@@ -36,6 +36,33 @@ jobs:
           path: target/surefire-reports/
           if-no-files-found: ignore
 
+  examples:
+    # The two checked-in examples, one per direction of the Java interop. They
+    # are compiled from source here, so a broken example can not hide behind a
+    # stale build. The gen_server one runs OTP's own server.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Set up Erlang/OTP
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: '29'
+
+      - name: Compile the runtime
+        run: mvn -B -DskipTests compile
+
+      - name: Run the examples
+        run: bash examples/run.sh
+
   otp:
     # The standard library boot tests run OTP's own gen_server, supervisor,
     # application, proc_lib and logger modules, so they need an Erlang
