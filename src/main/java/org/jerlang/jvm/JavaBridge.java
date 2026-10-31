@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -40,6 +41,11 @@ public final class JavaBridge {
 
     private static final Object NO_MATCH = new Object();
 
+    /**
+     * Distance of a value that fits nothing narrower than Object.
+     */
+    private static final int OBJECT_DISTANCE = 4;
+
     private JavaBridge() {
     }
 
@@ -59,27 +65,20 @@ public final class JavaBridge {
     public static Term newObject(Term className, Term arguments) {
         Class<?> clazz = resolveClass(className);
         List args = arguments.toList();
-        Constructor<?> best = null;
-        Object[] bestArgs = null;
-        int bestScore = java.lang.Integer.MAX_VALUE;
+        java.util.List<Candidate> candidates = new ArrayList<>();
         for (Constructor<?> constructor : clazz.getConstructors()) {
-            if (constructor.getParameterCount() != args.length()) {
-                continue;
-            }
-            int[] score = new int[1];
-            Object[] converted = convert(args, constructor.getParameterTypes(), score);
-            if (converted != null && score[0] < bestScore) {
-                best = constructor;
-                bestArgs = converted;
-                bestScore = score[0];
+            Candidate candidate = candidate(constructor, args);
+            if (candidate != null) {
+                candidates.add(candidate);
             }
         }
-        if (best == null) {
+        if (candidates.isEmpty()) {
             throw new Error(Str.of("java: no matching constructor for "
                 + clazz.getName() + "/" + args.length()));
         }
+        candidates.sort(Candidate.ORDER);
         try {
-            return register(best.newInstance(bestArgs));
+            return register(candidates.get(0).call(null));
         } catch (InvocationTargetException e) {
             throw javaError(e.getCause() == null ? e : e.getCause());
         } catch (ReflectiveOperationException | IllegalArgumentException e) {
@@ -129,11 +128,9 @@ public final class JavaBridge {
 
     private static Term invoke(Class<?> clazz, Object target, String name, Term arguments) {
         List args = arguments.toList();
-        Method best = null;
-        Object[] bestArgs = null;
-        int bestScore = java.lang.Integer.MAX_VALUE;
+        java.util.List<Candidate> candidates = new ArrayList<>();
         for (Method method : clazz.getMethods()) {
-            if (!method.getName().equals(name) || method.getParameterCount() != args.length()) {
+            if (!method.getName().equals(name)) {
                 continue;
             }
             if (target == null && !Modifier.isStatic(method.getModifiers())) {
@@ -142,20 +139,19 @@ public final class JavaBridge {
             if (target != null && Modifier.isStatic(method.getModifiers())) {
                 continue;
             }
-            int[] score = new int[1];
-            Object[] converted = convert(args, method.getParameterTypes(), score);
-            if (converted != null && score[0] < bestScore) {
-                best = method;
-                bestArgs = converted;
-                bestScore = score[0];
+            Candidate candidate = candidate(method, args);
+            if (candidate != null) {
+                candidates.add(candidate);
             }
         }
-        if (best == null) {
+        if (candidates.isEmpty()) {
             throw new Error(Str.of("java: no matching method "
                 + clazz.getName() + ":" + name + "/" + args.length()));
         }
+        candidates.sort(Candidate.ORDER);
+        Candidate best = candidates.get(0);
         try {
-            return toTerm(best.invoke(target, bestArgs));
+            return toTerm(best.call(target));
         } catch (InvocationTargetException e) {
             throw javaError(e.getCause() == null ? e : e.getCause());
         } catch (ReflectiveOperationException | IllegalArgumentException e) {
@@ -186,22 +182,126 @@ public final class JavaBridge {
         }
     }
 
-    private static Object[] convert(List args, Class<?>[] types, int[] score) {
+    /**
+     * One overload the arguments fit, with the numbers that order it.
+     */
+    private static final class Candidate {
+
+        /**
+         * Lower distance wins, then the more specific parameters, then the
+         * alphabetically first signature. The signature makes the last key a
+         * total order, so the chosen method never depends on the order
+         * Class#getMethods happens to return, which the JDK does not specify.
+         */
+        static final Comparator<Candidate> ORDER = Comparator
+            .comparingInt((Candidate candidate) -> candidate.distance)
+            .thenComparingInt(candidate -> -candidate.specificity)
+            .thenComparing(candidate -> candidate.signature);
+
+        final Method method;
+        final Constructor<?> constructor;
+        final Object[] arguments;
+        final int distance;
+        final int specificity;
+        final String signature;
+
+        Candidate(Method method, Constructor<?> constructor, Object[] arguments, int distance) {
+            this.method = method;
+            this.constructor = constructor;
+            this.arguments = arguments;
+            this.distance = distance;
+            Class<?> owner = method != null ? method.getDeclaringClass() : constructor.getDeclaringClass();
+            String name = method != null ? method.getName() : "<init>";
+            Class<?>[] types = method != null ? method.getParameterTypes() : constructor.getParameterTypes();
+            int total = 0;
+            StringBuilder signature = new StringBuilder(owner.getName())
+                .append('#').append(name).append('(');
+            for (int index = 0; index < types.length; index++) {
+                total += specificity(types[index]);
+                if (index > 0) {
+                    signature.append(',');
+                }
+                signature.append(types[index].getName());
+            }
+            this.specificity = total;
+            this.signature = signature.append(')').toString();
+        }
+
+        Object call(Object target) throws ReflectiveOperationException {
+            return method != null ? method.invoke(target, arguments) : constructor.newInstance(arguments);
+        }
+    }
+
+    /**
+     * Converts the arguments for one method, or returns null if they do not
+     * fit it. Varargs are accepted only as a trailing Object... parameter.
+     */
+    private static Candidate candidate(Constructor<?> constructor, List args) {
+        return candidate(null, constructor, args);
+    }
+
+    private static Candidate candidate(Method method, List args) {
+        return candidate(method, null, args);
+    }
+
+    private static Candidate candidate(Method method, Constructor<?> constructor, List args) {
+        Class<?>[] types = method != null ? method.getParameterTypes() : constructor.getParameterTypes();
+        boolean varargs = method != null ? method.isVarArgs() : constructor.isVarArgs();
+        if (varargs && types[types.length - 1] != Object[].class) {
+            return null;
+        }
+        int fixed = varargs ? types.length - 1 : types.length;
+        if (args.length() < fixed || (!varargs && args.length() > fixed)) {
+            return null;
+        }
         Object[] converted = new Object[types.length];
         List rest = args;
-        int total = 0;
-        for (int index = 0; index < types.length; index++) {
+        int distance = 0;
+        for (int index = 0; index < fixed; index++) {
             Term term = rest.head();
             Object value = coerce(term, types[index]);
             if (value == NO_MATCH) {
                 return null;
             }
             converted[index] = value;
-            total += distance(term, value, types[index]);
+            distance += distance(term, value, types[index]);
             rest = rest.tail();
         }
-        score[0] = total;
-        return converted;
+        if (varargs) {
+            Object[] extra = new Object[args.length() - fixed];
+            for (int index = 0; index < extra.length; index++) {
+                extra[index] = toJava(rest.head());
+                distance += OBJECT_DISTANCE;
+                rest = rest.tail();
+            }
+            converted[fixed] = extra;
+        }
+        return new Candidate(method, constructor, converted, distance);
+    }
+
+    /**
+     * How specific a parameter type is. A primitive beats every reference; a
+     * class is as deep as it is below Object and an interface as deep as it is
+     * below the interfaces it extends. It only breaks a distance tie, so it
+     * must be cheap and total rather than a complete subtyping test; when two
+     * types still tie, the signature decides.
+     */
+    private static int specificity(Class<?> type) {
+        if (type.isPrimitive()) {
+            return 64;
+        }
+        if (type.isArray()) {
+            return 1 + specificity(type.getComponentType());
+        }
+        int depth = 0;
+        for (Class<?> parent = type.getSuperclass();
+             parent != null && parent != Object.class; parent = parent.getSuperclass()) {
+            depth++;
+        }
+        for (Class<?> parent : type.getInterfaces()) {
+            depth = Math.max(depth, 1 + specificity(parent));
+        }
+        return depth;
     }
 
     /**
@@ -210,7 +310,7 @@ public final class JavaBridge {
      */
     private static int distance(Term term, Object value, Class<?> target) {
         if (target == Object.class) {
-            return 4;
+            return OBJECT_DISTANCE;
         }
         if (target == boolean.class || target == Boolean.class) {
             return 0;

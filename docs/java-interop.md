@@ -54,6 +54,11 @@ parameter gets the generic conversion above. A `char` parameter accepts a
 one-character string or a code point, and an enum parameter accepts an atom
 with the constant's name.
 
+A distance tie is broken by parameter specificity and then by sorted signature,
+so the same call picks the same method on every JVM instead of depending on the
+order `Class#getMethods` returns, which the JDK does not specify. Varargs are
+supported for a trailing `Object...` parameter only.
+
 Java exceptions surface as an Erlang `error` with reason
 `{java_exception, ClassName, Message}`. An Erlang exit does not stop the JVM.
 
@@ -112,14 +117,6 @@ node.close();
 `apply` takes both a module name and an Erlang fun. `registerFunction` makes a
 Java lambda callable from Erlang through the normal module registry. `Bridge`
 stays as it is: a static convenience over a default node.
-
-### Deterministic overload resolution
-
-Conversion distance picks the candidate, as it does today. Ties are broken by
-parameter specificity and then by sorted signature, so the same call picks the
-same method on every JVM. Today a tie is settled by `Class#getMethods`
-iteration order, which the JDK does not specify. Varargs are supported for a
-trailing `Object...` parameter only.
 
 ### Compatibility gate
 
