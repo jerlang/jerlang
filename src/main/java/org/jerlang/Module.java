@@ -7,6 +7,7 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.jerlang.erts.emulator.Instruction;
 import org.jerlang.erts.erlang.Error;
@@ -77,6 +78,43 @@ public class Module {
         this.labels = new HashMap<>();
         this.moduleClass = moduleClass;
         this.name = name;
+    }
+
+    /**
+     * An empty module that Java code fills with functions, as the embedding
+     * API does. It has no class and no BEAM file, so only the functions that
+     * are added to it can be called.
+     */
+    public static Module empty(Atom name) {
+        return new Module((Class<?>) null, name);
+    }
+
+    /**
+     * Export a Java lambda as a function of this module. It is marked as a
+     * built-in, so a call runs the lambda directly instead of looking for an
+     * instruction stream the module does not have.
+     */
+    public Module export(String name, int arity, Function<Term[], Term> body) {
+        FunctionSignature signature = new FunctionSignature(this.name, Atom.of(name), Integer.of(arity));
+        try {
+            MethodHandle creator = MethodHandles.lookup().findStatic(Module.class, "applyJavaFunction",
+                MethodType.methodType(Term.class, Function.class, List.class));
+            exported_functions.put(signature, new Fun(signature, creator.bindTo(body)));
+            native_functions.add(signature);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new IllegalStateException("could not export " + signature, e);
+        }
+        return this;
+    }
+
+    private static Term applyJavaFunction(Function<Term[], Term> body, List params) {
+        Term[] arguments = new Term[params.length()];
+        List rest = params;
+        for (int index = 0; index < arguments.length; index++) {
+            arguments[index] = rest.head();
+            rest = rest.tail();
+        }
+        return body.apply(arguments);
     }
 
     public Term apply(FunctionSignature signature, Term params) throws Error {

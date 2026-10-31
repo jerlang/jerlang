@@ -19,7 +19,7 @@ import org.junit.Test;
  * below are in an order that Class#getMethods is free to change, so nothing
  * here may depend on it.
  */
-public class OverloadResolutionTest extends AbstractVirtualMachineTest {
+public class OverloadResolutionTest extends AbstractJavaInteropTest {
 
     public static final class Overloads {
 

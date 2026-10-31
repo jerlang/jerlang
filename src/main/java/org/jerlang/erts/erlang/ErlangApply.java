@@ -22,6 +22,9 @@ public class ErlangApply {
 
     public static Term dispatch(List params) throws Error {
         switch (params.length()) {
+        case 2:
+            // apply(Fun, Args): the fun is applied to the argument list.
+            return FunApply.apply(params.head(), params.tail());
         case 3:
             Term m = params.head();
             params = params.tail();

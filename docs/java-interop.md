@@ -89,20 +89,14 @@ error, and the reference is never reused for another object.
 * Raising `NodeOptions.maxHandles` does not make forgetting a release safe; it
   only moves the `system_limit` further away.
 
-## Decided but not yet implemented
-
-These decisions are recorded before the code lands, so the contract can be
-reviewed on its own. Everything above describes what the code does today; this
-section describes what 0.8 must make it do.
-
-### Reflection is opt-in
+## Reflection is opt-in
 
 `NodeOptions.reflection(boolean)` defaults to `false`. The `java` module is
 registered on node start and unregistered on close, so a node that does not ask
 for reflection has no `java:new/2` and cannot reach arbitrary JVM classes.
 `Bridge` and the value mapping are unaffected, because neither needs the module.
 
-### Embedding API
+## Embedding API
 
 `org.jerlang.api.Node` implements `AutoCloseable` and owns the node:
 
@@ -118,7 +112,7 @@ node.close();
 Java lambda callable from Erlang through the normal module registry. `Bridge`
 stays as it is: a static convenience over a default node.
 
-### Compatibility gate
+## Compatibility gate
 
 `mvn verify` runs japicmp 0.26.5 against a baseline jar checked in under
 `src/api-baseline/`, with `accessModifier public`,

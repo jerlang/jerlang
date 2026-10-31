@@ -30,7 +30,6 @@ import org.jerlang.stdlib.ErlInternal;
 import org.jerlang.stdlib.Ets;
 import org.jerlang.stdlib.IO;
 import org.jerlang.stdlib.IOLib;
-import org.jerlang.stdlib.Java;
 import org.jerlang.stdlib.Lists;
 import org.jerlang.stdlib.Logger;
 import org.jerlang.stdlib.Maps;
@@ -84,7 +83,6 @@ public class ModuleRegistry {
         // The Java class name IOLib does not map to io_lib by the CamelCase
         // rule, so the module name is given explicitly.
         init(IOLib.class, Atom.of("io_lib")).export();
-        init(Java.class).export();
         init(Lists.class).export();
         init(Logger.class).export();
         init(Maps.class).export();
@@ -145,6 +143,15 @@ public class ModuleRegistry {
 
     public static void register(Module module) {
         instance.modules.put(module.name(), module);
+    }
+
+    /**
+     * Forget a loaded module, so a name that was only there for one node is
+     * gone afterwards. The java module is registered this way by a node that
+     * asks for reflection and dropped again when that node closes.
+     */
+    public static void unregister(Atom module) {
+        instance.modules.remove(module);
     }
 
     private Module init(Class<?> moduleClass) {

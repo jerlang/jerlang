@@ -27,6 +27,7 @@ import org.jerlang.erts.erlang.ErlangElement;
 import org.jerlang.erts.erlang.ErlangError;
 import org.jerlang.erts.erlang.ErlangExit;
 import org.jerlang.erts.erlang.ErlangFunctionExported;
+import org.jerlang.erts.erlang.FunApply;
 import org.jerlang.erts.erlang.ErlangFunInfoMfa;
 import org.jerlang.erts.erlang.ErlangGet;
 import org.jerlang.erts.erlang.ErlangMakeFun;
@@ -169,6 +170,14 @@ public class Erlang {
 
     public static Integer abs(Integer integer) {
         return ErlangAbs.abs_1(integer);
+    }
+
+    /**
+     * erlang:apply/2 applies a fun to an argument list. Erlang has it next to
+     * apply/3, and the embedding API needs it to call a fun from Java.
+     */
+    public static Term apply(Term fun, List args) throws Error {
+        return FunApply.apply(fun, args);
     }
 
     public static Term apply(Term m, Term f, Term a) throws Error {

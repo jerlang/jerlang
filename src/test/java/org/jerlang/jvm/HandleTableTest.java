@@ -21,7 +21,7 @@ import org.junit.Test;
  * The handle table belongs to the node: it is bounded, drained on shutdown
  * and starts empty, which a static table could not guarantee.
  */
-public class HandleTableTest extends AbstractVirtualMachineTest {
+public class HandleTableTest extends AbstractJavaInteropTest {
 
     private static Term apply(String function, Term... args) {
         Module module = ModuleRegistry.get(Atom.of("java"));

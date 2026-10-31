@@ -7,7 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import org.jerlang.Module;
+import org.jerlang.ModuleRegistry;
 import org.jerlang.erts.Erlang;
+import org.jerlang.stdlib.Java;
 import org.jerlang.type.Atom;
 import org.jerlang.type.Integer;
 import org.jerlang.type.List;
@@ -32,6 +35,11 @@ public class ErlangSourceBridgeTest {
     public void start() throws Exception {
         Files.copy(SOURCE, LOCAL, StandardCopyOption.REPLACE_EXISTING);
         VirtualMachine.instance().start();
+        // The java module is opt-in now, so this node registers it as a node
+        // with reflection enabled would.
+        Module javaModule = new Module(Java.class, Atom.of("java"));
+        javaModule.export();
+        ModuleRegistry.register(javaModule);
     }
 
     @After

@@ -18,7 +18,7 @@ import org.jerlang.type.Str;
 import org.jerlang.type.Term;
 import org.junit.Test;
 
-public class JavaBridgeTest extends AbstractVirtualMachineTest {
+public class JavaBridgeTest extends AbstractJavaInteropTest {
 
     private static Term apply(String function, Term... args) {
         Module module = ModuleRegistry.get(Atom.of("java"));
