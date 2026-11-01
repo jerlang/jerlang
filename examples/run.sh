@@ -21,7 +21,16 @@ echo "OTP root: $otp_root"
 rm -rf "$work"
 mkdir -p "$work"
 
-javac -cp "$classes" -d "$work" \
+# target/classes alone is not enough: the module loader unpacks compressed
+# .beam chunks through jzlib, which is a dependency, so an example run against
+# the bare classes dies with NoClassDefFoundError before the first call.
+mvn -B -q -f "$repo/pom.xml" dependency:build-classpath \
+    -Dmdep.outputFile="$work/classpath.txt" \
+    -DincludeScope=runtime
+deps="$(cat "$work/classpath.txt")"
+cp="$classes:$deps"
+
+javac -cp "$cp" -d "$work" \
     "$repo/examples/gen-server/GenServerDemo.java" \
     "$repo/examples/java-service/Service.java" \
     "$repo/examples/java-service/ErlangCallsJavaDemo.java"
@@ -34,6 +43,6 @@ erlc -o "$work" \
 # examples run from the directory the modules were compiled into.
 cd "$work"
 echo "--- Java calls Erlang ---"
-java -cp "$classes:." -Djerlang.otp.dir="$otp_root" GenServerDemo
+java -cp "$cp:." -Djerlang.otp.dir="$otp_root" GenServerDemo
 echo "--- Erlang calls Java ---"
-java -cp "$classes:." ErlangCallsJavaDemo
+java -cp "$cp:." ErlangCallsJavaDemo
