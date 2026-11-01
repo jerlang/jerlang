@@ -125,6 +125,14 @@
           <parameter>
             <onlyModified>true</onlyModified>
             <accessModifier>public</accessModifier>
+            <!-- Only the packages of this project are its API. The
+                 shaded jar also carries jnr, jline and helper
+                 packages, and maven-shade-plugin can leave the shaded
+                 jar under the original- name on an incremental build,
+                 so an unfiltered comparison audits a dependency API. -->
+            <includes>
+              <include>org.jerlang.*</include>
+            </includes>
             <!-- jnr-posix reaches hawtjni at runtime; it is not on the
                  compile classpath japicmp builds, and no public API of this
                  project refers to it. -->
