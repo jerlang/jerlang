@@ -108,6 +108,60 @@ public class ProcessRegistry {
         instance.processes.values().removeIf(id::equals);
     }
 
+    /**
+     * Live processes, the number {@code Metrics.processes()} reports.
+     */
+    public static int countProcesses() {
+        int count = 0;
+        for (ProcessOrPort entry : instance.id2process.values()) {
+            if (entry instanceof Process) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Live ports, not counting processes.
+     */
+    public static int countPorts() {
+        int count = 0;
+        for (ProcessOrPort entry : instance.id2process.values()) {
+            if (!(entry instanceof Process)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Messages in every mailbox together.
+     */
+    public static long totalMailboxSize() {
+        long total = 0;
+        for (ProcessOrPort entry : instance.id2process.values()) {
+            if (entry instanceof Process) {
+                total += ((Process) entry).mailboxSize();
+            }
+        }
+        return total;
+    }
+
+    /**
+     * Reductions executed by the live processes so far. A process that has
+     * already terminated is gone from the registry, so this is the work the
+     * node is carrying, not the work it has ever done.
+     */
+    public static long totalReductions() {
+        long total = 0;
+        for (ProcessOrPort entry : instance.id2process.values()) {
+            if (entry instanceof Process) {
+                total += ((Process) entry).reductions();
+            }
+        }
+        return total;
+    }
+
     public static ProcessOrPort self() {
         return instance.process.get();
     }

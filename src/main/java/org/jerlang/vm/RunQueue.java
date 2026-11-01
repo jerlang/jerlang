@@ -21,6 +21,15 @@ public class RunQueue<T extends ProcessOrPort> {
     }
 
     /**
+     * Number of processes and ports waiting in this queue, for the metrics
+     * snapshot. Counting is a traversal, so this is a scrape-time cost and
+     * never part of the scheduler loop.
+     */
+    public int size() {
+        return queue.size();
+    }
+
+    /**
      * Remove a queued process or port, if it is still in this queue. A
      * process that was already polled is executing and must not be moved.
      */

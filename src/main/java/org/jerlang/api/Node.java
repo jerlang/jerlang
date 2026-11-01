@@ -10,6 +10,7 @@ import org.jerlang.type.Atom;
 import org.jerlang.type.Fun;
 import org.jerlang.type.List;
 import org.jerlang.type.Term;
+import org.jerlang.vm.Metrics;
 import org.jerlang.vm.VirtualMachine;
 
 /**
@@ -90,6 +91,16 @@ public final class Node implements AutoCloseable {
      */
     public Atom name() {
         return VirtualMachine.instance().node();
+    }
+
+    /**
+     * A reading of the node's runtime counters: processes, ports, run queue
+     * depth, reductions, mailbox messages, scheduler utilisation and uptime.
+     * The fields and the text format are documented in docs/operations.md.
+     */
+    public Metrics metrics() {
+        ensureOpen();
+        return Metrics.snapshot();
     }
 
     /**

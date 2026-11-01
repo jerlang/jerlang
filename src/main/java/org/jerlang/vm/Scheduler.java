@@ -50,6 +50,15 @@ public class Scheduler extends Thread {
      */
     private int blockingCalls = 0;
 
+    /**
+     * Time this scheduler spent executing work, and parked because there was
+     * none. Written only by the scheduler thread and read by a metrics
+     * scrape, so it is a plain volatile pair rather than an atomic on the
+     * loop.
+     */
+    private volatile long busyNanos = 0;
+    private volatile long idleNanos = 0;
+
     public Scheduler() {
         ids = new HashSet<>();
         runQueueMax = new RunQueue<>();
@@ -123,13 +132,14 @@ public class Scheduler extends Thread {
     @Override
     public void run() {
         while (!isInterrupted()) {
-            checkIfTimersShouldBeTriggered();
-            maybeCheckBalance();
-            migrateProcessesAndPorts();
-            executeAnyAuxWork();
-            maybeCheckIO();
-            executeOnePort();
-            executeOneProcess();
+            long started = System.nanoTime();
+            boolean worked = executeOneProcess();
+            long elapsed = System.nanoTime() - started;
+            if (worked) {
+                busyNanos += elapsed;
+            } else {
+                idleNanos += elapsed;
+            }
         }
     }
 
@@ -151,16 +161,47 @@ public class Scheduler extends Thread {
     private void executeOnePort() {
     }
 
-    private void executeOneProcess() {
-        if (!execute(runQueueMax)) {
-            if (!execute(runQueueHigh)) {
-                if (!execute(runQueueNormal)) {
-                    if (!execute(runQueueLow)) {
-                        sleep();
-                    }
-                }
-            }
+    /**
+     * Run one process, or park when there is none. Returns whether work was
+     * executed, so the loop can account for the time it just spent.
+     */
+    private boolean executeOneProcess() {
+        checkIfTimersShouldBeTriggered();
+        maybeCheckBalance();
+        migrateProcessesAndPorts();
+        executeAnyAuxWork();
+        maybeCheckIO();
+        executeOnePort();
+        if (execute(runQueueMax)) {
+            return true;
         }
+        if (execute(runQueueHigh)) {
+            return true;
+        }
+        if (execute(runQueueNormal)) {
+            return true;
+        }
+        if (execute(runQueueLow)) {
+            return true;
+        }
+        sleep();
+        return false;
+    }
+
+    /** Processes and ports waiting on this scheduler, across all priorities. */
+    public int queueDepth() {
+        return runQueueMax.size() + runQueueHigh.size()
+            + runQueueNormal.size() + runQueueLow.size();
+    }
+
+    /** Nanoseconds this scheduler spent executing work. */
+    public long busyNanos() {
+        return busyNanos;
+    }
+
+    /** Nanoseconds this scheduler spent parked with an empty queue. */
+    public long idleNanos() {
+        return idleNanos;
     }
 
     private boolean execute(RunQueue<ProcessOrPort> runQueue) {
