@@ -93,7 +93,7 @@ The north-star metric is the share of a checked-in module corpus that loads and 
 | 0.5     | Language completeness   | A corpus of constructs runs with no unsupported opcode       | Done    |
 | 0.6     | Standard library boot   | Unmodified `gen_server`/`supervisor` start via `application` | Done    |
 | 0.7     | Runtime and concurrency | Preemption, timer bounds, no leaked processes under stress   | Done    |
-| 0.8     | Interop and embedding   | Java↔Erlang examples in CI and a frozen API                  | In progress |
+| 0.8     | Interop and embedding   | Java↔Erlang examples in CI and a frozen API                  | Done    |
 | 0.9     | Cluster and operations  | Metrics, reconnection and graceful shutdown under load       | Planned |
 | 1.0     | Release                 | Benchmarks against OTP 29, 24 hour soak, fuzzing, artifact   | Planned |
 
