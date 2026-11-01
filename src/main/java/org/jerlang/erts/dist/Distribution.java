@@ -50,6 +50,7 @@ public final class Distribution {
      */
     public static void start() {
         DistListener.start();
+        DistReconnect.start();
     }
 
     /**
@@ -57,6 +58,7 @@ public final class Distribution {
      */
     public static void shutdown() {
         DistListener.stop();
+        DistReconnect.shutdown();
         disconnectAll();
     }
 
@@ -79,6 +81,7 @@ public final class Distribution {
         while (true) {
             DistConnection existing = CONNECTIONS.putIfAbsent(peer, connection);
             if (existing == null) {
+                DistReconnect.connected(peer);
                 return true;
             }
             if (existing.isOpen()) {
@@ -86,6 +89,7 @@ public final class Distribution {
                 return false;
             }
             if (CONNECTIONS.replace(peer, existing, connection)) {
+                DistReconnect.connected(peer);
                 return true;
             }
             // Another thread replaced the stale connection first.
@@ -267,6 +271,7 @@ public final class Distribution {
             System.err.println("jerlang dist: can not send to " + connection.peer() + ": " + e);
         }
         connection.close();
+        DistReconnect.peerLost(connection.peer());
     }
 
     /**
@@ -533,6 +538,11 @@ public final class Distribution {
             // node is down for every monitor_node/monitor_nodes subscriber.
             if (!isConnected(node)) {
                 notifyNodeDown(connection, connection.closeReason());
+                // An explicit disconnect is a decision, not a loss: only a
+                // connection that broke is retried.
+                if (!DISCONNECT.equals(connection.closeReason())) {
+                    DistReconnect.peerLost(node);
+                }
             }
         }
     }

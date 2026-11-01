@@ -8,6 +8,7 @@ import org.jerlang.ProcessExit;
 import org.jerlang.ProcessSignals;
 import org.jerlang.erts.erlang.Error;
 import org.jerlang.type.Atom;
+import org.jerlang.type.List;
 import org.jerlang.type.Term;
 import org.jerlang.type.Tuple;
 
@@ -65,8 +66,49 @@ public final class CrashReport {
         report.append("Error in process ").append(process.pid())
             .append(" with exit value:\n");
         report.append(value).append('\n');
+        appendState(report, process);
         System.out.print(report);
         System.out.flush();
+    }
+
+    /**
+     * What the process was holding when it died: the part of a crash dump that
+     * makes a report actionable. Mailbox contents are previewed, because a
+     * crash report is a line in a log and a deep mailbox is not.
+     */
+    private static void appendState(StringBuilder report, Process process) {
+        report.append("Process state:\n");
+        report.append("  pid: ").append(process.pid()).append('\n');
+        report.append("  reductions: ").append(process.reductions()).append('\n');
+        int mailbox = process.mailboxSize();
+        report.append("  mailbox: ").append(mailbox)
+            .append(mailbox == 1 ? " message\n" : " messages\n");
+        if (mailbox > 0) {
+            report.append("  messages: ").append(preview(process.messages())).append('\n');
+        }
+        List links = process.links();
+        report.append("  links: ").append(links.length() == 0 ? "[]" : links).append('\n');
+    }
+
+    /**
+     * At most five mailbox messages, oldest first, for the state section.
+     */
+    private static String preview(List messages) {
+        StringBuilder text = new StringBuilder("[");
+        List rest = messages;
+        int count = 0;
+        while (rest.length() > 0 && count < 5) {
+            if (count > 0) {
+                text.append(',');
+            }
+            text.append(rest.head());
+            rest = rest.tail();
+            count++;
+        }
+        if (rest.length() > 0) {
+            text.append(",...");
+        }
+        return text.append(']').toString();
     }
 
 }

@@ -417,6 +417,33 @@ public final class Applications {
     }
 
     /**
+     * Stop every application that is running, newest first, so an application
+     * is always stopped before the applications it was started on top of.
+     * kernel and stdlib are permanent and stay, as in OTP. Used by the
+     * graceful shutdown of a node; an application that fails to stop does not
+     * keep the node up.
+     */
+    public static void stopAll() {
+        java.util.List<Atom> names;
+        synchronized (LOCK) {
+            names = new ArrayList<>(running.keySet());
+        }
+        for (int index = names.size() - 1; index >= 0; index--) {
+            Atom name = names.get(index);
+            if (KERNEL.equals(name) || STDLIB.equals(name)) {
+                continue;
+            }
+            try {
+                stop(name);
+            } catch (RuntimeException e) {
+                if (java.lang.Boolean.getBoolean("jerlang.shutdown.debug")) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
      * Stop an application: let the callback module clean up, then terminate
      * the top of the supervision tree through the system protocol, which is
      * what shuts a supervisor's children down.

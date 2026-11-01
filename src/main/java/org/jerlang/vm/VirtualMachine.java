@@ -117,6 +117,11 @@ public class VirtualMachine {
 
     public void shutdown() {
         org.jerlang.erts.dist.Distribution.shutdown();
+        // Applications stop while the schedulers can still run their
+        // supervision trees, newest first, so a tree is always gone before the
+        // applications it depends on.
+        org.jerlang.kernel.application_controller.Applications.stopAll();
+        drain();
         for (Scheduler scheduler : schedulers) {
             scheduler.interrupt();
         }
@@ -135,6 +140,35 @@ public class VirtualMachine {
         ProcessRegistry.instance().cleanup();
         handleTable.clear();
         startedAtMillis = 0;
+    }
+
+    /**
+     * Let the work that is already queued finish before the schedulers stop.
+     * Bounded by jerlang.shutdown.drain.ms (default 1000): a process that
+     * never finishes must not keep the JVM up.
+     */
+    private void drain() {
+        long timeout = Math.max(0, Long.getLong("jerlang.shutdown.drain.ms", 1000L));
+        long deadline = System.currentTimeMillis() + timeout;
+        while (queuedWork() > 0 && System.currentTimeMillis() < deadline) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+    }
+
+    /**
+     * Processes and ports waiting on any scheduler.
+     */
+    private long queuedWork() {
+        long queued = 0;
+        for (Scheduler scheduler : schedulers) {
+            queued += scheduler.queueDepth();
+        }
+        return queued;
     }
 
     /**

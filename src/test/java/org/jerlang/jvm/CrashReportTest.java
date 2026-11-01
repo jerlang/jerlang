@@ -57,6 +57,11 @@ public class CrashReportTest {
                 + "Error in process <0\\.\\d+\\.\\d+> with exit value:\n.*"));
         assertTrue(stdout, stdout.contains("{{badmatch,2},"
             + "[{crash_demo,crash_now,1,[{file,\"crash_demo.erl\"},{line,19}]}]}"));
+        assertTrue(stdout, stdout.contains("Process state:\n"));
+        assertTrue(stdout, stdout.contains("  pid: <0."));
+        assertTrue(stdout, stdout.contains("  reductions: "));
+        assertTrue(stdout, stdout.contains("  mailbox: "));
+        assertTrue(stdout, stdout.contains("  links: "));
         assertEquals(1, occurrences(stdout, "=ERROR REPORT===="));
         assertFalse(stderr, stderr.contains("=ERROR REPORT===="));
     }
